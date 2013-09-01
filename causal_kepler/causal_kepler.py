@@ -73,7 +73,8 @@ class Target(object):
                                                       key=lambda f:
                                                       distances[f])]
 
-    def fit_quarter(self, quarter, ntargets=2, nwindow=5, delta=24, l2=0.1):
+    def fit_quarter(self, quarter, ntargets=2, nwindow=5, delta=24, l2=0.1,
+                    autoregressive=True):
         # Choose the correct datasets.
         target_data = None
         for datafile in self.target_data:
@@ -109,8 +110,13 @@ class Target(object):
         matrix = build_matrix(training_fluxes[offset:-offset].T, nwindow)
 
         # Concatenate with the autoregressive model.
-        # build_matrix(y[:, :train_number-2*i0], nwindow),
-        #                       build_matrix(y[:, 2*i0:train_number], nwindow),
+        if autoregressive:
+            matrix = np.concatenate((matrix,
+                                     build_matrix(fluxes[:-2*offset].T,
+                                                  nwindow),
+                                     build_matrix(fluxes[2*offset:].T,
+                                                  nwindow)),
+                                    axis=1)
 
         # Add a bias and an L2 regularization.
         matrix = np.concatenate((matrix,
