@@ -27,7 +27,7 @@ def interp_nans(t, f):
     return f
 
 
-def load_file(dataset, nwindow):
+def load_file(dataset):
     # Load the data.
     data = dataset.read()
     t = data["TIME"]
@@ -45,7 +45,7 @@ def load_file(dataset, nwindow):
     for i in range(fluxes.shape[-1]):
         fluxes[:, i] = interp_nans(t, fluxes[:, i])
 
-    return t, build_matrix(fluxes, nwindow)
+    return t, fluxes
 
 
 class Target(object):
@@ -73,7 +73,7 @@ class Target(object):
                                                       key=lambda f:
                                                       distances[f])]
 
-    def fit_quarter(self, quarter, ntargets=1, nwindow=5):
+    def fit_quarter(self, quarter, ntargets=2, nwindow=5, delta=24, l2=0.1):
         # Choose the correct datasets.
         target_data = None
         for datafile in self.target_data:
@@ -85,7 +85,7 @@ class Target(object):
 
         training_data = []
         for trainset in self.training_data:
-            for datafile in self.target_data:
+            for datafile in trainset:
                 if datafile.sci_data_quarter == quarter:
                     training_data.append(datafile)
                 if len(training_data) >= ntargets:
@@ -93,7 +93,37 @@ class Target(object):
         assert len(training_data) == ntargets, \
             "There aren't enough training targets"
 
-        t, fluxes = load_file(target_data, nwindow)
+        # Load the target data.
+        t, fluxes = load_file(target_data)
+
+        # Load the training data.
+        training_fluxes = np.concatenate([load_file(d)[1]
+                                          for d in training_data],
+                                         axis=1)
+
+        # Compute all the padding factors.
+        offset = delta + nwindow
+        npad = offset+int(np.floor(0.5*nwindow))
+
+        # Build the base matrix from the training targets.
+        matrix = build_matrix(training_fluxes[offset:-offset].T, nwindow)
+
+        # Concatenate with the autoregressive model.
+        # build_matrix(y[:, :train_number-2*i0], nwindow),
+        #                       build_matrix(y[:, 2*i0:train_number], nwindow),
+
+        # Add a bias and an L2 regularization.
+        matrix = np.concatenate((matrix,
+                                 np.ones((matrix.shape[0], 1))),
+                                axis=1)
+        matrix = np.concatenate((matrix,
+                                 l2 * np.ones((1, matrix.shape[1]))),
+                                axis=0)
+
+        # Solve the system.
+        c, r, rank, s = np.linalg.lstsq(matrix,
+                                        np.append(fluxes[npad:-npad-1, 0], 0))
+
 
 if __name__ == "__main__":
     target = Target(10592770)
