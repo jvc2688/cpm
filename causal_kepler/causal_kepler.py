@@ -150,51 +150,35 @@ if __name__ == "__main__":
     planet = client.planet("20b")
     lc = planet.get_light_curves(short_cadence=False)[8]
 
-    # Do the non-autoregressive model
-    target = Target(planet.kepid)
-    t, f = target.fit_quarter(lc.sci_data_quarter, ntargets=2, nwindow=1,
-                              delta=36, l2=1e10, autoregressive=False)
-
-    pl.subplot(211)
-    pl.plot(t, f / np.std(f) / 5.0, ".k")
-    pl.gca().set_yticklabels([])
-    pl.ylabel("causal flux")
-    pl.xlim(t.min(), t.max())
-
-    pl.subplot(212)
     data = lc.read()
     flux = data["PDCSAP_FLUX"]
     inds = np.isfinite(flux)
     flux = flux[inds]
     flux -= np.median(flux)
     flux /= np.var(flux)
-    pl.plot(data["TIME"][inds], flux, ".k")
-    pl.xlim(t.min(), t.max())
-    pl.gca().set_yticklabels([])
-    pl.ylabel("pdc flux")
-    pl.savefig("20-non.png")
+    pdc_time = data["TIME"][inds]
 
-    # Do the autoregressive model
-    pl.clf()
-    target = Target(planet.kepid)
-    t, f = target.fit_quarter(lc.sci_data_quarter, ntargets=2, nwindow=5,
-                              delta=24, l2=1e8, autoregressive=True)
+    for fn, settings in [("20-non.png", dict(nwindow=1, l2=1e10,
+                                             autoregressive=False)),
+                         ("20-auto.png", dict(nwindow=5, l2=1e8,
+                                              autoregressive=True))]:
+        # Do the non-autoregressive model
+        target = Target(planet.kepid)
+        t, f = target.fit_quarter(lc.sci_data_quarter, ntargets=2, **settings)
 
-    pl.subplot(211)
-    pl.plot(t, f / np.std(f) / 5.0, ".k")
-    pl.gca().set_yticklabels([])
-    pl.ylabel("causal flux")
-    pl.xlim(t.min(), t.max())
+        pl.clf()
+        fig, axes = pl.subplots(2, 1, figsize=(6, 6))
+        fig.subplots_adjust(left=0.17, top=0.99, right=0.99,
+                            wspace=0.0, hspace=0.0)
 
-    pl.subplot(212)
-    data = lc.read()
-    flux = data["PDCSAP_FLUX"]
-    inds = np.isfinite(flux)
-    flux = flux[inds]
-    flux -= np.median(flux)
-    flux /= np.var(flux)
-    pl.plot(data["TIME"][inds], flux, ".k")
-    pl.xlim(t.min(), t.max())
-    pl.gca().set_yticklabels([])
-    pl.ylabel("pdc flux")
-    pl.savefig("20-auto.png")
+        axes[0].plot(t, f / np.std(f), ".k")
+        axes[0].gca().set_yticklabels([])
+        axes[0].ylabel("causal flux")
+        axes[0].xlim(t.min(), t.max())
+
+        axes[1].plot(pdc_time, flux, ".k")
+        axes[1].xlim(t.min(), t.max())
+        axes[1].gca().set_yticklabels([])
+        axes[1].ylabel("pdc flux")
+        axes[1].xlabel("time [KBJD]")
+        pl.savefig("20-non.png")
