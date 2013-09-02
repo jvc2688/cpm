@@ -45,7 +45,10 @@ def load_file(dataset):
     for i in range(fluxes.shape[-1]):
         fluxes[:, i] = interp_nans(t, fluxes[:, i])
 
-    return t, fluxes
+    # Load the mask image.
+    mask = dataset.read(ext=2).flatten()
+
+    return t, fluxes, mask[mask > 0]
 
 
 class Target(object):
@@ -58,7 +61,9 @@ class Target(object):
     def _data_search(self, radius=2):
         datasets = client.target_pixel_files(ra=self._star.kic_degree_ra,
                                              dec=self._star.kic_dec,
-                                             radius=radius, limit=10000)
+                                             radius=radius,
+                                             ktc_target_type="LC",
+                                             limit=10000)
         data, distances = {}, {}
         for d in datasets:
             k = str(d.ktc_kepler_id)
@@ -73,7 +78,7 @@ class Target(object):
                                                       key=lambda f:
                                                       distances[f])]
 
-    def fit_quarter(self, quarter, ntargets=2, nwindow=5, delta=24, l2=0.1,
+    def fit_quarter(self, quarter, ntargets=5, nwindow=5, delta=36, l2=1e8,
                     autoregressive=True):
         # Choose the correct datasets.
         target_data = None
@@ -95,7 +100,7 @@ class Target(object):
             "There aren't enough training targets"
 
         # Load the target data.
-        t, fluxes = load_file(target_data)
+        t, fluxes, mask = load_file(target_data)
 
         # Load the training data.
         training_fluxes = np.concatenate([load_file(d)[1]
@@ -127,10 +132,69 @@ class Target(object):
                                 axis=0)
 
         # Solve the system.
-        c, r, rank, s = np.linalg.lstsq(matrix,
-                                        np.append(fluxes[npad:-npad-1, 0], 0))
+        coadd = np.zeros_like(t[npad:-npad-1])
+        for ind in range(fluxes.shape[1]):
+            if mask[ind] != 3:
+                continue
+            print(ind)
+            c, r, rank, s = np.linalg.lstsq(matrix,
+                                            np.append(fluxes[npad:-npad-1,
+                                                             ind],
+                                                      0))
+            coadd += fluxes[npad:-npad-1, ind] - np.dot(matrix, c)[:-1]
+
+        return (t[npad:-npad-1], coadd)
 
 
 if __name__ == "__main__":
-    target = Target(10592770)
-    target.fit_quarter(10)
+    planet = client.planet("20b")
+    lc = planet.get_light_curves(short_cadence=False)[8]
+
+    # Do the non-autoregressive model
+    target = Target(planet.kepid)
+    t, f = target.fit_quarter(lc.sci_data_quarter, ntargets=2, nwindow=1,
+                              delta=36, l2=1e10, autoregressive=False)
+
+    pl.subplot(211)
+    pl.plot(t, f / np.std(f) / 5.0, ".k")
+    pl.gca().set_yticklabels([])
+    pl.ylabel("causal flux")
+    pl.xlim(t.min(), t.max())
+
+    pl.subplot(212)
+    data = lc.read()
+    flux = data["PDCSAP_FLUX"]
+    inds = np.isfinite(flux)
+    flux = flux[inds]
+    flux -= np.median(flux)
+    flux /= np.var(flux)
+    pl.plot(data["TIME"][inds], flux, ".k")
+    pl.xlim(t.min(), t.max())
+    pl.gca().set_yticklabels([])
+    pl.ylabel("pdc flux")
+    pl.savefig("20-non.png")
+
+    # Do the autoregressive model
+    pl.clf()
+    target = Target(planet.kepid)
+    t, f = target.fit_quarter(lc.sci_data_quarter, ntargets=2, nwindow=5,
+                              delta=24, l2=1e8, autoregressive=True)
+
+    pl.subplot(211)
+    pl.plot(t, f / np.std(f) / 5.0, ".k")
+    pl.gca().set_yticklabels([])
+    pl.ylabel("causal flux")
+    pl.xlim(t.min(), t.max())
+
+    pl.subplot(212)
+    data = lc.read()
+    flux = data["PDCSAP_FLUX"]
+    inds = np.isfinite(flux)
+    flux = flux[inds]
+    flux -= np.median(flux)
+    flux /= np.var(flux)
+    pl.plot(data["TIME"][inds], flux, ".k")
+    pl.xlim(t.min(), t.max())
+    pl.gca().set_yticklabels([])
+    pl.ylabel("pdc flux")
+    pl.savefig("20-auto.png")
