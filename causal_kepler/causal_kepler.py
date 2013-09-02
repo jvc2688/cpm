@@ -168,17 +168,17 @@ if __name__ == "__main__":
 
         pl.clf()
         fig, axes = pl.subplots(2, 1, figsize=(6, 6))
-        fig.subplots_adjust(left=0.17, top=0.99, right=0.99,
+        fig.subplots_adjust(left=0.08, top=0.99, right=0.99,
                             wspace=0.0, hspace=0.0)
 
         axes[0].plot(t, f / np.std(f), ".k")
-        axes[0].gca().set_yticklabels([])
-        axes[0].ylabel("causal flux")
-        axes[0].xlim(t.min(), t.max())
+        axes[0].set_yticklabels([])
+        axes[0].set_ylabel("causal flux")
+        axes[0].set_xlim(t.min(), t.max())
 
         axes[1].plot(pdc_time, flux, ".k")
-        axes[1].xlim(t.min(), t.max())
-        axes[1].gca().set_yticklabels([])
-        axes[1].ylabel("pdc flux")
-        axes[1].xlabel("time [KBJD]")
-        pl.savefig("20-non.png")
+        axes[1].set_xlim(t.min(), t.max())
+        axes[1].set_yticklabels([])
+        axes[1].set_ylabel("pdc flux")
+        axes[1].set_xlabel("time [KBJD]")
+        pl.savefig(fn)
