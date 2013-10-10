@@ -1,0 +1,56 @@
+\documentclass[12pt, preprint]{aastex}
+
+\newcommand{\Kepler}{\textsl{Kepler}}
+\newcommand{\name}{PLM}
+
+\begin{document}
+
+\begin{abstract}
+The precision of \Kepler\ photometry%
+  ---the most precise photometric measurements of stars ever made---%
+  appears to be limited by unknown or untracked variations
+  in spacecraft pointing, point-spread function, stellar motions and parallaxes, and temperature.
+Here we present \name,
+  a data-driven model of these variations in \Kepler\ data (or really of their impact on the photometry).
+Importantly (and uniquely),
+  \name\ works at the pixel level (not the photometric measurement level);
+  it can capture more fine-grained information about the variation of the spacecraft than is available in the photometry.
+\name\ is extreme in that it has enormous flexibility and it only uses data (and meta-data) to model data:
+\name\ provides a prediction for each readout pixel built from a linear combination of the readouts
+  from very large numbers of nearby pixels (plus some spacecraft information);
+  the choice of nearby pixels is guided by ideas from causal inference.
+\name\ avoids over-fitting by employing a train-and-test formalism
+  designed to ensure that transit-like photometric events and short-timescale stellar variability
+  cannot be captured or distorted by the model;
+  it is designed to remove spacecraft-induced variability but not intrinsic stellar variability.
+We show that \name\ outperforms the \Kepler\ Presearch Data Conditioning method on a set of example stars.
+We release open-source code that provides \name\ output for any star in the existing \Kepler\ Archive,
+  and we discuss applications for other missions,
+  including any possible \Kepler\ two-wheel mission.
+\end{abstract}
+
+The photometric measurements of stars made by the \Kepler\ Satellite are precise enough
+  to permit discovery of exoplanet transits with depths smaller than $10^{-4}$.
+This precision results from great spacecraft stability,
+  supplemented by various methods for removing small residual spacecraft-induced and stellar-variability trends in the brightnesses,
+  either filtering the data (with things like median filters; CITE)
+  or fitting the data with flexible models (like polynomials or splines or Gaussian Processes; CITE).
+When employed in the service of exoplanet search and characterization,
+  these methods are usually agnostic about whether photometric variations originate in the spacecraft or in the star itself;
+  that is, they obliterate intrinsic stellar variability along with spacecraft issues.
+
+One method that is designed to model spacecraft-induced problems
+  but \emph{not} interfere with measurements of stellar variability
+  is the \Kepler\ Presearch Data Conditioning (PDC) method (CITE).
+The PDC ``de-trends’’ the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
+  generated from a principal components analysis (PCA) of filtered lightcurves.
+That is, it uses data to model data,
+  regularizing the fit (and avoiding over-fitting) by filtering and restricting the dimensionality (through PCA).
+The method proposed here, \name, is similar in spirit to the PDC.
+The main differences are
+  (1)~that it works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
+  (2)~that it has far more freedom (far more parameters)
+  but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales through a train-and-test framework, and
+  (3)~that when it fits a star, there is no possibility of any contribution of the star itself to the fit basis vectors.
+
+\end{document}
