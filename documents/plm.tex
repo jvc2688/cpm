@@ -17,6 +17,7 @@
 \author{%
   Dan~Foreman-Mackey\altaffilmark{\ref{CCPP}},
   David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{MPIA},\ref{email}},
+  Tom~Barclay\altaffilmark{\ref{Ames}},
   Rob~Fergus\altaffilmark{\ref{Courant}},
   Stefan Harmeling\altaffilmark{\ref{MPIIS}},
   Bernhard~Sch\"olkopf\altaffilmark{\ref{MPIIS}},
@@ -31,14 +32,14 @@
   Max-Planck-Institut f\"ur Astronomie, Heidelberg, Germany}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{email}%
   To whom correspondence should be addressed; \texttt{<david.hogg@nyu.edu>}.}
-\altaffiltext{\theaddress}{\stepcounter{address}\label{MPIIS}%
-  Max-Planck-Institut f\"ur Intelligente Systeme, T\"ubingen}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
+  NASA Ames Research Center}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
   Courant Institute of Mathematical Sciences, New York University}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{MPIIS}%
+  Max-Planck-Institut f\"ur Intelligente Systeme, T\"ubingen}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{Oxford}%
 %%   Department of Physics, Oxford University}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
-%%   NASA Ames Research Center}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{CfA}%
 %%   Harvard--Smithsonian Center for Astrophysics}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{UCL}%
@@ -100,9 +101,10 @@ There are also \emph{intra-pixel} sensitivity variations that can contribute (CI
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
 These also lead to changes in pixel and intra-pixel illumination.
-Stellar proper motion and parallaxes must do the same, at some level.
+Stellar proper motion, geometric parallaxes, and differential stellar aberration as the spacecraft orbits all do more of the same.
 There is electronic cross-talk between detectors and charge-transfer inefficiency,
   that can effectively transfer variability from one source to another.
+There are additional electronics effects like ``rolling bands'' that put additional features into lightcurves.
 There are also possible changes to the detector sensitivity over time,
   and possibly sources of variability not yet considered.
 The remarkable thing about \Kepler\ is that it is trying to measure stars at a level of precision
@@ -158,8 +160,9 @@ We will return to this latter point at the end;
 That's beyond the scope of this paper but a place for a valuable intervention on the \Kepler\ data.
 
 The scope of this paper is an intervention---\name---that makes the \Kepler\ photometry more precise.
-We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry'' for every \Kepler\ target,
-  and all the relevant code in public, open-source repositories.
+We describe the method and deliver all the relevant code in a public, open-source repository.
+We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry''
+  for every \Kepler\ target.
 
 \section{Generalities: Data-driven models}
 
