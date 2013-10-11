@@ -7,7 +7,7 @@
 \newcommand{\sic}{\notenglish{sic}}
 \newcommand{\project}[1]{\textsl{#1}}
 \newcommand{\Kepler}{\project{Kepler}}
-\newcommand{\name}{KPLM}
+\newcommand{\name}{PLM}
 
 \begin{document}
 
@@ -17,6 +17,8 @@
 \author{%
   Dan~Foreman-Mackey\altaffilmark{\ref{CCPP}},
   David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{MPIA},\ref{email}},
+  Rob~Fergus\altaffilmark{\ref{Courant}},
+  Stefan Harmeling\altaffilmark{\ref{MPIIS}},
   Bernhard~Sch\"olkopf\altaffilmark{\ref{MPIIS}},
   others%
 }
@@ -31,14 +33,14 @@
   To whom correspondence should be addressed; \texttt{<david.hogg@nyu.edu>}.}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{MPIIS}%
   Max-Planck-Institut f\"ur Intelligente Systeme, T\"ubingen}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
+  Courant Institute of Mathematical Sciences, New York University}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{Oxford}%
 %%   Department of Physics, Oxford University}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
 %%   NASA Ames Research Center}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{CfA}%
 %%   Harvard--Smithsonian Center for Astrophysics}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
-%%   Courant Institute of Mathematical Sciences, New York University}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{UCL}%
 %%   Department of Physics and Astronomy, University College London}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{CMU}%
@@ -74,6 +76,8 @@ We release open-source code that provides \name\ output for any star in the exis
   including any possible \Kepler\ two-wheel mission.
 \end{abstract}
 
+\section{Ultra-precise photometry}
+
 The photometric measurements of stars made by the \Kepler\ Satellite are precise enough
   to permit discovery of exoplanet transits with depths smaller than $10^{-4}$.
 This precision results from great spacecraft stability,
@@ -84,28 +88,78 @@ When employed in the service of exoplanet search and characterization,
   these methods are usually agnostic about whether photometric variations originate in the spacecraft or in the star itself;
   that is, they obliterate intrinsic stellar variability along with spacecraft issues.
 
-Reminder:  \Kepler\ performs photometry very naively...
+In general, there are many reasons for apparent photometric variability in a \Kepler\ source.
+There is intrinsic stellar variability,
+  which is of interest to some and a nuisance to others.
+There is also variability of overlapping fainter stars;
+  that is, confusion noise combined with variability of the confusing sources.
+There are small changes in spacecraft pointing,
+  which leads to slightly different illumination of the focal-plane pixels,
+  and thus different sensitivity to errors (problems) in the device flat-field or sensitivity map.
+There are also \emph{intra-pixel} sensitivity variations that can contribute (CITE WHITEPAPER, SPITZER).
+There are small changes in spacecraft temperature,
+  which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
+These also lead to changes in pixel and intra-pixel illumination.
+Stellar proper motion and parallaxes must do the same, at some level.
+There is electronic cross-talk between detectors and charge-transfer inefficiency,
+  that can effectively transfer variability from one source to another.
+There are also possible changes to the detector sensitivity over time,
+  and possibly sources of variability not yet considered.
+The remarkable thing about \Kepler\ is that it is trying to measure stars at a level of precision
+  much higher than ever previously attempted;
+  new effects really \emph{must} appear at some point.
+In \figurename~HOGG, we show the pixel-level variability in the \Kepler\ data
+  near one bright, non-variable star.
 
-One method that is designed to model spacecraft-induced problems
-  but \emph{not} interfere with measurements of stellar variability
+We propose and advise dealing with these variations in \Kepler\ light-curves by \emph{modeling} them.
+This model can be a physical model (of the spacecraft PSF, pointing, temperature, and so on)
+  or it can be a flexible, effective model that has no direct interpretation in terms of physical spacecraft parameters.
+In principle a physical model will do a better job,
+  because it necessarily embodies more prior information,
+  but it requires research and intuition about dominant effects,
+  and this research and intuition is often wrong or incomplete.
+The model we propose here is in the non-physical, effective category.
+The \Kepler\ community is familiar with these kinds of models;
+  to our knowledge, \emph{all} successful light-curve ``de-trending'' methods
+  are flexible, effective models.
+
+One such method---one that is designed to model spacecraft-induced problems
+  but \emph{not} interfere with measurements of stellar variability---%
   is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (CITE).
 The PDC ``de-trends'' the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
   generated from a principal components analysis (PCA) of filtered lightcurves.
 That is, it uses data to model data,
   regularizing the fit (and avoiding over-fitting) by filtering and restricting the dimensionality (through PCA).
-The method proposed here, \name, is similar in spirit to the PDC.
+The method proposed here, \name, is very similar in spirit to the PDC.
 The main differences are
-  (1)~that it works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
-  (2)~that it has far more freedom (far more parameters)
+  (1)~that \name\ works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
+  (2)~that \name\ has far more freedom (far more parameters) than the PDC
   but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales
   through strong regularization and a train-and-test framework, and
-  (3)~that when it fits a star, there is no possibility of any contribution of the star itself to the fit basis vectors.
-The two methods are similar however,
+  (3)~that when \name\ fits a star, there is no possibility of any contribution of the star itself to the fit basis vectors.
+The two methods (\name\ and PDC) are similar however,
   in that they both make the assumption that whatever spacecraft effects are imprinting variability on a stellar lightcurve
   must also be imprinting similar or related variability on other lightcurves.
 By going to the pixel level, \name\ makes it easier for the model to capture variability
-  that is coming through variations in the point-spread function
-  or spacecraft roll or pointing.
+  that is coming through variations in the centroids and point-spread function
+  from spacecraft pointing, roll, and temperature.
+
+Before we start, a few reminders about the \Kepler\ data are in order:
+The satellite always observes precisely the same field, at fixed pointing (as closely as possible).
+The satellite is rolled by 90~deg every 90-ish days (for Solar Angle constraints).
+The PSF varies strongly across the field and is badly sampled.
+The stars span a huge range in brightness;
+  some of \Kepler's most important targets even saturate the device and bleed charge.
+The stellar photometry returned by the \Kepler\ SAP and PDC pipelines is based on
+  straight, \emph{unweighted} sums of pixels in small patches centered on the stellar centroid.
+We will return to this latter point at the end;
+  this kind of photometry cannot be optimal;
+  it must be possible to do a better job with the photometric measurements.
+That's beyond the scope of this paper but a place for a valuable intervention on the \Kepler\ data.
+
+The scope of this paper is an intervention---\name---that makes the \Kepler\ photometry more precise.
+We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry'' for every \Kepler\ target,
+  and all the relevant code in public, open-source repositories.
 
 \section{Generalities: Causality and data-driven models}
 
@@ -114,5 +168,23 @@ By going to the pixel level, \name\ makes it easier for the model to capture var
 \section{Examples and results}
 
 \section{Discussion}
+
+HOGG: Return to the SAP photometry ``unweighted sum'' issue here.
+
+\acknowledgements
+It is a pleasure to thank the whole \Kepler\ Team
+  for designing, delivering, and operating a great facility,
+  and for making all of the data public, in all its rawest forms, through the MAST interface.
+We are also pleased to thank
+  Ruth~Angus (Oxford),
+  Bekki~Dawson (Berkeley),
+  Michael~Hirsch (UCL),
+  Dustin~Lang (CMU),
+  Benjamin~T.~Montet (Caltech),
+  and
+  David~Schiminovich (Columbia)
+for valuable discussions, input, encouragement, and advice.
+
+WHITEPAPER AUTHORS:  FEEL FREE TO CONTRIBUTE TO THIS PAPER AND MOVE FROM THE ACK LIST TO THE AUTHOR LIST.
 
 \end{document}
