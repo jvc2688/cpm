@@ -1,9 +1,52 @@
+% This file is part of the causal-kepler project
+% Copyright 2013 the authors.
+
 \documentclass[12pt, preprint]{aastex}
 
-\newcommand{\Kepler}{\textsl{Kepler}}
-\newcommand{\name}{PLM}
+\newcommand{\notenglish}[1]{\textit{#1}}
+\newcommand{\sic}{\notenglish{sic}}
+\newcommand{\project}[1]{\textsl{#1}}
+\newcommand{\Kepler}{\project{Kepler}}
+\newcommand{\name}{KPLM}
 
 \begin{document}
+
+\title{%
+  A data-driven, pixel-level model to improve the precision of \Kepler\ photometry%
+}
+\author{%
+  Dan~Foreman-Mackey\altaffilmark{\ref{CCPP}},
+  David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{MPIA},\ref{email}},
+  Bernhard~Sch\"olkopf\altaffilmark{\ref{MPIIS}},
+  others%
+}
+
+\newcounter{address}
+\setcounter{address}{1}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{CCPP}%
+  Center for Cosmology and Particle Physics, Department of Physics, New York University}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{MPIA}%
+  Max-Planck-Institut f\"ur Astronomie, Heidelberg, Germany}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{email}%
+  To whom correspondence should be addressed; \texttt{<david.hogg@nyu.edu>}.}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{MPIIS}%
+  Max-Planck-Institut f\"ur Intelligente Systeme, T\"ubingen}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Oxford}%
+%%   Department of Physics, Oxford University}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
+%%   NASA Ames Research Center}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{CfA}%
+%%   Harvard--Smithsonian Center for Astrophysics}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
+%%   Courant Institute of Mathematical Sciences, New York University}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{UCL}%
+%%   Department of Physics and Astronomy, University College London}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{CMU}%
+%%   McWilliams Center for Cosmology, Carnegie Mellon University}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Caltech}%
+%%   Department of Astronomy, California Institute of Technology}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Columbia}%
+%%   Department of Astronomy, Columbia University}
 
 \begin{abstract}
 The precision of \Kepler\ photometry%
@@ -14,7 +57,9 @@ Here we present \name,
   a data-driven model of these variations in \Kepler\ data (or really of their impact on the photometry).
 Importantly (and uniquely),
   \name\ works at the pixel level (not the photometric measurement level);
-  it can capture more fine-grained information about the variation of the spacecraft than is available in the photometry.
+  it can capture more fine-grained information about the variation of the spacecraft
+  (especially regarding pointing and point-spread function)
+  than is available in the pixel-summed photometry.
 \name\ is extreme in that it has enormous flexibility and it only uses data (and meta-data) to model data:
 \name\ provides a prediction for each readout pixel built from a linear combination of the readouts
   from very large numbers of nearby pixels (plus some spacecraft information);
@@ -23,7 +68,7 @@ Importantly (and uniquely),
   designed to ensure that transit-like photometric events and short-timescale stellar variability
   cannot be captured or distorted by the model;
   it is designed to remove spacecraft-induced variability but not intrinsic stellar variability.
-We show that \name\ outperforms the \Kepler\ Presearch Data Conditioning method on a set of example stars.
+We show that \name\ outperforms the \Kepler\ Presearch (\sic) Data Conditioning method on a set of example stars.
 We release open-source code that provides \name\ output for any star in the existing \Kepler\ Archive,
   and we discuss applications for other missions,
   including any possible \Kepler\ two-wheel mission.
@@ -39,10 +84,12 @@ When employed in the service of exoplanet search and characterization,
   these methods are usually agnostic about whether photometric variations originate in the spacecraft or in the star itself;
   that is, they obliterate intrinsic stellar variability along with spacecraft issues.
 
+Reminder:  \Kepler\ performs photometry very naively...
+
 One method that is designed to model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability
-  is the \Kepler\ Presearch Data Conditioning (PDC) method (CITE).
-The PDC ``de-trends’’ the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
+  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (CITE).
+The PDC ``de-trends'' the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
   generated from a principal components analysis (PCA) of filtered lightcurves.
 That is, it uses data to model data,
   regularizing the fit (and avoiding over-fitting) by filtering and restricting the dimensionality (through PCA).
@@ -50,7 +97,22 @@ The method proposed here, \name, is similar in spirit to the PDC.
 The main differences are
   (1)~that it works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
   (2)~that it has far more freedom (far more parameters)
-  but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales through a train-and-test framework, and
+  but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales
+  through strong regularization and a train-and-test framework, and
   (3)~that when it fits a star, there is no possibility of any contribution of the star itself to the fit basis vectors.
+The two methods are similar however,
+  in that they both make the assumption that whatever spacecraft effects are imprinting variability on a stellar lightcurve
+  must also be imprinting similar or related variability on other lightcurves.
+By going to the pixel level, \name\ makes it easier for the model to capture variability
+  that is coming through variations in the point-spread function
+  or spacecraft roll or pointing.
+
+\section{Generalities: Causality and data-driven models}
+
+\section{Specifics: PLM and it's hyper-parameters}
+
+\section{Examples and results}
+
+\section{Discussion}
 
 \end{document}
