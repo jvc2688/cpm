@@ -102,19 +102,25 @@ There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
 These also lead to changes in pixel and intra-pixel illumination.
 Stellar proper motion, geometric parallaxes, and differential stellar aberration as the spacecraft orbits all do more of the same.
-There is electronic cross-talk between detectors and charge-transfer inefficiency,
-  that can effectively transfer variability from one source to another.
+There is electronic cross-talk between detectors and charge-transfer inefficiency;
+  these can effectively transfer variability from one source to another.
 There are additional electronics effects like ``rolling bands'' that put additional features into lightcurves.
-There are also possible changes to the detector sensitivity over time,
+There are also probably changes to the detector sensitivity with temperature and time,
+  possibly illimunation-history effects,
   and possibly sources of variability not yet considered.
 The remarkable thing about \Kepler\ is that it is trying to measure stars at a level of precision
   much higher than ever previously attempted;
   new effects really \emph{must} appear at some point.
 In \figurename~HOGG, we show the pixel-level variability in the \Kepler\ data
-  near one bright, non-variable star.
+  near one bright star that shows minimal intrinsic variability;
+  this figure highlights the spacecraft-induced effects.
 
 We propose and advise dealing with these variations in \Kepler\ light-curves by \emph{modeling} them.
-This model can be a physical model (of the spacecraft PSF, pointing, temperature, and so on)
+In this context, a model is (at least) a parameterized function that can predict data, given parameter settings,
+  and an objective function that can be optimized or sampled to choose or set those parameters.
+Ideally the objective function is probabilistic, or has a probabilistic justification,
+  as with a likelihood or a posterior pdf.
+The model can be a physical model (of the spacecraft PSF, pointing, temperature, and so on)
   or it can be a flexible, effective model that has no direct interpretation in terms of physical spacecraft parameters.
 In principle a physical model will do a better job,
   because it necessarily embodies more prior information,
@@ -142,7 +148,9 @@ The main differences are
 The two methods (\name\ and PDC) are similar however,
   in that they both make the assumption that whatever spacecraft effects are imprinting variability on a stellar lightcurve
   must also be imprinting similar or related variability on other lightcurves.
-By going to the pixel level, \name\ makes it easier for the model to capture variability
+They also assume that the relationships can be captured with linear models.
+By going to the pixel level (unlike the PDC, which works at the photometry level),
+  \name\ makes it easier for the model to capture variability
   that is coming through variations in the centroids and point-spread function
   from spacecraft pointing, roll, and temperature.
 
@@ -166,6 +174,37 @@ We also provide an interface to the \Kepler\ data that delivers improved ``\name
 
 \section{Generalities: Data-driven models}
 
+The first general idea about data-driven modeling of the kind used here
+  is that each data point or data source is going to be modeled
+  (or really \emph{predicted})
+  with a parameterized mathematical function of \emph{other data}.
+That is, given a choice of some \emph{target} \Kepler\ data,
+  we are going to find parameters of a function that takes as input some of the other \Kepler\ data,
+  and provides as output predictions of the target data.
+The simplest models are \emph{linear models},
+  in which predictions for the target data are built from linear combinations of the other data,
+  and in which the objective functions are quadratic in the prediction residual.
+Examples of quadratic objective functions include Gaussian likelihoods, mean-squared-error, and chi-square statistics.
+These models are simple,
+  not just because they are easy to express and compute,
+  but because optimization is convex:
+There is only one optimum for the objective function.
+
+The point of these models is to be \emph{flexible},
+  so the usual approach is to make the input data set very large,
+  and the number of parameters large,
+  often as large as---or larger than---the target data available.
+Such fits require \emph{regularization} to break degeneracies
+  and control ill-constrained parameters.
+These regularizations do for optimizations what priors do for posterior probability inferences;
+  they express the desired behavior of the fit in the absence of data
+  or along directions in parameter space in which the data are not constraining.
+General regularizations or priors will break the convexity of linear models;
+  if convexity is to be maintained, these regularizations also have to be quadratic,
+  or else one of a small number of other known forms (one of which is L1-regularization).
+Given these considerations, it makes sense to try to build our pixel-level model
+  using a linear model with a quadratic objective function and a quadratic regularization.
+
 First idea: data modeled with data... huge models, regularization...
 
 Second idea: causality restricts the choice of data to use...
@@ -176,13 +215,21 @@ Fourth idea: predict; residuals are our signal...
 
 Fifth idea: no way to know if we are \emph{right}...
 
-\section{Specifics: PLM and it's hyper-parameters}
+\section{Specifics: PLM and model hyper-parameters}
 
 \section{Examples and results}
 
 \section{Discussion}
 
-HOGG: Return to the SAP photometry ``unweighted sum'' issue here.
+Return to the SAP photometry ``unweighted sum'' issue here.
+
+Didn't do anything about short-cadence data; suck it up.
+
+Lots of quantitative and qualitative choices that ought to be explored.
+
+Not the least of these is linearity.
+
+Interesting whether the output of the model can be interrogated to provide value for those building physical models.
 
 \acknowledgements
 It is a pleasure to thank the whole \Kepler\ Team
