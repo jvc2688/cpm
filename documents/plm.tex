@@ -205,9 +205,39 @@ General regularizations or priors will break the convexity of linear models;
 Given these considerations, it makes sense to try to build our pixel-level model
   using a linear model with a quadratic objective function and a quadratic regularization.
 
-First idea: data modeled with data... huge models, regularization...
+[General formula here for a pixel predicted using a linear combination of other pixels.
+  And the objective function, generally?]
 
-Second idea: causality restricts the choice of data to use...
+The second general idea about data-driven modeling is the investigator's beliefs
+  about the causal processes that generate the data
+  are crucial in restricting the kinds of data that can be used as input to the model.
+That is, different assumptions about the physical properties of the data
+  and the data-taking system
+  lead to different structures for the data-driven model.
+For example, in the case of \Kepler\ data,
+  if we believe that different stars in the \Kepler\ field vary independently
+  (that is, are not physically synchronized in any way),
+  then the only reason that one star might show variability that is \emph{predictive}
+  (useful for prediction) of another star's variability
+  is that both stars are being observed by the same device or spacecraft.
+That is, one star's pixels can be used to predict another star's pixels
+  inasmuch as spacecraft issues imprint on both stars in related ways;
+  they share a common cause.
+For another example, if we think the spacecraft is being affected by
+  processes that take place over time-scales longer than a single read-out
+  (for example, thermal processes),
+  then it would be sensible to model the data at time $t$ using not just simultaneous data,
+  but also data from a range of times around $t$.
+For another example, if an investigator doesn't care about preserving stellar variability,
+  and just wants to detect exoplanet transits (say),
+  pixels from the target star can be used to predict pixels from the target star,
+  provided they are at large-enough time lags that they don't overlap (in time)
+  the signals of interest.
+That is, if the model is designed to fit not just spacecraft variability
+  but also intrinsic stellar variability,
+  the predictive model will be permitted to use as input pixels that \emph{do} overlap the target star.
+In what follows, we are only going to use input data that do not overlap that target star pixels.
+These models ought to remove spacecraft variability but not intrinsic stellar variability.
 
 Third idea: train-and-test framework...
 
