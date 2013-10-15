@@ -8,6 +8,7 @@
 \newcommand{\project}[1]{\textsl{#1}}
 \newcommand{\Kepler}{\project{Kepler}}
 \newcommand{\name}{PLM}
+\newcommand{\todo}[1]{\textbf{#1}}
 
 \begin{document}
 
@@ -111,7 +112,7 @@ There are also probably changes to the detector sensitivity with temperature and
 The remarkable thing about \Kepler\ is that it is trying to measure stars at a level of precision
   much higher than ever previously attempted;
   new effects really \emph{must} appear at some point.
-In \figurename~HOGG, we show the pixel-level variability in the \Kepler\ data
+In \figurename~\ref{fig:pixelpatch}, we show the pixel-level variability in the \Kepler\ data
   near one bright star that shows minimal intrinsic variability;
   this figure highlights the spacecraft-induced effects.
 
@@ -172,7 +173,7 @@ We describe the method and deliver all the relevant code in a public, open-sourc
 We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry''
   for every \Kepler\ target.
 
-\section{Generalities: Data-driven models}
+\section{Data-driven models}
 
 The first general idea about data-driven modeling of the kind used here
   is that each data point or data source is going to be modeled
@@ -307,7 +308,8 @@ What we get, for every star, from the data-driven model, is a train-and-test pre
   for the brightness of every pixel in the patch of the detector relevant to the star,
   along with the residual, or the difference between the measured read-out pixel value and the prediction (data minus model).
 What will be called the ``\name\ photometry'' in what follows is constructed from what will be called the ``\name\ images''.
-The \name\ photometry is constructed from the \name\ images just as the \Kepler\ official SAP photometry is constructed from the XXX images;
+The \name\ photometry is constructed from the \name\ images
+  just as the \Kepler\ official SAP photometry is constructed from the \todo{XXX images};
   that is, by summing pre-defined sets of pixels (with unit weights; see above and below for criticism of this).
 The \name\ images are constructed from the data-driven model predictions by taking,
   for each pixel in each contiguous data segment (see below),
@@ -340,7 +342,9 @@ We cannot yet show that it is optimal for our long-term goals,
   we will only show promising properties of the \name\ outputs.
 In the end, the value of the \name\ will be demonstrated by the scientific projects it enables.
 
-\section{Specifics: \name\ specification and hyper-parameters}
+\section{\name\ specification and hyper-parameters}
+
+
 
 \section{Examples and results}
 
@@ -352,9 +356,11 @@ Didn't do anything about short-cadence data; suck it up.
 
 Lots of quantitative and qualitative choices that ought to be explored.
 
-Not the least of these is linearity.
+Not the least of these is linearity; deep learning and so on.
 
-Interesting whether the output of the model can be interrogated to provide value for those building physical models.
+The weakest point is construction of photometry from the model plus residuals;
+  interesting whether the output of the model can be interrogated
+  to provide value for those building physical models.
 
 \acknowledgements
 It is a pleasure to thank the whole \Kepler\ Team
@@ -370,6 +376,18 @@ We are also pleased to thank
   David~Schiminovich (Columbia)
 for valuable discussions, input, encouragement, and advice.
 
-WHITEPAPER AUTHORS:  FEEL FREE TO CONTRIBUTE TO THIS PAPER AND MOVE FROM THE ACK LIST TO THE AUTHOR LIST.
+\todo{White-paper Authors:  Feel free to contribute to this paper and move from the ack list to the author list.}
+
+\clearpage
+\begin{figure}
+~ % DFM: replace this ~ with a figure
+\caption{A patch of \Kepler\ imaging from \todo{XXX quarter}, centered on \todo{YYY target}.
+  In the top panel, each box represents a pixel.
+  Within each box is shown the light-curve of that pixel over the quarter.
+  In the bottom panel, the SAP photometry for this target is shown;
+  the SAP photometry is based on a straight sum of the pixels marked with darker borders.
+  Note that every pixel varies substantially but the total SAP photometry is better than any individual pixel.
+  Note also that the pixel variations are strongly inter-related.\label{fig:pixelpatch}}
+\end{figure}
 
 \end{document}
