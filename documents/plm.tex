@@ -207,8 +207,8 @@ Given these considerations, it makes sense to try to build our pixel-level model
   using a linear model with a quadratic objective function and a quadratic regularization;
   this is what \name\ will be.
 
-[General formula here for a pixel predicted using a linear combination of other pixels.
-  And the objective function, generally?]
+\todo{Should we put general formula here for a pixel predicted using a linear combination of other pixels?
+  And the objective function, generally?}
 
 The second general idea about data-driven modeling is the investigator's beliefs
   about the causal processes that generate the data
@@ -280,7 +280,7 @@ In general, if there is a scientific goal of preserving intrinsic stellar variab
   on time-scales of $\tau$,
   the parameter optimization ought to be based on training data taken with a time-exclusion zone of half-width $\Delta t > \tau$.
 
-% need to choose consistent notation or terminology about the contiguous data chunks.
+\todo{In what follows, we need to choose consistent notation or terminology about the contiguous data chunks, and other \Kepler\ entities.}
 
 In addition, each training data set within which we set the parameters (by optimization) has a finite total time extent $t_{\max}$.
 The train-and-test framework, which includes data out to time $t_{\max}$ but excludes data within $\Delta t$ of the test data,
