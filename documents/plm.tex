@@ -84,8 +84,8 @@ The photometric measurements of stars made by the \Kepler\ Satellite are precise
   to permit discovery of exoplanet transits with depths smaller than $10^{-4}$.
 This precision results from great spacecraft stability,
   supplemented by various methods for removing small residual spacecraft-induced and stellar-variability trends in the brightnesses,
-  either filtering the data (with things like median filters; CITE)
-  or fitting the data with flexible models (like polynomials or splines or Gaussian Processes; CITE).
+  either filtering the data (with things like median filters; \todo{citations})
+  or fitting the data with flexible models (like polynomials or splines or Gaussian Processes; \todo{citations}).
 When employed in the service of exoplanet search and characterization,
   these methods are usually agnostic about whether photometric variations originate in the spacecraft or in the star itself;
   that is, they obliterate intrinsic stellar variability along with spacecraft issues.
@@ -98,7 +98,7 @@ There is also variability of overlapping fainter stars;
 There are small changes in spacecraft pointing,
   which leads to slightly different illumination of the focal-plane pixels,
   and thus different sensitivity to errors (problems) in the device flat-field or sensitivity map.
-There are also \emph{intra-pixel} sensitivity variations that can contribute (CITE WHITEPAPER, SPITZER).
+There are also \emph{intra-pixel} sensitivity variations that can contribute (\todo{cite white paper; Spitzer results}).
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
 These also lead to changes in pixel and intra-pixel illumination.
@@ -134,7 +134,7 @@ The \Kepler\ community is familiar with these kinds of models;
 
 One such method---one that is designed to model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability---%
-  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (CITE).
+  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (\todo{citation}).
 The PDC ``de-trends'' the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
   generated from a principal components analysis (PCA) of filtered lightcurves.
 That is, it uses data to model data,
@@ -157,7 +157,7 @@ By going to the pixel level (unlike the PDC, which works at the photometry level
 
 Before we start, a few reminders about the \Kepler\ data are in order:
 The satellite always observes precisely the same field, at fixed pointing (as closely as possible).
-The satellite is rolled by 90~deg every 90-ish days (for Solar Angle constraints).
+The satellite is rolled by 90~deg every 90-ish days (to satisfy Solar-Angle constraints).
 The PSF varies strongly across the field and is badly sampled.
 The stars span a huge range in brightness;
   some of \Kepler's most important targets even saturate the device and bleed charge.
