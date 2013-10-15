@@ -243,8 +243,8 @@ These models ought to remove spacecraft variability but not intrinsic stellar va
 The third general idea is that we need to control for over-fitting.
 That is, once you have a flexible-enough model you can in principle fit \emph{anything},
   whether it was caused by the spacecraft, intrinsic stellar variability, or a transiting exoplanet.
-How do you prevent a very flexible model from using small noise-induced fluctuations in all the input data
-  from being carefully combined linearly into models for every nook and cranny in the target data?
+How do you prevent a very flexible model from taking small noise-induced fluctuations in all the input data
+  and carefully combining them linearly into detailed models for every nook and cranny in the target data?
 In most projects in astrophysics, over-fitting is controlled for by limiting model freedom.
 The model is restricted in the number of parameters
   (as in ``you can't have more parameters than data points'')
@@ -252,7 +252,9 @@ The model is restricted in the number of parameters
   (as in principal components analysis)
   or by applying strong priors
   (as with smoothness priors, that effectively reduce freedom without explicitly reducing the number of parameters).
-In each case, the restriction on the model can be set with tools like cross-validation,
+In each case, the restriction on the model is controlled by some \emph{hyper-parameter}
+  (such as the number of inputs, or number of principal components, or the strength of the smoothness prior).
+The hyper-parameters can be set or tested with tools like cross-validation,
   the fully marginalized likelihood (Bayes factor or evidence),
   chi-squared statistical criteria,
   or intuition or heuristics.
@@ -275,7 +277,9 @@ This ensures that no information about any exoplanet transit itself
 In general, if there is a scientific goal of preserving intrinsic stellar variability,
   or transit signals,
   on time-scales of $\tau$,
-  the parameter optimization ought to be based on training data taken with a time-exclusion zone of width $\Delta > \tau$.
+  the parameter optimization ought to be based on training data taken with a time-exclusion zone of half-width $\Delta t > \tau$.
+
+% need to choose consistent notation or terminology about the contiguous data chunks.
 
 In addition, each training data set within which we set the parameters (by optimization) has a finite total time extent $t_{\max}$.
 The train-and-test framework, which includes data out to time $t_{\max}$ but excludes data within $\Delta t$ of the test data,
@@ -287,7 +291,7 @@ Short-period exoplanets and certain kinds of stellar variability
 
 The fourth general idea involved in this kind of data-driven modeling is that the models aren't \emph{interpretable}.
 This means, in particular, that although the model might do a good job of \emph{predicting} the target pixels,
-  using a linear (or more complex) combination ofthe input pixel data,
+  using a linear (or more complex) combination of the input pixel data,
   it won't deliver anything that can be unambiguously interpreted as the \emph{flux} of the star in question,
   or any other signal we care about.
 The data-driven model \emph{effectively} describes the pointing, point-spread function, and flat-field
@@ -329,7 +333,7 @@ That is, what is considered best for modeling the data depends on the objectives
 For us, who are interested (in the long term) in finding and characterizing Earth analogs,
   the ``best'' data-driven model is the one that produces the most success in finding and characterizing Earth analogs!
 What we will show in what follows is that the \name\ photometry does not distort
-  artificially exoplanet transit signals injected into real \Kepler\ pixel-level data.
+  artificial exoplanet transit signals injected into real \Kepler\ pixel-level data.
 We can also show that it produces stellar light-curves that look sensible for known variable stars.
 We cannot yet show that it is optimal for our long-term goals,
   nor can we show that it produces images or light-curves that are more accurately calibrated;
