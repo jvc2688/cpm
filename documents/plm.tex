@@ -8,6 +8,7 @@
 \newcommand{\project}[1]{\textsl{#1}}
 \newcommand{\Kepler}{\project{Kepler}}
 \newcommand{\name}{PLM}
+\newcommand{\set}[1]{\mathcal{#1}}
 \newcommand{\todo}[1]{\textbf{#1}}
 
 \begin{document}
@@ -157,7 +158,13 @@ By going to the pixel level (unlike the PDC, which works at the photometry level
 
 Before we start, a few reminders about the \Kepler\ data are in order:
 The satellite always observes precisely the same field, at fixed pointing (as closely as possible).
+Only a few percent of the 80 million pixels in the focal plane are telemetered down
+  to Earth from each 30-min exposure;
+  the telemetered pixels are associated with \Kepler\ target stars chosen for study by the \Kepler\ Team.
 The satellite is rolled by 90~deg every 90-ish days (to satisfy Solar-Angle constraints).
+The focal plane contains many CCDs;
+  this plus the 90-deg rotations means that each star is at a particular location
+  on a particular CCD for 90-ish-day contiguous periods of time.
 The PSF varies strongly across the field and is badly sampled.
 The stars span a huge range in brightness;
   some of \Kepler's most important targets even saturate the device and bleed charge.
@@ -272,7 +279,7 @@ Because we are extremely concerned with detecting Earth-analog exoplanet transit
 That is, when we are using the model to predict a particular pixel in the target data taken at time $t$,
   we use parameters obtained by an optimization that makes use of only data
   that comes either at times prior to $t-\Delta t$ or after $t+\Delta t$,
-  where $\Delta t$ is a tunable parameter but which we will set to roughly $10$~h.
+  where $\Delta t$ is a tunable parameter but which we will set to roughly $12$~h.
 This ensures that no information about any exoplanet transit itself
   can be entering into the prediction of the pixels contributing to the stellar photometry.
 In general, if there is a scientific goal of preserving intrinsic stellar variability,
@@ -344,9 +351,59 @@ In the end, the value of the \name\ will be demonstrated by the scientific proje
 
 \section{\name\ specification and hyper-parameters}
 
-For each pixel, we choose the set of basis-vector pixels how?
+Each individual \Kepler\ target star is, for each quarter (each 90-ish-day period),
+  on a particular CCD on the \Kepler\ focal plane.
+Associated with each target star is some set of pixels,
+  located in a small contiguous patch more-or-less centered on the target star,
+  and telemetered down once for every 30-min exposure.
+(Here we are ignoring all short-cadence data that is taken in a different mode with shorter exposures.)
+That is, each telemetered pixel in each CCD is associated with a particular \Kepler\ target star.
 
-For each time-step, we choose the set of training time steps how?
+Let's consider a particular pixel $m$ in the focal plane in one particular quarter.
+In that quarter, the spacecraft delivers $N\sim 4000$ measurements $I_{mn}$
+  of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the quarter.
+(For intensity measurements $I_{mn}$ here we are using pixels from the \todo{WHICH \Kepler\ image product?})
+We want to build a prediction for the intensity $I_{mn}$ in pixel $m$ at each time $t_n$
+  using the intensities $I_{m'n}$ of other pixels $m'$.
+The question is:  What other pixels to choose?
+There are many possible qualitatively and quantitatively different choices here.
+Somewhat arbitrarily,
+  we choose all the pixels $m'$ associated with the $Q=5$ stars on the same CCD in the same quarter
+  that are closest in magnitude
+  (\Kepler\ magnitude as reported in the \Kepler\ Input Catalog)
+  to the target star associated with pixel $m$.
+We call this set of pixels%
+  ---from the $Q$ stars on the same CCD---%
+  the \emph{pixel set} $\set{M}_m$ associated with pixel $m$.
+Note that because the set $\set{M}_m$ is of pixels associated with \emph{different} stars
+  than the star associated with pixel $m$,
+  the pixel $m$ will not be in the set $\set{M}_m$,
+  and nor will any of pixel $m$'s close neighbors.
+That is, there will be no (or almost no) overlap in stellar illumination of pixel $m$
+  and the pixels $m'\in\set{M}_m$.
+
+When we are predicting the measurement $I_{mn}$ from pixel $m$ at a particular time $t_n$,
+  we are going to use a train-and-test framework in which not only do we not use
+  data at time $t_n$ in optimizing the parameters of the regression or fit,
+  but we don't even use any times $t$ such that $|t-t_n| < \Delta t$,
+  where $\Delta t\sim 12$\,h.
+That is, we train (optimize fit parameters) using a set $\set{N}_n$ of time
+  indices $n'$ such that for all $n'\in\set{N}_n$,
+  $t_{n'}$ is in the same quarter as $t_n$,
+  and $|t_{n'} - t_n|>\Delta t$.
+The training set of time indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
+  nor any of its neighbors in a time window of half-width $\Delta_t$.
+
+\begin{eqnarray}
+I_{mn}         &=& I^{\ast}_{mn} + \mbox{noise}
+\\
+I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n}
+\\
+I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'}
+\\
+\chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mn'}]^2}{\sigma^2_{mn'}}
+                 + \sum_{m'\in\set{M}_m} \frac{a_{mm'}^2}{\Sigma^2}
+\end{eqnarray}
 
 We specify what likelihood and what regularization?
 
