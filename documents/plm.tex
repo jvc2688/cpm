@@ -372,9 +372,9 @@ Somewhat arbitrarily,
   that are closest in magnitude
   (\Kepler\ magnitude as reported in the \Kepler\ Input Catalog)
   to the target star associated with pixel $m$.
-We call this set of pixels%
+This set of pixels%
   ---from the $Q$ stars on the same CCD---%
-  the \emph{pixel set} $\set{M}_m$ associated with pixel $m$.
+  is the \emph{pixel set} $\set{M}_m$ associated with pixel $m$.
 Note that because the set $\set{M}_m$ is of pixels associated with \emph{different} stars
   than the star associated with pixel $m$,
   the pixel $m$ will not be in the set $\set{M}_m$,
@@ -387,25 +387,30 @@ When we are predicting the measurement $I_{mn}$ from pixel $m$ at a particular t
   data at time $t_n$ in optimizing the parameters of the regression or fit,
   but we don't even use any times $t$ such that $|t-t_n| < \Delta t$,
   where $\Delta t\sim 12$\,h.
-That is, we train (optimize fit parameters) using a set $\set{N}_n$ of time
+That is, we train (optimize fit parameters) using the \emph{time set} $\set{N}_n$ of time
   indices $n'$ such that for all $n'\in\set{N}_n$,
   $t_{n'}$ is in the same quarter as $t_n$,
   and $|t_{n'} - t_n|>\Delta t$.
-The training set of time indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
+The time set of indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
   nor any of its neighbors in a time window of half-width $\Delta_t$.
 
+We specify what likelihood and what regularization?
+\todo{foo:}
 \begin{eqnarray}
 I_{mn}         &=& I^{\ast}_{mn} + \mbox{noise}
 \\
 I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n}
 \\
 I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'}
-\\
+\quad,
+\end{eqnarray}
+where \todo{bar}
+\begin{eqnarray}
 \chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mn'}]^2}{\sigma^2_{mn'}}
                  + \sum_{m'\in\set{M}_m} \frac{a_{mm'}^2}{\Sigma^2}
+\quad,
 \end{eqnarray}
-
-We specify what likelihood and what regularization?
+where \todo{bar}
 
 We train the model how?
 
