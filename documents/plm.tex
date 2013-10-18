@@ -411,37 +411,52 @@ As mentioned above, in the context of this project,
 We prefer to work in a probabilistic mode in which the objective function can be justified
   in terms of a likelihood (probability for the data given the model)
   or a posterior probability density function (likelihood times a prior pdf).
-The PLM treats the noise in a \Kepler\ pixel $m$ at time $n$ as Gaussian (normally distributed)
-  with mean zero and known variance $\sigma^2_{mn}$,
-  and the expectation value for each \Kepler\ data point $I_{mn}$ as being
+The PLM treats each \Kepler\ data point $I_{mn}$ as being
   predictable from a linear combination of data points $I_{m'n}$,
   where $m'$ is from the set of non-overlapping pixels $m'\in\set{M}_m$.
-This linear model has parameters (linear coefficients) $a_{mm'}$.
-\todo{foo:}
 \begin{eqnarray}
 I_{mn}         &=& I^{\ast}_{mn} + e_{mn}
 \\
 I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n} + \sum_{k=1}^{K} b_{mk}\,d_{kn}
-\\
-p(e_{mn})      &=& N(e_{mn}\given 0,\sigma^2_{mn})
 \quad,
 \end{eqnarray}
-where HOGGGGGGGGGGGGGGGGGGGGGGGG
+where $I^{\ast}_{mn}$ is the prediction (by the model) for data point $I_{mn}$,
+  $e_{mn}$ is a noise contribution or residual away from the prediction,
+  and the $a_{mm'}$ and $b_{mk}$ are the parameters (linear coefficients of the prediction).
+If we presume that the residuals away from the prediction are normally distributed with zero mean
+  and known variance,
+  likelihood optimization reduces to chi-squared minimization.
+We add to the standard chi-squared definition a regularization term
+  (equivalent to multiplying the likelihood by a Gaussian prior pdf)
+  that penalizes large absolute values for the the coefficients $a_{mm'}$:
 \begin{eqnarray}
 \chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mn'}]^2}{\sigma^2_{mn'}}
                  + \sum_{m'\in\set{M}_m} \frac{a_{mm'}^2}{\Sigma^2}
 \\
-I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'}
+I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'} + \sum_{k=1}^{K} b_{mk}\,d_{kn'}
 \quad,
 \end{eqnarray}
-where \todo{bar}
+where the $\sigma^2_{mn'}$ are the (presumed known) individual-pixel noise variances,
+  and $\Sigma^2$ sets the strength of the regularization (or width of the prior pdf).
+\todo{DFM: We set or ``know'' the variances how?
+  I think we should use the inverse of the median of the reported inverse variances.
+  Also, we set the prior strength to what value?
+  Heuristic justification of the latter.}
 
-We train the model how?
+The train-and-test idea comes into the objective function $\chi^2_{mn}$:
+When we are computing the objective function $\chi^2_{mn}$,
+  we are using only time points $n'\in\set{N}_n$ that don't overlap the target (or test) time point $n$.
+We train the model---that is, set the parameters $a_{mm'}$ and $b_{mk}$---%
+  by choosing the full set of parameters that jointly minimize the objective function $\chi^2_{mn}$.
+Importantly, and perhaps surprisingly, this is a \emph{different objective function}
+  for every target data point (pixel value to be predicted) $I_{mn}$,
+  and we have to do a \emph{independent optimization} of the parameters for every pixel value we want to predict.
+Since there are about $10^{11}$ total pixel values in the \Kepler\ \todo{what imaging?} data archive,
+  this represents one fuck of a lot of optimizations.
 
-We choose the strength of the regularization how?
-
-We do this for every pixel and every time step.
-Implementation issues.
+For this reason---\emph{so many optimizations}---%
+  we do \todo{some crazy clever stuff} to make this work fast;
+  \todo{DFM implementation notes here}.
 
 We construct the predicted images and the \name\ images how?
 
@@ -459,6 +474,7 @@ Didn't do anything about short-cadence data; suck it up.
 
 Lots of quantitative and qualitative choices that ought to be explored.
 These include what and what and what and what?
+How \emph{ought we} make all these choices?
 
 Not the least of these is linearity; deep learning and so on.
 
