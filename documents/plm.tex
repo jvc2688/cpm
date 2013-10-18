@@ -65,7 +65,7 @@ Importantly (and uniquely),
   it can capture more fine-grained information about the variation of the spacecraft
   (especially regarding pointing and point-spread function)
   than is available in the pixel-summed photometry.
-\name\ is extreme in that it has enormous flexibility and it only uses data (and meta-data) to model data:
+\name\ is extreme in that it has enormous flexibility and it only uses data (and meta-data) to predict data:
 \name\ provides a prediction for each readout pixel built from a linear combination of the readouts
   from very large numbers of nearby pixels (plus some spacecraft information);
   the choice of nearby pixels is guided by ideas from causal inference.
@@ -133,12 +133,12 @@ The \Kepler\ community is familiar with these kinds of models;
   to our knowledge, \emph{all} successful light-curve ``de-trending'' methods
   are flexible, effective models.
 
-One such method---one that is designed to model spacecraft-induced problems
+One such method---one that is designed to describe or model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability---%
   is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (\todo{citation}).
 The PDC ``de-trends'' the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
   generated from a principal components analysis (PCA) of filtered lightcurves.
-That is, it uses data to model data,
+That is, it uses data to predict data,
   regularizing the fit (and avoiding over-fitting) by filtering and restricting the dimensionality (through PCA).
 The method proposed here, \name, is very similar in spirit to the PDC.
 The main differences are
@@ -183,9 +183,8 @@ We also provide an interface to the \Kepler\ data that delivers improved ``\name
 \section{Data-driven models}
 
 The first general idea about data-driven modeling of the kind used here
-  is that each data point or data source is going to be modeled
-  (or really \emph{predicted})
-  with a parameterized mathematical function of \emph{other data}.
+  is that each data point or data source is going to be 
+  \emph{predicted} with or using a parameterized mathematical function of \emph{other data}.
 That is, given a choice of some \emph{target} \Kepler\ data,
   we are going to find parameters of a function that takes as input some of the other \Kepler\ data,
   and provides as output predictions of the target data.
@@ -260,7 +259,7 @@ The model is restricted in the number of parameters
   (as in principal components analysis)
   or by applying strong priors
   (as with smoothness priors, that effectively reduce freedom without explicitly reducing the number of parameters).
-In each case, the restriction on the model is controlled by some \emph{hyper-parameter}
+In each case, the restriction on model freedom is controlled by some \emph{hyper-parameter}
   (such as the number of inputs, or number of principal components, or the strength of the smoothness prior).
 The hyper-parameters can be set or tested with tools like cross-validation,
   the fully marginalized likelihood (Bayes factor or evidence),
@@ -313,7 +312,7 @@ In the context of this project, the quantities of interest are the light-curves
   for every star.
 What we get, for every star, from the data-driven model, is a train-and-test prediction
   for the brightness of every pixel in the patch of the detector relevant to the star,
-  along with the residual, or the difference between the measured read-out pixel value and the prediction (data minus model).
+  along with the residual, or the difference between the measured read-out pixel value and the prediction (data minus prediction).
 What will be called the ``\name\ photometry'' in what follows is constructed from what will be called the ``\name\ images''.
 The \name\ photometry is constructed from the \name\ images
   just as the \Kepler\ official SAP photometry is constructed from the \todo{XXX images};
@@ -321,7 +320,7 @@ The \name\ photometry is constructed from the \name\ images
 The \name\ images are constructed from the data-driven model predictions by taking,
   for each pixel in each contiguous data segment (see below),
   the \emph{mean} predicted pixel value (mean over time),
-  and adding to it the residuals (data minus model) away from the data-driven model prediction.
+  and adding to it the residuals (data minus prediction) away from the data-driven model prediction.
 These \name\ images are ``calibrated'' images,
   in that the data-driven model has been used to fit out all the variability it can,
   subject to the restrictions imposed by its finite freedom and the train-and-test specification.
@@ -394,20 +393,21 @@ That is, we train (optimize fit parameters) using the \emph{time set} $\set{N}_n
 The time set of indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
   nor any of its neighbors in a time window of half-width $\Delta_t$.
 
+The model is
 We specify what likelihood and what regularization?
 \todo{foo:}
 \begin{eqnarray}
 I_{mn}         &=& I^{\ast}_{mn} + \mbox{noise}
 \\
 I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n}
-\\
-I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'}
 \quad,
 \end{eqnarray}
 where \todo{bar}
 \begin{eqnarray}
 \chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mn'}]^2}{\sigma^2_{mn'}}
                  + \sum_{m'\in\set{M}_m} \frac{a_{mm'}^2}{\Sigma^2}
+\\
+I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'}
 \quad,
 \end{eqnarray}
 where \todo{bar}
