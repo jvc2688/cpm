@@ -214,9 +214,6 @@ Given these considerations, it makes sense to try to build our pixel-level model
   using a linear model with a quadratic objective function and a quadratic regularization;
   this is what \name\ will be.
 
-\todo{Should we put general formula here for a pixel predicted using a linear combination of other pixels?
-  And the objective function, generally?}
-
 The second general idea about data-driven modeling is the investigator's beliefs
   about the causal processes that generate the data
   are crucial in restricting the kinds of data that can be used as input to the model.
@@ -287,9 +284,7 @@ In general, if there is a scientific goal of preserving intrinsic stellar variab
   on time-scales of $\tau$,
   the parameter optimization ought to be based on training data taken with a time-exclusion zone of half-width $\Delta t > \tau$.
 
-\todo{In what follows, we need to choose consistent notation or terminology about the contiguous data chunks, and other \Kepler\ entities.}
-
-In addition, each training data set within which we set the parameters (by optimization) has a finite total time extent $t_{\max}$.
+In addition, each training data set within which we set the parameters (by optimization) has a finite total time extent $t_{\max}\approx 90$\,d.
 The train-and-test framework, which includes data out to time $t_{\max}$ but excludes data within $\Delta t$ of the test data,
   effectively assumes that the signals worth preserving have time-scales less than $\Delta t$ but don't recur on time-scales
   shorter than $t_{\max}$.
@@ -451,16 +446,21 @@ We train the model---that is, set the parameters $a_{mm'}$ and $b_{mk}$---%
 Importantly, and perhaps surprisingly, this is a \emph{different objective function}
   for every target data point (pixel value to be predicted) $I_{mn}$,
   and we have to do a \emph{independent optimization} of the parameters for every pixel value we want to predict.
+That is, every pixel datum $I_{mn}$ we predict will have
+  \emph{different} settings of the parameters $a_{mm'}$ and $b_{mk}$.
 Since there are about $10^{11}$ total pixel values in the \Kepler\ \todo{what imaging?} data archive,
-  this represents one fuck of a lot of optimizations.
+  this represents one fuck of a lot of optimizations,
+  and a lot of parameters to obtain and record.
 
 For this reason---\emph{so many optimizations}---%
   we do \todo{some crazy clever stuff} to make this work fast;
   \todo{DFM implementation notes here}.
 
-We construct the predicted images and the \name\ images how?
+\todo{HOGG: We construct the predicted images and the \name\ images how?}
 
-What does the interface look like?  What are the run times and so on?
+\todo{HOGG: We construct the \name\ photometry from the \name\ images how?}
+
+\todo{DFM: What does the interface look like?  What are the run times and so on?}
 
 \section{Examples and results}
 
