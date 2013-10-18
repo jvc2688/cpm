@@ -9,6 +9,7 @@
 \newcommand{\Kepler}{\project{Kepler}}
 \newcommand{\name}{PLM}
 \newcommand{\set}[1]{\mathcal{#1}}
+\newcommand{\given}{\,|\,}
 \newcommand{\todo}[1]{\textbf{#1}}
 
 \begin{document}
@@ -393,16 +394,39 @@ That is, we train (optimize fit parameters) using the \emph{time set} $\set{N}_n
 The time set of indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
   nor any of its neighbors in a time window of half-width $\Delta_t$.
 
-The model is
-We specify what likelihood and what regularization?
+In addition to the other data (from pixels $m'\in\set{M}_m$ and taken at time points $n'\in\set{N}_n$)
+  used to make each prediction, we will use also some \emph{meta-data};
+  these include the time itself $t_n$,
+  the sine and cosine of the parallactic angle $\theta(t_n)$,
+  and the dot product $\hat{n}\cdot v(t_n)$ of the spacecraft velocity $v(t_n)$
+  with the direction $\hat{n}$ towards the \Kepler\ field center.
+These additional meta-data variables permit the data-driven model
+  to capture easily variations induced in the data
+  by proper motions, parallaxes, and stellar aberration.
+Symbolically, we will denote these $K=4$ pieces of meta-data $d_{kn}$.
+
+As mentioned above, in the context of this project,
+  a model is something that can predict data given settings of some parameters,
+  and an objective function that can be used to find best values for those parameters.
+We prefer to work in a probabilistic mode in which the objective function can be justified
+  in terms of a likelihood (probability for the data given the model)
+  or a posterior probability density function (likelihood times a prior pdf).
+The PLM treats the noise in a \Kepler\ pixel $m$ at time $n$ as Gaussian (normally distributed)
+  with mean zero and known variance $\sigma^2_{mn}$,
+  and the expectation value for each \Kepler\ data point $I_{mn}$ as being
+  predictable from a linear combination of data points $I_{m'n}$,
+  where $m'$ is from the set of non-overlapping pixels $m'\in\set{M}_m$.
+This linear model has parameters (linear coefficients) $a_{mm'}$.
 \todo{foo:}
 \begin{eqnarray}
-I_{mn}         &=& I^{\ast}_{mn} + \mbox{noise}
+I_{mn}         &=& I^{\ast}_{mn} + e_{mn}
 \\
-I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n}
+I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n} + \sum_{k=1}^{K} b_{mk}\,d_{kn}
+\\
+p(e_{mn})      &=& N(e_{mn}\given 0,\sigma^2_{mn})
 \quad,
 \end{eqnarray}
-where \todo{bar}
+where HOGGGGGGGGGGGGGGGGGGGGGGGG
 \begin{eqnarray}
 \chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mn'}]^2}{\sigma^2_{mn'}}
                  + \sum_{m'\in\set{M}_m} \frac{a_{mm'}^2}{\Sigma^2}
