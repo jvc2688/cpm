@@ -400,6 +400,12 @@ These additional meta-data variables permit the data-driven model
   by proper motions, parallaxes, and stellar aberration.
 Symbolically, we will denote these $K=4$ pieces of meta-data $d_{kn}$.
 
+\todo{Issue arising: I have called (below) the coefficients $a_{mm'}$.
+However, they are different for every pixel $I_{mn}$.
+That is, we do a separate optimization for every read-out pixel.
+That means that really we should call the coefficients $a_{mnm'}$, right?
+DFM:  Comments?}
+
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
   and an objective function that can be used to find best values for those parameters.
@@ -455,6 +461,8 @@ Since there are about $10^{11}$ total pixel values in the \Kepler\ \todo{what im
 For this reason---\emph{so many optimizations}---%
   we do \todo{some crazy clever stuff} to make this work fast;
   \todo{DFM implementation notes here}.
+
+Once we have obtained the $a_{mm'}$ parameters corresponding to data point $I_{mn}$ by minimizing the training objective $\chi^2_{mn}$.
 
 \todo{HOGG: We construct the predicted images and the \name\ images how?}
 
