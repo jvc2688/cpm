@@ -404,7 +404,8 @@ Symbolically, we will denote these $K=4$ pieces of meta-data $d_{kn}$.
 However, they are different for every pixel $I_{mn}$.
 That is, we do a separate optimization for every read-out pixel.
 That means that really we should call the coefficients $a_{mnm'}$, right?
-DFM:  Comments?}
+DFM:  Comments?  The same issue arises for the predictions $I^{\ast}_{mn'}$;
+  these predictions are specific to $I_{mn}$ (through the coefficients) and therefore should be $I^{\ast}_{mnn'}$}
 
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
