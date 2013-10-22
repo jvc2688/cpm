@@ -309,20 +309,20 @@ In the context of this project, the quantities of interest are the light-curves
 What we get, for every star, from the data-driven model, is a train-and-test prediction
   for the brightness of every pixel in the patch of the detector relevant to the star,
   along with the residual, or the difference between the measured read-out pixel value and the prediction (data minus prediction).
-What will be called the ``\name\ photometry'' in what follows is constructed from what will be called the ``\name\ images''.
-The \name\ photometry is constructed from the \name\ images
-  just as the \Kepler\ official SAP photometry is constructed from the \todo{XXX images};
+What will be called the ``\name\ photometry'' in what follows is constructed from what will be called the ``\name\ pixels''.
+The \name\ photometry is constructed from the \name\ pixels
+  just as the \Kepler\ official SAP photometry is constructed from the \Kepler\ Target Pixel Files;
   that is, by summing pre-defined sets of pixels (with unit weights; see above and below for criticism of this).
-The \name\ images are constructed from the data-driven model predictions by taking,
+The \name\ pixels are constructed from the data-driven model predictions by taking,
   for each pixel in each contiguous data segment (see below),
   the \emph{mean} predicted pixel value (mean over time),
   and adding to it the residuals (data minus prediction) away from the data-driven model prediction.
-These \name\ images are ``calibrated'' images,
+These \name\ pixels are ``calibrated'' pixels,
   in that the data-driven model has been used to fit out all the variability it can,
   subject to the restrictions imposed by its finite freedom and the train-and-test specification.
 The signal---in which exoplanet transits will be found---is fundamentally the observed residual away from this prediction,
   but it has to be added back into the mean prediction to have the right ``baseline'' or zero level.
-In short, \name\ will produce prediction images, residual images, \name\ images (mean prediction plus residual),
+In short, \name\ will produce prediction pixels, residual pixels, \name\ pixels (mean prediction plus residual),
   and aperture-based \name\ photometry analogous to the SAP photometry.
 
 Finally, the fifth general idea is that there is no objective \emph{ground truth} against which we can tell
@@ -340,7 +340,7 @@ What we will show in what follows is that the \name\ photometry does not distort
   artificial exoplanet transit signals injected into real \Kepler\ pixel-level data.
 We can also show that it produces stellar light-curves that look sensible for known variable stars.
 We cannot yet show that it is optimal for our long-term goals,
-  nor can we show that it produces images or light-curves that are more accurately calibrated;
+  nor can we show that it produces pixelss or light-curves that are more accurately calibrated;
   we will only show promising properties of the \name\ outputs.
 In the end, the value of the \name\ will be demonstrated by the scientific projects it enables.
 
@@ -357,7 +357,7 @@ That is, each telemetered pixel in each CCD is associated with a particular \Kep
 Let's consider a particular pixel $m$ in the focal plane in one particular quarter.
 In that quarter, the spacecraft delivers $N\sim 4000$ measurements $I_{mn}$
   of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the quarter.
-(For intensity measurements $I_{mn}$ here we are using pixels from the \todo{WHICH \Kepler\ image product?})
+(For intensity measurements $I_{mn}$ here we are using pixels from the Target Pixel Files.)
 We want to build a prediction for the intensity $I_{mn}$ in pixel $m$ at each time $t_n$
   using the intensities $I_{m'n}$ of other pixels $m'$.
 The question is:  What other pixels to choose?
@@ -400,13 +400,6 @@ These additional meta-data variables permit the data-driven model
   by proper motions, parallaxes, and stellar aberration.
 Symbolically, we will denote these $K=4$ pieces of meta-data $d_{kn}$.
 
-\todo{Issue arising: I have called (below) the coefficients $a_{mm'}$.
-However, they are different for every pixel $I_{mn}$.
-That is, we do a separate optimization for every read-out pixel.
-That means that really we should call the coefficients $a_{mnm'}$, right?
-DFM:  Comments?  The same issue arises for the predictions $I^{\ast}_{mn'}$;
-  these predictions are specific to $I_{mn}$ (through the coefficients) and therefore should be $I^{\ast}_{mnn'}$}
-
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
   and an objective function that can be used to find best values for those parameters.
@@ -419,43 +412,52 @@ The PLM treats each \Kepler\ data point $I_{mn}$ as being
 \begin{eqnarray}
 I_{mn}         &=& I^{\ast}_{mn} + e_{mn}
 \\
-I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n} + \sum_{k=1}^{K} b_{mk}\,d_{kn}
+I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m'n} + \sum_{k=1}^{K} b_{mnk}\,d_{kn}
 \quad,
 \end{eqnarray}
 where $I^{\ast}_{mn}$ is the prediction (by the model) for data point $I_{mn}$,
   $e_{mn}$ is a noise contribution or residual away from the prediction,
-  and the $a_{mm'}$ and $b_{mk}$ are the parameters (linear coefficients of the prediction).
+  and the $a_{mnm'}$ and $b_{mnk}$ are the parameters (linear coefficients of the prediction).
+The parameters $a_{mnm'}$ and $b_{mnk}$ have indices $m$ because
+  they are different for every pixel $m$,
+  and they will even be different for every time step $n$;
+  that is, there will be a separate best-fit value for the parameters for every $I_{mn}$.
 If we presume that the residuals away from the prediction are normally distributed with zero mean
   and known variance,
   likelihood optimization reduces to chi-squared minimization.
 We add to the standard chi-squared definition a regularization term
   (equivalent to multiplying the likelihood by a Gaussian prior pdf)
-  that penalizes large absolute values for the the coefficients $a_{mm'}$:
+  that penalizes large absolute values for the the coefficients $a_{mnm'}$:
 \begin{eqnarray}
-\chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mn'}]^2}{\sigma^2_{mn'}}
-                 + \sum_{m'\in\set{M}_m} \frac{a_{mm'}^2}{\Sigma^2}
+\chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mnn'}]^2}{\sigma^2_{mn'}}
+                 + \sum_{m'\in\set{M}_m} \frac{a_{mnm'}^2}{\Sigma^2}
 \\
-I^{\ast}_{mn'} &=& \sum_{m'\in\set{M}_m} a_{mm'}\,I_{m'n'} + \sum_{k=1}^{K} b_{mk}\,d_{kn'}
+I^{\ast}_{mnn'} &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m'n'} + \sum_{k=1}^{K} b_{mnk}\,d_{kn'}
 \quad,
 \end{eqnarray}
 where the $\sigma^2_{mn'}$ are the (presumed known) individual-pixel noise variances,
   and $\Sigma^2$ sets the strength of the regularization (or width of the prior pdf).
-\todo{DFM: We set or ``know'' the variances how?
-  I think we should use the inverse of the median of the reported inverse variances.
-  Also, we set the prior strength to what value?
-  Heuristic justification of the latter.}
+Although the variances $\sigma^2_{mn'}$ are in principle different for every time step $n'$,
+  for nearly-constant stars in good data, there is not much variation;
+  in what follows, we treat these uncertainties as fixed at
+  \todo{DFM: some mean value (we can't ignore this,
+   because it ``plays off against'' the regularization)}
+The regularization variance $\Sigma^2$ we set to 0.3 (\todo{DFM TAKE NOTE})
+  because we expect almost all the coefficients $a_{mnm'}$ to be less than unity in magnitude.
+We do not regularize the meta-data coefficients $b_{mnk}$,
+  because we want the model to make use of the (easily interpretable) meta-data coefficients as much as possible.
 
 The train-and-test idea comes into the objective function $\chi^2_{mn}$:
 When we are computing the objective function $\chi^2_{mn}$,
   we are using only time points $n'\in\set{N}_n$ that don't overlap the target (or test) time point $n$.
-We train the model---that is, set the parameters $a_{mm'}$ and $b_{mk}$---%
+We train the model---that is, set the parameters $a_{mnm'}$ and $b_{mnk}$---%
   by choosing the full set of parameters that jointly minimize the objective function $\chi^2_{mn}$.
 Importantly, and perhaps surprisingly, this is a \emph{different objective function}
   for every target data point (pixel value to be predicted) $I_{mn}$,
   and we have to do a \emph{independent optimization} of the parameters for every pixel value we want to predict.
 That is, every pixel datum $I_{mn}$ we predict will have
-  \emph{different} settings of the parameters $a_{mm'}$ and $b_{mk}$.
-Since there are about $10^{11}$ total pixel values in the \Kepler\ \todo{what imaging?} data archive,
+  \emph{different} settings of the parameters $a_{mnm'}$ and $b_{mnk}$.
+Since there are about $10^{11}$ total pixel values in the \Kepler\ Target Pixel Files,
   this represents one fuck of a lot of optimizations,
   and a lot of parameters to obtain and record.
 
@@ -463,11 +465,11 @@ For this reason---\emph{so many optimizations}---%
   we do \todo{some crazy clever stuff} to make this work fast;
   \todo{DFM implementation notes here}.
 
-Once we have obtained the $a_{mm'}$ parameters corresponding to data point $I_{mn}$ by minimizing the training objective $\chi^2_{mn}$.
+Once we have obtained the $a_{mnm'}$ parameters corresponding to data point $I_{mn}$ by minimizing the training objective $\chi^2_{mn}$.
 
-\todo{HOGG: We construct the predicted images and the \name\ images how?}
+\todo{HOGG: We construct the predicted pixels and the \name\ pixels how?}
 
-\todo{HOGG: We construct the \name\ photometry from the \name\ images how?}
+\todo{HOGG: We construct the \name\ photometry from the \name\ pixels how?}
 
 \todo{DFM: What does the interface look like?  What are the run times and so on?}
 
@@ -510,7 +512,8 @@ for valuable discussions, input, encouragement, and advice.
 \clearpage
 \begin{figure}
 ~ % DFM: replace this ~ with a figure
-\caption{A patch of \Kepler\ imaging from \todo{XXX quarter}, centered on \todo{YYY target}.
+\caption{A patch of \Kepler\ pixels from the Target Pixel Files
+  from \todo{XXX quarter}, centered on \todo{YYY target}.
   In the top panel, each box represents a pixel.
   Within each box is shown the light-curve of that pixel over the quarter.
   In the bottom panel, the SAP photometry for this target is shown;
