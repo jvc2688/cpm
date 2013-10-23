@@ -452,16 +452,20 @@ When we are computing the objective function $\chi^2_{mn}$,
   we are using only time points $n'\in\set{N}_n$ that don't overlap the target (or test) time point $n$.
 We train the model---that is, set the parameters $a_{mnm'}$ and $b_{mnk}$---%
   by choosing the full set of parameters that jointly minimize the objective function $\chi^2_{mn}$.
-Importantly, and perhaps surprisingly, this is a \emph{different objective function}
-  for every target data point (pixel value to be predicted) $I_{mn}$,
-  and we have to do a \emph{independent optimization} of the parameters for every pixel value we want to predict.
+Fortunately, given the form of the model,
+  this minimization is just a linear solve (linear operation on the data).
+Importantly however, and perhaps surprisingly, the objective function $\chi^2_{mn}$ is \emph{different}
+  for every target data point (pixel value to be predicted) $I_{mn}$;
+  we have to do an \emph{independent optimization} (or really linear solve)
+  of the parameters for every pixel value we want to predict.
 That is, every pixel datum $I_{mn}$ we predict will have
   \emph{different} settings of the parameters $a_{mnm'}$ and $b_{mnk}$.
-Since there are about $10^{11}$ total pixel values in the \Kepler\ Target Pixel Files,
-  this represents one fuck of a lot of optimizations,
+Since there are of order $10^{6}$ total pixel values in the \Kepler\ Target Pixel Files for \emph{each \Kepler\ target},
+  and of order $10^7$ data sources used as basis functions in the linear fitting,
+  this represents one fuck of a lot of linear solves,
   and a lot of parameters to obtain and record.
 
-For this reason---\emph{so many optimizations}---%
+For this reason---\emph{so many solves}---%
   we do \todo{some crazy clever stuff} to make this work fast;
   \todo{DFM implementation notes here}.
 
