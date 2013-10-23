@@ -469,7 +469,21 @@ For this reason---\emph{so many solves}---%
   we do \todo{some crazy clever stuff} to make this work fast;
   \todo{DFM implementation notes here}.
 
-Once we have obtained the $a_{mnm'}$ parameters corresponding to data point $I_{mn}$ by minimizing the training objective $\chi^2_{mn}$.
+Once we have obtained the $a_{mnm'}$ parameters corresponding to a particular data point $I_{mn}$,
+  we can make a \emph{prediction} $I^{\ast}_{mnn}$ for the intensity at that pixel.
+By construction of our objective function, this is truly a prediction,
+  in the sense that the optimization (or solve) that produced the parameters
+  (and thus the prediction)
+  did not make use of $I_{mn}$ itself,
+  or even any of the pixel values that are nearby in angle or time
+  (as described above).
+In addition to the predicted pixel value $I^{\ast}_{mnn}$,
+  we can also construct a \emph{residual} $\Delta_{mn}$ (data minus prediction),
+  defined by
+\begin{eqnarray}
+\Delta_{mn} &\equiv& I_{mn} - I^{\ast}_{mnn}
+\quad .
+\end{eqnarray}
 
 \todo{HOGG: We construct the predicted pixels and the \name\ pixels how?}
 
