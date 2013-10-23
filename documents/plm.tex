@@ -478,16 +478,37 @@ By construction of our objective function, this is truly a prediction,
   or even any of the pixel values that are nearby in angle or time
   (as described above).
 In addition to the predicted pixel value $I^{\ast}_{mnn}$,
-  we can also construct a \emph{residual} $\Delta_{mn}$ (data minus prediction),
+  we can also construct a \emph{residual} $\delta_{mn}$ (data minus prediction),
   defined by
 \begin{eqnarray}
-\Delta_{mn} &\equiv& I_{mn} - I^{\ast}_{mnn}
+\delta_{mn} &\equiv& I_{mn} - I^{\ast}_{mnn}
 \quad .
 \end{eqnarray}
 
-\todo{HOGG: We construct the predicted pixels and the \name\ pixels how?}
+In some sense, it is this residual that contains the exoplanet transit signals we seek.
+That is, a transit creates a negative residual away from the prediction.
+So far, however, the model is a model of \emph{pixels},
+  and we need to obtain from this model \emph{photometric measurements} of stars.
+In order to construct stellar photometry measurements out of the residual pixels $\delta_{mn}$,
+  we add into each pixel residual $\delta_{mn}$ the \emph{mean predicted intensity} $\bar{I}^{\ast}_m$
+\begin{eqnarray}
+\bar{I}^{\ast}_m &=& \frac{1}{N_m}\,\sum_n I^{\ast}_{mnn}
+\quad ,
+\end{eqnarray}
+where $N_m$ is the number of time steps in the quarter,
+  and the sum is over those time steps.
+We construct what we will call ``the \name\ photometry''
+  from what we will call ``the \name\ pixels'' $J_{mn}$,
+  which are the residuals plus the mean, or
+\begin{eqnarray}
+J_mn &=& \delta_{mn} + \bar{I}^{\ast}_m
+\quad .
+\end{eqnarray}
+That is, \todo{WTF}
 
 \todo{HOGG: We construct the \name\ photometry from the \name\ pixels how?}
+
+\todo{Hogg \& DFM:  Why does the above make no fucking sense?}
 
 \todo{DFM: What does the interface look like?  What are the run times and so on?}
 
