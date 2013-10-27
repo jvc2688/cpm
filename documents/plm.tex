@@ -442,7 +442,7 @@ Although the variances $\sigma^2_{mn'}$ are in principle different for every tim
   in what follows, we treat these uncertainties as fixed at
   \todo{DFM: some mean value (we can't ignore this,
    because it ``plays off against'' the regularization)}
-The regularization variance $\Sigma^2$ we set to 0.3 (\todo{DFM TAKE NOTE})
+The regularization variance $\Sigma^2$ we set to 0.3 (\todo{DFM TAKE NOTE; that's about 10 for the parameter you usually use.})
   because we expect almost all the coefficients $a_{mnm'}$ to be less than unity in magnitude.
 We do not regularize the meta-data coefficients $b_{mnk}$,
   because we want the model to make use of the (easily interpretable) meta-data coefficients as much as possible.
@@ -497,13 +497,13 @@ In order to construct stellar photometry measurements out of the residual pixels
 \end{eqnarray}
 where $N_m$ is the number of time steps in the quarter,
   and the sum is over those time steps.
+\todo{DFM: Should we use mean or median here?}
 We construct what we will call ``the \name\ pixels'' $J_{mn}$,
   which are the residuals plus the mean, or
 \begin{eqnarray}
 J_{mn} &=& \delta_{mn} + \bar{I}^{\ast}_m
 \quad .
 \end{eqnarray}
-\todo{DFM: Should we use mean or median here?}
 That is, we treat each pixel as differing from constant intensity
   only inasmuch as it has residuals away from the model prediction.
 
