@@ -389,6 +389,8 @@ That is, we train (optimize fit parameters) using the \emph{time set} $\set{N}_n
 The time set of indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
   nor any of its neighbors in a time window of half-width $\Delta_t$.
 
+\todo{DFM: Do we want a schematic figure or cartoon which illustrates all of this?}
+
 In addition to the other data (from pixels $m'\in\set{M}_m$ and taken at time points $n'\in\set{N}_n$)
   used to make each prediction, we will use also some \emph{meta-data};
   these include the time itself $t_n$,
@@ -548,6 +550,23 @@ That said, we don't expect this effect to be large,
 
 For each example, give the code and show the output and provide some discussion.
 
+We need a metric for comparing outputs.
+For now lets try plotting the power spectrum of the SAP, PDC, and PLM photometry for each star.
+
+So DWH is imagining multi-panel plots: SAP, PDC, and PLM vs time,
+  plus a power-spectrum plot vs frequency.
+
+Cases ought to include
+\begin{itemize}
+\item a bright, non-variable G star with an Earth injection,
+\item a significant variable like that shown in the white paper, and
+\item a star with a bad quarter or where \Kepler\ sucked it.
+\end{itemize}
+
+Then we want to show some kind of scatter plot, which is some variance estimate from us,
+  vs the same estimate from the PDC,
+  to show that we always or usually win.
+
 \section{Discussion}
 
 Return to the SAP photometry ``unweighted sum'' issue here.
@@ -574,8 +593,9 @@ We are also pleased to thank
   Michael~Hirsch (UCL),
   Dustin~Lang (CMU),
   Benjamin~T.~Montet (Caltech),
+  David~Schiminovich (Columbia),
   and
-  David~Schiminovich (Columbia)
+  Jake Vanderplas (UW)
 for valuable discussions, input, encouragement, and advice.
 
 \todo{White-paper Authors:  Feel free to contribute to this paper and move from the ack list to the author list.}
