@@ -471,7 +471,7 @@ For this reason---\emph{so many solves}---%
   we do \todo{some crazy clever stuff} to make this work fast;
   \todo{DFM implementation notes here}.
 
-Once we have obtained the $a_{mnm'}$ parameters corresponding to a particular data point $I_{mn}$,
+Once we have obtained the parameters $a_{mnm'}$ corresponding to a particular data point $I_{mn}$,
   we can make a \emph{prediction} $I^{\ast}_{mnn}$ for the intensity at that pixel.
 By construction of our objective function, this is truly a prediction,
   in the sense that the optimization (or solve) that produced the parameters
@@ -519,9 +519,10 @@ That is, we perform a weighted sum of \name\ pixels $J_{mn}$ with weights $w_m$,
   and we adopt precisely the same weight assignments as are adopted in the SAP photometry;
   in equations, the flux estimate $S_n$ at time $t_n$ of the target star is given by
 \begin{eqnarray}
-S_n = \frac{1}{N_m}\,\sum_n w_m\,J_{mn}
-\quad .
+S_n = \frac{1}{M}\,\sum_m w_m\,J_{mn}
+\quad ,
 \end{eqnarray}
+where the sum is over the $M$ pixels that are associated with the target star.
 As we have noted above and below, these photometric estimators are not optimal for any purpose,
   but improving them is beyond the scope of this project.
 
