@@ -408,7 +408,7 @@ As mentioned above, in the context of this project,
 We prefer to work in a probabilistic mode in which the objective function can be justified
   in terms of a likelihood (probability for the data given the model)
   or a posterior probability density function (likelihood times a prior pdf).
-The PLM treats each \Kepler\ data point $I_{mn}$ as being
+The \name\ treats each \Kepler\ data point $I_{mn}$ as being
   predictable from a linear combination of data points $I_{m'n}$,
   where $m'$ is from the set of non-overlapping pixels $m'\in\set{M}_m$.
 \begin{eqnarray}
@@ -552,9 +552,9 @@ That said, we don't expect this effect to be large,
 For each example, give the code and show the output and provide some discussion.
 
 We need a metric for comparing outputs.
-For now lets try plotting the power spectrum of the SAP, PDC, and PLM photometry for each star.
+For now lets try plotting the power spectrum of the SAP, PDC, and \name\ photometry for each star.
 
-So DWH is imagining multi-panel plots: SAP, PDC, and PLM vs time,
+So DWH is imagining multi-panel plots: SAP, PDC, and \name\ vs time,
   plus a power-spectrum plot vs frequency.
 
 Cases ought to include
@@ -623,10 +623,12 @@ This research made use of the NASA Astrophysics Data System.
 \clearpage
 \begin{figure}
 ~ % DFM: replace this ~ with a figure
-\caption{One quarter of photometric data for star XXX.
-  The top panel shows the \Kepler\ SAP photometry.
+\caption{One quarter of photometric data for star \todo{KIC XXX}.
+  The top panel shows the \Kepler\ SAP photometry;
+    the vertical axis is \todo{something like median-divided brightness}
+    and the horizontal axis is \todo{something like KBJD}.
   The next panel shows the \Kepler\ PDC photometry.
-  The next shows the PLM photometry.
+  The next shows the \name\ photometry.
   The bottom panel shows the power spectra of the three lightcurves.\label{fig:example1}}
 \end{figure}
 
