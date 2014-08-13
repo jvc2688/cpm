@@ -4,3 +4,6 @@
 *.aux
 *.log
 *.pdf
+*.c
+*.pkl
+*.png
