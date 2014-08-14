@@ -1,5 +1,8 @@
 % This file is part of the causal-kepler project
-% Copyright 2013 the authors.
+% Copyright 2013, 2014 the authors.
+
+% # to-do
+% - write causal description
 
 \documentclass[12pt, preprint]{aastex}
 
@@ -7,7 +10,7 @@
 \newcommand{\sic}{\notenglish{sic}}
 \newcommand{\project}[1]{\textsl{#1}}
 \newcommand{\Kepler}{\project{Kepler}}
-\newcommand{\name}{PLM}
+\newcommand{\name}{CPM}
 \newcommand{\set}[1]{\mathcal{#1}}
 \newcommand{\given}{\,|\,}
 \newcommand{\todo}[1]{\textbf{#1}}
@@ -15,30 +18,33 @@
 \begin{document}
 
 \title{%
+  Self-calibration of time-domain imaging for exoplanet science, informed by causal structure%
+  \\ or \\
   A data-driven, pixel-level model to improve the precision of \Kepler\ photometry%
+  \\ or \\
+  Exploiting causal structure to create a data-driven self-calibration of \Kepler\ imaging%
 }
 \author{%
+  Dun~Wang\altaffilmark{\ref{CCPP}},
   Dan~Foreman-Mackey\altaffilmark{\ref{CCPP}},
-  David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{MPIA},\ref{email}},
-  Tom~Barclay\altaffilmark{\ref{Ames}},
-  Rob~Fergus\altaffilmark{\ref{Courant}},
-  Stefan~Harmeling\altaffilmark{\ref{MPIIS}},
+  David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{CDS},\ref{MPIA},\ref{email}},
   Bernhard~Sch\"olkopf\altaffilmark{\ref{MPIIS}},
   others%
 }
-
 \newcounter{address}
 \setcounter{address}{1}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{CCPP}%
   Center for Cosmology and Particle Physics, Department of Physics, New York University}
+\altaffiltext{\theaddress}{\stepcounter{address}\label{CDS}%
+  Center for Data Science, New York University}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{MPIA}%
   Max-Planck-Institut f\"ur Astronomie, Heidelberg, Germany}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{email}%
   To whom correspondence should be addressed; \texttt{<david.hogg@nyu.edu>}.}
-\altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
-  NASA Ames Research Center}
-\altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
-  Courant Institute of Mathematical Sciences, New York University}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
+%%   NASA Ames Research Center}
+%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
+%%   Courant Institute of Mathematical Sciences, New York University}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{MPIIS}%
   Max-Planck-Institut f\"ur Intelligente Systeme, T\"ubingen}
 %% \altaffiltext{\theaddress}{\stepcounter{address}\label{Oxford}%
@@ -55,10 +61,10 @@
 %%   Department of Astronomy, Columbia University}
 
 \begin{abstract}
-The precision of \Kepler\ photometry%
-  ---the most precise photometric measurements of stars ever made---%
-  appears to be limited by unknown or untracked variations
-  in spacecraft pointing, point-spread function, stellar motions and parallaxes, and temperature.
+The precision of \Kepler\ photometry for exoplanet science---the most
+precise photometric measurements of stars ever made---appears to be
+limited by unknown or untracked variations in spacecraft pointing and
+temperature, and unmodeled stellar variability.
 Here we present \name,
   a data-driven model of these variations in \Kepler\ data (or really of their impact on the photometry).
 Importantly (and uniquely),
@@ -594,7 +600,10 @@ It is a pleasure to thank the whole \Kepler\ Team
   and for making all of the data public, in all its rawest forms, through the MAST interface.
 We are also pleased to thank
   Ruth~Angus (Oxford),
+  Tom~Barclay (Ames),
   Bekki~Dawson (Berkeley),
+  Rob~Fergus (NYU),
+  Stefan~Harmeling (Dusseldorf),
   Michael~Hirsch (UCL),
   Dustin~Lang (CMU),
   Benjamin~T.~Montet (Caltech),
@@ -602,7 +611,12 @@ We are also pleased to thank
   and
   Jake Vanderplas (UW)
 for valuable discussions, input, encouragement, and advice.
-This project was partially supported by NSF grant IIS-1124794 and NASA grant NNX12AI50G.
+This project was partially supported by
+  NSF grant IIS-1124794,
+  NASA grant NNX12AI50G.
+  the Moore Foundation,
+  and
+  the Sloan Foundation.
 This research made use of the NASA Astrophysics Data System.
 
 \todo{White-paper Authors:  Feel free to contribute to this paper and move from the ack list to the author list.}
