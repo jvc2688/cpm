@@ -5,7 +5,7 @@ from __future__ import division, print_function
 __all__ = ["linear_least_squares"]
 
 import numpy as np
-from scipy import linalg
+from scipy.linalg import cho_factor, cho_solve
 
 
 def linear_least_squares(A, y, yvar=None, l2=None):
@@ -48,5 +48,15 @@ def linear_least_squares(A, y, yvar=None, l2=None):
         ATA[np.diag_indices_from(ATA)] += l2
 
     # Solve the equations overwriting the temporary arrays for speed.
-    factor = linalg.cho_factor(ATA, overwrite_a=True)
-    return linalg.cho_solve(factor, np.dot(AT, Ciy), overwrite_b=True)
+    factor = cho_factor(ATA, overwrite_a=True)
+    return cho_solve(factor, np.dot(AT, Ciy), overwrite_b=True)
+
+
+def compute_kernel_matrix(kernel, x, yerr):
+    K = kernel(x, x)
+    return K
+
+
+def gp_predict(kxx, kxs, y):
+    factor = cho_factor(kxx)
+    return np.dot(kxs, cho_solve(factor, y))
