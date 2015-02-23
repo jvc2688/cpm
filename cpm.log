@@ -1,0 +1,642 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.12.3)  23 FEB 2015 08:46
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**cpm.tex
+(./cpm.tex
+LaTeX2e <2011/06/27>
+Babel <3.9f> and hyphenation patterns for 78 languages loaded.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/aastex/aastex.cls
+Document Class: aastex 2005/06/22 5.2/AAS markup document class
+Class aastex Info: Original \LaTeX2.09 style by Chris Biemesderfer (chris@seago
+at.com). Adapted to \LaTeXe by A. Ogawa (ogawa@teleport.com) on input line 83.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2013/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip43
+\bibsep=\skip44
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count88
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks16
+\verbatim@line=\toks17
+\verbatim@in@stream=\read1
+)
+\@slugcmmntwidth=\dimen105
+\abstract@box=\box26
+\c@editornote=\count89
+\c@cureqno=\count90
+\tnotemarkskip=\skip45
+\@abovenoteskip=\dimen106
+\pt@box=\box27
+\pt@width=\dimen107
+\pt@line=\count91
+\pt@column=\count92
+\pt@nlines=\count93
+\pt@ncol=\count94
+\pt@page=\count95
+\tabbaseskip=\dimen108
+\pt@tmpcapwidth=\dimen109
+\spew@tblnotesbox=\box28
+\restof@tblnotesbox=\box29
+\noteheight=\dimen110
+\pt@tabnoteminht=\dimen111
+\firsttabskip=\dimen112
+\captionbox=\box30
+\pt@reduceline=\dimen113
+\extra@vspace=\dimen114
+\c@plate=\count96
+\my@footins=\box31
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen115
+\captionmargin@=\dimen116
+\captionwidth=\dimen117
+\caption@tempdima=\dimen118
+\caption@indent=\dimen119
+\caption@parindent=\dimen120
+\caption@hangindent=\dimen121
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+)
+
+Package caption Warning: Unsupported document class (or package) detected,
+(caption)                usage of the caption package is not recommended.
+See the caption package documentation for explanation.
+
+Package caption Info: \@makecaption = \long macro:#1#2->\vskip 2ex\noindent #1\
+ #2\par .
+
+! LaTeX Error: Command \captionbox already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.819 ...ption@withoptargs{\caption@ibox\@gobble}}
+                                                  
+? 
+\c@ContinuedFloat=\count97
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+\c@subfigure=\count98
+\c@subtable=\count99
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/auxhook.sty
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen122
+\Hy@linkcounter=\count100
+\Hy@pagecounter=\count101
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count102
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count103
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen123
+\Fld@menulength=\count104
+\Field@Width=\dimen124
+\Fld@charsize=\dimen125
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count105
+\c@Item=\count106
+\c@Hfootnote=\count107
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count108
+\c@bookmark@seq@number=\count109
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip46
+)
+No file cpm.aux.
+\openout1 = `cpm.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+(/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count110
+\scratchdimen=\dimen126
+\scratchbox=\box32
+\nofMPsegments=\count111
+\nofMParguments=\count112
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count113
+\MPscratchDim=\dimen127
+\MPnumerator=\count114
+\makeMPintoPDFobject=\count115
+\everyMPtoPDFconversion=\toks19
+) (/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+AAS preprint substyle, v5.2 <12 Dec 2003>.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\AtBeginShipoutBox=\box33
+Package hyperref Info: Link coloring OFF on input line 27.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+(/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count116
+)
+LaTeX Info: Redefining \ref on input line 27.
+LaTeX Info: Redefining \pageref on input line 27.
+LaTeX Info: Redefining \nameref on input line 27.
+\@outlinefile=\write3
+\openout3 = `cpm.out'.
+
+\c@address=\count117
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no ” in font cmr12!
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no ” in font cmr12!
+Missing character: There is no â in font cmr12!
+Missing character: There is no € in font cmr12!
+Missing character: There is no ™ in font cmr12!
+LaTeX Font Info:    Try loading font information for U+lasy on input line 59.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 59.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 59.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+LaTeX Warning: Reference `CCPP' on page 1 undefined on input line 59.
+
+
+LaTeX Warning: Reference `CCPP' on page 1 undefined on input line 59.
+
+
+LaTeX Warning: Reference `CCPP' on page 1 undefined on input line 59.
+
+
+LaTeX Warning: Reference `CDS' on page 1 undefined on input line 59.
+
+
+LaTeX Warning: Reference `MPIA' on page 1 undefined on input line 59.
+
+
+LaTeX Warning: Reference `email' on page 1 undefined on input line 59.
+
+
+LaTeX Warning: Reference `MPIIS' on page 1 undefined on input line 59.
+
+[1
+
+{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+LaTeX Warning: Reference `fig:pixelpatch' on page 2 undefined on input line 93.
+
+
+[2] [3] [4]
+
+LaTeX Warning: Reference `ccd' on page 5 undefined on input line 201.
+
+<figures/5088536-5.png, id=33, 578.16pt x 433.62pt>
+File: figures/5088536-5.png Graphic file (type png)
+
+<use figures/5088536-5.png>
+Package pdftex.def Info: figures/5088536-5.png used on input line 231.
+(pdftex.def)             Requested size: 225.48038pt x 169.10449pt.
+
+<figures/5949551-5.png, id=35, 578.16pt x 433.62pt>
+File: figures/5949551-5.png Graphic file (type png)
+
+<use figures/5949551-5.png>
+Package pdftex.def Info: figures/5949551-5.png used on input line 236.
+(pdftex.def)             Requested size: 225.48038pt x 169.10449pt.
+
+
+LaTeX Warning: Reference `fig1' on page 5 undefined on input line 241.
+
+
+LaTeX Warning: Reference `fig1' on page 5 undefined on input line 241.
+
+[5] [6 <./figures/5088536-5.png> <./figures/5949551-5.png>] [7]
+
+LaTeX Warning: Reference `train-and-test' on page 8 undefined on input line 362
+.
+
+<figures/train_and_test.png, id=54, 511.9125pt x 113.42375pt>
+File: figures/train_and_test.png Graphic file (type png)
+
+<use figures/train_and_test.png>
+Package pdftex.def Info: figures/train_and_test.png used on input line 372.
+(pdftex.def)             Requested size: 375.80542pt x 83.26593pt.
+ [8] [9 <./figures/train_and_test.png>]
+[10]
+
+LaTeX Warning: Reference `hyperparameter' on page 11 undefined on input line 49
+6.
+
+
+LaTeX Warning: Reference `hyperparameter' on page 11 undefined on input line 49
+6.
+
+<figures/compare_10187017.png, id=77, 578.16pt x 433.62pt>
+File: figures/compare_10187017.png Graphic file (type png)
+
+<use figures/compare_10187017.png>
+Package pdftex.def Info: figures/compare_10187017.png used on input line 506.
+(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+ [11] [12 <./figures/compare_10187017.png>]
+
+LaTeX Warning: Reference `distortion' on page 13 undefined on input line 515.
+
+<figures/distortion_9822284_normal.png, id=91, 578.16pt x 433.62pt>
+File: figures/distortion_9822284_normal.png Graphic file (type png)
+
+<use figures/distortion_9822284_normal.png>
+Package pdftex.def Info: figures/distortion_9822284_normal.png used on input li
+ne 532.
+(pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
+ [13
+
+] [14 <./figures/distortion_9822284_normal.png>]
+
+LaTeX Warning: Reference `fluxes' on page 15 undefined on input line 542.
+
+
+LaTeX Warning: Reference `cdpp' on page 15 undefined on input line 549.
+
+<figures/kic_11295426_pdc.pdf, id=104, 578.16pt x 433.62pt>
+File: figures/kic_11295426_pdc.pdf Graphic file (type pdf)
+
+<use figures/kic_11295426_pdc.pdf>
+Package pdftex.def Info: figures/kic_11295426_pdc.pdf used on input line 554.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_11401755_pdc.png, id=105, 578.16pt x 433.62pt>
+File: figures/kic_11401755_pdc.png Graphic file (type png)
+
+<use figures/kic_11401755_pdc.png>
+Package pdftex.def Info: figures/kic_11401755_pdc.png used on input line 558.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_5966154_pdc.png, id=106, 578.16pt x 433.62pt>
+File: figures/kic_5966154_pdc.png Graphic file (type png)
+
+<use figures/kic_5966154_pdc.png>
+Package pdftex.def Info: figures/kic_5966154_pdc.png used on input line 562.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_3544595_pdc.png, id=107, 578.16pt x 433.62pt>
+File: figures/kic_3544595_pdc.png Graphic file (type png)
+
+<use figures/kic_3544595_pdc.png>
+Package pdftex.def Info: figures/kic_3544595_pdc.png used on input line 566.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_4914423_pdc.pdf, id=108, 578.16pt x 433.62pt>
+File: figures/kic_4914423_pdc.pdf Graphic file (type pdf)
+
+<use figures/kic_4914423_pdc.pdf>
+Package pdftex.def Info: figures/kic_4914423_pdc.pdf used on input line 570.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_9892816_pdc.pdf, id=109, 578.16pt x 433.62pt>
+File: figures/kic_9892816_pdc.pdf Graphic file (type pdf)
+
+<use figures/kic_9892816_pdc.pdf>
+Package pdftex.def Info: figures/kic_9892816_pdc.pdf used on input line 574.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_8866102.png, id=110, 578.16pt x 433.62pt>
+File: figures/kic_8866102.png Graphic file (type png)
+
+<use figures/kic_8866102.png>
+Package pdftex.def Info: figures/kic_8866102.png used on input line 578.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_5695396.png, id=111, 578.16pt x 433.62pt>
+File: figures/kic_5695396.png Graphic file (type png)
+
+<use figures/kic_5695396.png>
+Package pdftex.def Info: figures/kic_5695396.png used on input line 582.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_9950612.png, id=112, 578.16pt x 433.62pt>
+File: figures/kic_9950612.png Graphic file (type png)
+
+<use figures/kic_9950612.png>
+Package pdftex.def Info: figures/kic_9950612.png used on input line 586.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_8292840.png, id=113, 578.16pt x 433.62pt>
+File: figures/kic_8292840.png Graphic file (type png)
+
+<use figures/kic_8292840.png>
+Package pdftex.def Info: figures/kic_8292840.png used on input line 589.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_9451706.png, id=114, 578.16pt x 433.62pt>
+File: figures/kic_9451706.png Graphic file (type png)
+
+<use figures/kic_9451706.png>
+Package pdftex.def Info: figures/kic_9451706.png used on input line 593.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/kic_6677841.png, id=115, 578.16pt x 433.62pt>
+File: figures/kic_6677841.png Graphic file (type png)
+
+<use figures/kic_6677841.png>
+Package pdftex.def Info: figures/kic_6677841.png used on input line 597.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+
+LaTeX Warning: Float too large for page by 46.44395pt on input line 602.
+
+<figures/pdc_cdpp12_r.pdf, id=116, 578.16pt x 433.62pt>
+File: figures/pdc_cdpp12_r.pdf Graphic file (type pdf)
+
+<use figures/pdc_cdpp12_r.pdf>
+Package pdftex.def Info: figures/pdc_cdpp12_r.pdf used on input line 608.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/boxplot_r.pdf, id=117, 578.16pt x 433.62pt>
+File: figures/boxplot_r.pdf Graphic file (type pdf)
+
+<use figures/boxplot_r.pdf>
+Package pdftex.def Info: figures/boxplot_r.pdf used on input line 613.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+
+<figures/pdc_cdpp12_hist_r100.png, id=118, 578.16pt x 433.62pt>
+File: figures/pdc_cdpp12_hist_r100.png Graphic file (type png)
+
+<use figures/pdc_cdpp12_hist_r100.png>
+Package pdftex.def Info: figures/pdc_cdpp12_hist_r100.png used on input line 61
+8.
+(pdftex.def)             Requested size: 155.02pt x 116.26514pt.
+ [15
+
+] [16 <./figures/kic_11295426_pdc.pdf> <./figures/kic_11401755_pdc.png> <./figu
+res/kic_5966154_pdc.png> <./figures/kic_3544595_pdc.png> <./figures/kic_4914423
+_pdc.pdf
+
+pdfTeX warning: pdflatex (file ./figures/kic_4914423_pdc.pdf): PDF inclusion: m
+ultiple pdfs with page group included in a single page
+> <./figures/kic_9892816_pdc.pdf
+
+pdfTeX warning: pdflatex (file ./figures/kic_9892816_pdc.pdf): PDF inclusion: m
+ultiple pdfs with page group included in a single page
+> <./figures/kic_8866102.png> <./figures/kic_5695396.png> <./figures/kic_995061
+2.png> <./figures/kic_8292840.png> <./figures/kic_9451706.png> <./figures/kic_6
+677841.png>] [17 <./figures/pdc_cdpp12_r.pdf> <./figures/boxplot_r.pdf
+
+pdfTeX warning: pdflatex (file ./figures/boxplot_r.pdf): PDF inclusion: multipl
+e pdfs with page group included in a single page
+> <./figures/pdc_cdpp12_hist_r100.png>] [18
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 683.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 683.
+ (./cpm.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 683.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 683.
+
+
+Package rerunfilecheck Warning: File `cpm.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `cpm.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  14B695AF3A71B9C44A2803AF70DF19F9;484.
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 683.
+ ) 
+Here is how much of TeX's memory you used:
+ 7496 strings out of 493315
+ 112080 string characters out of 6137904
+ 197724 words of memory out of 5000000
+ 10831 multiletter control sequences out of 15000+600000
+ 12699 words of font info for 53 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 36i,11n,38p,1998b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
+texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
+ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on cpm.pdf (18 pages, 3352998 bytes).
+PDF statistics:
+ 430 PDF objects out of 1000 (max. 8388607)
+ 164 compressed objects within 2 object streams
+ 38 named destinations out of 1000 (max. 500000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+
