@@ -26,6 +26,8 @@
 \newcommand{\given}{\,|\,}
 \newcommand{\todo}[1]{\textbf{#1}}
 
+\newcommand{\Bernhard}[1]{$\bullet$\footnote{{\bf Bernhard:} #1}}
+
 \begin{document}
 
 \title{
@@ -93,7 +95,7 @@ There is also variability of overlapping fainter stars;
   that is, confusion noise combined with variability of the confusing sources.
 There are small changes in spacecraft pointing,
   which leads to slightly different illumination of the focal-plane pixels,
-  and thus different sensitivity to errors (problems) in the device flat-field or sensitivity map.
+  and thus different sensitivity to errors (problems) in the device flat-field \Bernhard{I recall Dan saying that they don't do flat-fielding at Kepler?} or sensitivity map.
 There are also \emph{intra-pixel} sensitivity variations that can contribute (\todo{cite white paper; Spitzer results}).
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
@@ -114,15 +116,14 @@ In \figurename~\ref{fig:pixelpatch}, we show the pixel-level variability in the 
 
 We propose and advise dealing with these variations in \Kepler\ light-curves by \emph{modeling} them.
 In this context, a model is (at least) a parameterized function that can predict data, given parameter settings,
-  and an objective function that can be optimized or sampled to choose or set those parameters.
-Ideally the objective function is probabilistic, or has a probabilistic justification,
-  as with a likelihood or a posterior pdf.
+  and an objective function that can be used to set or sample those parameters.
+In some cases, the objective function can be given a probabilistic justification or interpretation, e.g., if it is constructed using a likelihood and a prior pdf.
 The model can be a physical model (of the spacecraft PSF, pointing, temperature, and so on)
   or it can be a flexible, effective model that has no direct interpretation in terms of physical spacecraft parameters.
-In principle a physical model will do a better job,
-  because it necessarily embodies more prior information,
-  but it requires research and intuition about dominant effects,
-  and this research and intuition is often wrong or incomplete.
+If done well, we would expect a physical model to do a better job,
+  because it embodies more prior information,
+  but it requires research and intuition about dominant effects. 
+If this research and intuition is wrong or incomplete, a physical model may actually perform worse.
 The model we propose here is in the non-physical, effective category.
 The \Kepler\ community is familiar with these kinds of models;
   to our knowledge, \emph{all} successful light-curve ``de-trending'' methods
