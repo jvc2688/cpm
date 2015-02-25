@@ -522,13 +522,13 @@ That is, we perform a weighted sum of \name\ predicted pixels $I^{\ast}_{mn}$ wi
 S_n = \sum_m w_m\,I^{\ast}_{mn}
 \quad ,
 \end{eqnarray}
-where the sum is over the $M$ pixels that are associated with the target star.
+where the sum is over the $M$ pixels that are associated with the target star \Bernhard{if the sum is only over the pixels of the target star, then all $w_m$ are equal to 1 and they can be dropped}.
 As we have noted above and below, these photometric estimators are not optimal for any purpose,
   but improving them is beyond the scope of this project.
 
-It is worth to mention that the \name\ prediction $S_{n}$ is constructed from pixels without any transit information. Therefore, it can be regarded as a light curve without transit signal. 
+It is worth to mention that the \name\ prediction $S_{n}$ is constructed from pixels without any information about transits in the target star.\Bernhard{changed this --- I didn't understand it} Therefore, it can be regarded as a light curve without transit signal. 
 Based on this idea, 
-  we can construct the ``\name\ flux'' to be the relative residual between \name\ prediction and SAP Flux $F_{n}$
+  we can construct the ``\name\ flux'' (where the inverted commas indicate that it is not a flux in the sense that stellar variability is not preserved) to be the relative residual between \name\ prediction and SAP Flux $F_{n}$
 \begin{eqnarray}
 \delta_{n}&\equiv&\frac{F_{n} - S_{n}}{S_{n}}
 \quad .
@@ -543,15 +543,15 @@ In the description of \name,
   we introduce 4 hyper-parameters---number of predictor stars Q (or number of predictor pixels P), 
   number of autoregressive components S, and the two regularization strength $\lambda_{a}$ and $\lambda_{b}$.
 To set these 4 hyper-parameters, 
-  in principle we need to run cross-validation on every single stars to optimize the performance of \name.
+  in principle we need to run cross-validation on every single star to optimize the performance of \name.
 But optimizing in this 4-dimensional space is expensive, 
-  especially in \name\ we need to solve thousands of linear system with thousands of parameters. 
+  especially in \name\ we need to solve thousands of linear systems with thousands of parameters. 
 Therefore, in this paper, 
-  we just set a general set of hyper-parameters ($P=4000$, $Q=3$, $\lambda_a=1e5$, $\lambda_a=1e5$), 
+  we just set a general set of ``default'' hyper-parameters ($P=4000$, $Q=3$, $\lambda_a=1e5$, $\lambda_a=1e5$), 
   which works well in most of the stars without highly variability. 
 To show how this general set of hyper-parameters performs, 
   here we present a typical comparison between optimized and default hyper-parameters 
-  in Fig~\ref{hyperparameter}. 
+  in Fig~\ref{hyperparameter}.\Bernhard{maybe explain somewhere how SNR is calculated}  
 We can see that, in Fig~\ref{hyperparameter}, 
   there is less variation in the \name\ flux from optimized hyper-parameters (green points in second panel) 
   than from the default one (red points in the bottom panel). 
@@ -563,13 +563,13 @@ However, the performance of default hyper-parameters is acceptable
 \begin{figure}[htb]
 \centering
 \includegraphics[width=\columnwidth]{compare_10187017}
-\caption{\label{hyperparameter} Comparsion between default and optimized hyper-parameters. 
+\caption{\label{hyperparameter} Comparison between default and optimized hyper-parameters. 
 In the top panel, SAP flux is plotted in black, \name\ prediction of default hyper parameters is in red line, 
 \name\ prediction of optimized hyper-parameters is in green line. 
 The middle panel shows the CPM flux of the optimized hyper-parameters, 
 while CPM flux of the default hyper-parameters is in the bottom panel, 
 the two vertical blue lines indicate the location of the transit signal, and signal to noise ratio is calculated in both situation. 
-The optimized hyper-parameter performs better than the default one, but the results from both situation are close. }
+The optimized hyper-parameter performs better than the default one, but the results from both situation are close.}
 \end{figure}
 
 \clearpage
