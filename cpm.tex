@@ -342,8 +342,7 @@ In the end, the value of the \name\ will be demonstrated by the scientific proje
 
 \section{\name\ specification and hyper-parameters}
 \subsection{\name\ model}
-Each individual \Kepler\ target star is, for each month (here we always use data per month rather than quarter,  
-since there is discontinuity between every 30-ish-day period),
+Each individual \Kepler\ target star is, for each quarter (each 90-ish-day period)
   on a particular CCD on the \Kepler\ focal plane.
 Associated with each target star is some set of pixels,
   located in a small contiguous patch more-or-less centered on the target star,
@@ -351,8 +350,10 @@ Associated with each target star is some set of pixels,
 (Here we are ignoring all short-cadence data that is taken in a different mode with shorter exposures.)
 That is, each telemetered pixel in each CCD is associated with a particular \Kepler\ target star.
 
-Let's consider a particular pixel $m$ in the focal plane in one particular month.
-In that quarter, the spacecraft delivers $N\sim 1300$ measurements $I_{mn}$
+Let's consider a particular pixel $m$ in the focal plane in one particular month
+(here we always use data per month rather than quarter,  
+since there is discontinuity between every 30-ish-day period).
+In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{mn}$
   of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the month.
 (For intensity measurements $I_{mn}$ here we are using pixels from the Target Pixel Files.)
 We want to build a prediction for the intensity $I_{mn}$ in pixel $m$ at each time $t_n$
@@ -367,10 +368,9 @@ Somewhat arbitrarily,
 This set of pixels%
   ---from the $Q$ stars on the same CCD---%
   is the \emph{pixel set} $\set{M}_m$ associated with pixel $m$.
-   To rule out any direct optical cross-talk by stray
+   To rule out any direct optical cross-talk by starry 
 light, we require that the predictor pixels are from stars
-sufficiently far away from the target star (at least 20 pixels
-distance on the CCD).
+sufficiently far away from the target star (at least 20 pixels distance on the CCD).
 Note that because the set $\set{M}_m$ is of pixels associated with \emph{different} stars
   than the star associated with pixel $m$, and are far from it on CCD, 
   the pixel $m$ will not be in the set $\set{M}_m$,
@@ -396,20 +396,22 @@ The time set of indices $\set{N}_n$ therefore does not overlap the time point $t
 \caption{\label{train-and-test} Train-and-test framework. Data near the target point $t_{n}$ within $\Delta t$ is excluded in the training set}
 \end{figure}
 
-In addition to pixel set $m'\in\set{M}_m$ from other stars,  we also include
-past and future of the target star --- autoregressive (AR) component as input to remove 
-more of the stellar variability and thus increase the sensitivity for transits. To do this, 
-we select an exclusion window of half-width $\Delta t$ including R data points, 
-where $\Delta t\sim 10$ (as big 
-as the window in train-and-test framework) around the point of time $t_{n}$ being 
-corrected, to ensure that we do not remove the transit itself and then use S closest 
-future and past time points. That is, for every pixel m in the target star , we construct S virtual time series, in which every component v is defined to be     
+In addition to pixel set $m'\in\set{M}_m$ from other stars,  
+  we also include past and future of the target star --- autoregressive (AR) component as input 
+  to remove more of the stellar variability and thus increase the sensitivity for transits. 
+To do this, we select an exclusion window of half-width $\Delta t$ including R data points, 
+  where $\Delta t\sim 10$ (as big as the window in train-and-test framework) 
+  around the point of time $t_{n}$ being corrected, 
+  to ensure that we do not remove the transit itself and then use S closest future and past time points. 
+That is, for every pixel m in the target star , we construct S virtual time series, 
+  in which every component v is defined to be     
 \begin{eqnarray}
 I_{vn} = I_{mn-R-k}\ or\ I_{vn} = I_{mn+R+k},
 \quad,
 \end{eqnarray}
-where k = 0, 1, ..., S, so if there are totally M pixels in the target stars, we will finally add 
-$2\cdot M\cdot S$ autoregressive components into the predictors,  which construct the autoregressive set $\set{V}_m$
+where k = 0, 1, ..., S, so if there are totally M pixels in the target stars, 
+  we will finally add $2\cdot M\cdot S$ autoregressive components into the predictors, 
+  which constructs the autoregressive set $\set{V}_m$
 
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
@@ -493,36 +495,39 @@ where the sum is over the $M$ pixels that are associated with the target star.
 As we have noted above and below, these photometric estimators are not optimal for any purpose,
   but improving them is beyond the scope of this project.
 
-It is worth to mention that the \name\ prediction $S_{n}$ is constructed from pixels without any transit information. Therefore, it can be regarded as a light curve without
-signal. Based on this idea, we can construct the ``\name\ flux'' to be the relative residual
-between \name\ prediction and SAP Flux $F_{n}$
+It is worth to mention that the \name\ prediction $S_{n}$ is constructed from pixels without any transit information. Therefore, it can be regarded as a light curve without transit signal. 
+Based on this idea, 
+  we can construct the ``\name\ flux'' to be the relative residual between \name\ prediction and SAP Flux $F_{n}$
 \begin{eqnarray}
 \delta_{n}&\equiv&\frac{F_{n} - S_{n}}{S_{n}}
 \quad .
 \end{eqnarray}
 The \name\ flux is 
-In some sense, it is this relative residual that contains the exoplanet transit signals we 
-seek. That is, a transit creates a negative residual away from the prediction. 
+In some sense, it is this relative residual that contains the exoplanet transit signals we seek. 
+That is, a transit creates a negative residual away from the prediction, 
+  and the amount of relative residual is just the fraction of the light eclipsed by the planet (the transit depth). 
 
 \subsection{Hyper-parameters}
-In the description of \name, we introduce 4 hyper-parameters---number of predictor 
-stars Q (or number of predictor pixels P), number of autoregressive components S, and 
-the two regularization strength
-$\lambda_{a}$ and $\lambda_{b}$. To set these 4 hyper-parameters, in principle we 
-need to run cross-validation on every single stars to optimize the performance of \name.
-But optimizing in this 4-dimensional space is expensive, especially in \name\ we need 
-to solve thousands of linear system with thousands of parameters. Therefore, in this 
-paper we just set a general set of hyper-parameters ($P=4000$, $Q=3$, $
-\lambda_a=1e5$, $\lambda_a=1e5$) which works well in most of the stars without
-highly variability. To show how this general set of hyper-parameters performs, here we 
-present a typical comparison between optimized and default hyper-parameters in 
-Fig~\ref{hyperparameter}. We can see that, in Fig~\ref{hyperparameter}, there is less variation in the \name\ flux from optimized hyper-parameters 
-(green points in second panel) than from the default one 
-(red points in the bottom panel). In addition, the optimized flux has higher signal to 
-noise ratio of the known transit than the default. 
-However, the performance of default hyper-parameters is acceptable and we will use  
-this set of hyper-parameters throughout rest of the paper to show the general 
-performance of \name.
+In the description of \name, 
+  we introduce 4 hyper-parameters---number of predictor stars Q (or number of predictor pixels P), 
+  number of autoregressive components S, and the two regularization strength $\lambda_{a}$ and $\lambda_{b}$.
+To set these 4 hyper-parameters, 
+  in principle we need to run cross-validation on every single stars to optimize the performance of \name.
+But optimizing in this 4-dimensional space is expensive, 
+  especially in \name\ we need to solve thousands of linear system with thousands of parameters. 
+Therefore, in this paper, 
+  we just set a general set of hyper-parameters ($P=4000$, $Q=3$, $\lambda_a=1e5$, $\lambda_a=1e5$), 
+  which works well in most of the stars without highly variability. 
+To show how this general set of hyper-parameters performs, 
+  here we present a typical comparison between optimized and default hyper-parameters 
+  in Fig~\ref{hyperparameter}. 
+We can see that, in Fig~\ref{hyperparameter}, 
+  there is less variation in the \name\ flux from optimized hyper-parameters (green points in second panel) 
+  than from the default one (red points in the bottom panel). 
+In addition, the optimized flux has higher signal to noise ratio of the known transit than the default. 
+However, the performance of default hyper-parameters is acceptable 
+  and we will use this set of hyper-parameters throughout rest of the paper 
+  to show the general performance of \name.
 
 \begin{figure}[htb]
 \centering
@@ -582,7 +587,7 @@ The results illustrate that for these quiet stars our approach removes
 a major part of the variability present in the PDC light curves, while preserving the transit signals. 
 To provide a quantitative comparison, we ran \name\ on 1000 stars from the whole Kepler input catalog 
 (500 chosen randomly from the whole list, and 500 random G-type sun-like stars), 
-and estimate the Combined Differential Photometric Precision (CDPP) for \name\ and PDC. 
+and estimate the Combined Differential Photometric Precision (CDPP) (\todo{citation}) for \name\ and PDC. 
 CDPP is an estimate of the relative precision in a time window, 
 indicating the noise level seen by a transit signal with a given duration. 
 The duration is typically chosen to be 3, 6, or 12 hours. 
