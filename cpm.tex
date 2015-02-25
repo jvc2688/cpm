@@ -132,22 +132,49 @@ The \Kepler\ community is familiar with these kinds of models;
 One such method---one that is designed to describe or model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability---%
   is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (\todo{citation}).
-The PDC ``de-trends'' the \Kepler\ lightcurves by fitting them with a small set of basis lightcurves
+The PDC builds on the idea that systematic errors have a temporal structure that can be extracted from ancillary quantities. 
+%This seems the original paper on PDC:
+%[PDC1] https://kepler.nasa.gov/science/ForScientists/papersAndDocumentation/SOCpapers/7740-67-pdc-jtwicken-copyright.pdf
+%
+%This describes the later version of PDC:
+%[PDC2] http://arxiv.org/pdf/1203.1382v1.pdf
+%[PDC3] http://arxiv.org/pdf/1203.1383v1.pdf
+
+In the first PDC \cite{PDC1}, removal of systematic errors was performed based on correlations with a set of ancillary engineering data. These data include the temperatures at the local detector electronics below the CCD array, and polynomials describing the centroid motion of the targets from PA.
+
+In \cite{PDC2,PDC3}, filtered light curves of other stars are used instead. The light curve of a target star is projected on the leading eight principal components of these light curves. This projection is then removed from the star's light curve. The principal components are computed from a set of relatively quiet stars close in position and magnitude. This was done since it was observed that otherwise, too much of the stellar variability was being removed. 
+
+From the point of view of the present paper, one can only guarantee that {\em no} stellar variability is removed if the stars do not depend on time at all. If both the target star signal as well as some of the other stars do depend on time, then time acts as a confounder influencing both, and thus the true signals are not statistically independent, and thus the target signal may be compromised. We suspect that this effect is limited in \cite{PDC2,PDC3} since only eight principal components are used, which limits the capacity of the model.
+
+PDC ``de-trends'' the \Kepler\ lightcurves by removing those parts that are explained by the basis lightcurves
   generated from a principal components analysis (PCA) of filtered lightcurves.
-That is, it uses data to predict data,
-  regularizing the fit (and avoiding over-fitting) by filtering and restricting the dimensionality (through PCA).
-The method proposed here, \name, is very similar in spirit to the PDC.
-The main differences are
-  (1)~that \name\ works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
-  (2)~that \name\ has far more freedom (far more parameters) than the PDC
+That is, it exploits statistical dependences between different time series, regularizing the fit (and avoiding over-fitting) by filtering and restricting the dimensionality (through PCA).
+
+
+
+
+The method proposed here, \name, shares the motivation of PDC.
+The main differences are that
+\begin{enumerate}
+\item
+\name\ works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
+\item
+\name has far more freedom (far more parameters) than the PDC
   but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales
-  through strong regularization and a train-and-test framework, and
-  (3)~that purpose of the \name\ is to search for exoplanets, so in \name, intrinsic stellar
+  through strong regularization and a train-and-test framework,
+\item \name directly optimizes for prediction accuracy, while PDC uses PCA projections
+\item
+the purpose of \name\ is to search for exoplanets, so in \name, intrinsic stellar
   variability is also removed as well as the systematics.
+\item \name uses as inputs only instantaneous values of other stars, plus near future and past of the star itself in an autoregressive fashion. PDC works with time series (lightcurves) of the other stars
+\end{enumerate}
+
+
+
 The two methods (\name\ and PDC) are similar however,
-  in that they both make the assumption that whatever spacecraft effects are imprinting variability on a stellar lightcurve
+  in that they both make the (implicit or explicit) assumption that whatever spacecraft effects are imprinting variability on a stellar lightcurve
   must also be imprinting similar or related variability on other lightcurves.
-They also assume that the relationships can be captured with linear models.
+In their current versions, they also assume that the relationships can be captured with linear models (although we have also used nonlinear predictions methods for \name, which would be harder to do in PDC).
 By going to the pixel level (unlike the PDC, which works at the photometry level),
   \name\ makes it easier for the model to capture variability
   that is coming through variations in the centroids and point-spread function
@@ -172,7 +199,7 @@ We will return to this latter point at the end;
   it must be possible to do a better job with the photometric measurements.
 That's beyond the scope of this project but a place for a valuable intervention on the \Kepler\ data.
 
-The scope of this project is an intervention---\name---that makes the \Kepler\ photometry more precise.
+The scope of this project is an intervention---\name---that makes the \Kepler\ photometry more precise.\Bernhard{doesn't this contradict our statement that we only care about transits and we remove the lightcurve variability? Suggestion: The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.}
 We describe the method and deliver all the relevant code in a public, open-source repository.
 We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry''
   for every \Kepler\ target.
@@ -203,9 +230,9 @@ Such fits require \emph{regularization} to break degeneracies
 These regularizations do for optimizations what priors do for posterior probability inferences;
   they express the desired behavior of the fit in the absence of data
   or along directions in parameter space in which the data are not constraining.
-General regularizations or priors will break the convexity of linear models;
+General regularizations or priors will break the convexity of linear model fitting;
   if convexity is to be maintained, these regularizations also have to be quadratic,
-  or else one of a small number of other known forms (one of which is L1-regularization).
+  or else one of a class of other known forms (one of which is L1-regularization).\Bernhard{deleted ``small number'' -- I think it is convex for Lp with $p\ge1$.}
 Given these considerations, it makes sense to try to build our pixel-level model
   using a linear model with a quadratic objective function and a quadratic regularization;
   this is what \name\ will be.
