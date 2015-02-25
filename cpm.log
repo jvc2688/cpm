@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  25 FEB 2015 14:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  25 FEB 2015 15:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -368,162 +368,178 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Warning: Reference `fig:pixelpatch' on page 2 undefined on input line 113
 .
 
-[2] [3] [4] <figures/5088536-5.png, id=75, 578.16pt x 433.62pt>
+[2]
+
+Package natbib Warning: Citation `PDC1' on page 3 undefined on input line 143.
+
+
+Package natbib Warning: Citation `PDC2' on page 3 undefined on input line 145.
+
+
+Package natbib Warning: Citation `PDC3' on page 3 undefined on input line 145.
+
+
+Package natbib Warning: Citation `PDC2' on page 3 undefined on input line 147.
+
+
+Package natbib Warning: Citation `PDC3' on page 3 undefined on input line 147.
+
+[3] [4] [5] <figures/5088536-5.png, id=88, 578.16pt x 433.62pt>
 File: figures/5088536-5.png Graphic file (type png)
 
 <use figures/5088536-5.png>
-Package pdftex.def Info: figures/5088536-5.png used on input line 251.
+Package pdftex.def Info: figures/5088536-5.png used on input line 277.
 (pdftex.def)             Requested size: 225.48038pt x 169.10449pt.
 
-<figures/5949551-5.png, id=77, 578.16pt x 433.62pt>
+<figures/5949551-5.png, id=90, 578.16pt x 433.62pt>
 File: figures/5949551-5.png Graphic file (type png)
 
 <use figures/5949551-5.png>
-Package pdftex.def Info: figures/5949551-5.png used on input line 256.
+Package pdftex.def Info: figures/5949551-5.png used on input line 282.
 (pdftex.def)             Requested size: 225.48038pt x 169.10449pt.
 
 
-LaTeX Warning: Reference `fig1' on page 5 undefined on input line 266.
+LaTeX Warning: Reference `fig1' on page 6 undefined on input line 292.
 
 
-LaTeX Warning: Reference `fig1' on page 5 undefined on input line 266.
+LaTeX Warning: Reference `fig1' on page 6 undefined on input line 292.
 
-[5] [6 <./figures/5088536-5.png> <./figures/5949551-5.png>] [7]
-<figures/train_and_test.png, id=96, 511.9125pt x 113.42375pt>
+[6] [7 <./figures/5088536-5.png> <./figures/5949551-5.png>] [8] [9]
+<figures/train_and_test.png, id=122, 511.9125pt x 113.42375pt>
 File: figures/train_and_test.png Graphic file (type png)
 
 <use figures/train_and_test.png>
-Package pdftex.def Info: figures/train_and_test.png used on input line 397.
+Package pdftex.def Info: figures/train_and_test.png used on input line 424.
 (pdftex.def)             Requested size: 375.80542pt x 83.26593pt.
- [8] [9 <./figures/train_and_test.png>]
-[10] <figures/compare_10187017.png, id=119, 578.16pt x 433.62pt>
+ [10 <./figures/train_and_test.png>] [11]
+[12] <figures/compare_10187017.png, id=150, 578.16pt x 433.62pt>
 File: figures/compare_10187017.png Graphic file (type png)
 
 <use figures/compare_10187017.png>
-Package pdftex.def Info: figures/compare_10187017.png used on input line 536.
+Package pdftex.def Info: figures/compare_10187017.png used on input line 564.
 (pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
- [11] [12 <./figures/compare_10187017.png>]
-<figures/distortion_9822284_normal.png, id=133, 578.16pt x 433.62pt>
+ [13] [14 <./figures/compare_10187017.png>]
+<figures/distortion_9822284_normal.png, id=164, 578.16pt x 433.62pt>
 File: figures/distortion_9822284_normal.png Graphic file (type png)
 
 <use figures/distortion_9822284_normal.png>
 Package pdftex.def Info: figures/distortion_9822284_normal.png used on input li
-ne 568.
+ne 596.
 (pdftex.def)             Requested size: 469.75499pt x 352.31538pt.
- [13
+ [15
 
-] [14 <./figures/distortion_9822284_normal.png>] <figures/kic_11295426_pdc.pdf,
- id=148, 578.16pt x 433.62pt>
+] [16 <./figures/distortion_9822284_normal.png>] <figures/kic_11295426_pdc.pdf,
+ id=178, 578.16pt x 433.62pt>
 File: figures/kic_11295426_pdc.pdf Graphic file (type pdf)
 
 <use figures/kic_11295426_pdc.pdf>
-Package pdftex.def Info: figures/kic_11295426_pdc.pdf used on input line 604.
+Package pdftex.def Info: figures/kic_11295426_pdc.pdf used on input line 632.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_11401755_pdc.png, id=149, 578.16pt x 433.62pt>
+<figures/kic_11401755_pdc.png, id=179, 578.16pt x 433.62pt>
 File: figures/kic_11401755_pdc.png Graphic file (type png)
 
 <use figures/kic_11401755_pdc.png>
-Package pdftex.def Info: figures/kic_11401755_pdc.png used on input line 608.
+Package pdftex.def Info: figures/kic_11401755_pdc.png used on input line 636.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_5966154_pdc.png, id=150, 578.16pt x 433.62pt>
+<figures/kic_5966154_pdc.png, id=180, 578.16pt x 433.62pt>
 File: figures/kic_5966154_pdc.png Graphic file (type png)
 
 <use figures/kic_5966154_pdc.png>
-Package pdftex.def Info: figures/kic_5966154_pdc.png used on input line 612.
+Package pdftex.def Info: figures/kic_5966154_pdc.png used on input line 640.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_3544595_pdc.png, id=151, 578.16pt x 433.62pt>
+<figures/kic_3544595_pdc.png, id=181, 578.16pt x 433.62pt>
 File: figures/kic_3544595_pdc.png Graphic file (type png)
 
 <use figures/kic_3544595_pdc.png>
-Package pdftex.def Info: figures/kic_3544595_pdc.png used on input line 616.
+Package pdftex.def Info: figures/kic_3544595_pdc.png used on input line 644.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_4914423_pdc.pdf, id=152, 578.16pt x 433.62pt>
+<figures/kic_4914423_pdc.pdf, id=182, 578.16pt x 433.62pt>
 File: figures/kic_4914423_pdc.pdf Graphic file (type pdf)
 
 <use figures/kic_4914423_pdc.pdf>
-Package pdftex.def Info: figures/kic_4914423_pdc.pdf used on input line 620.
+Package pdftex.def Info: figures/kic_4914423_pdc.pdf used on input line 648.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_9892816_pdc.pdf, id=153, 578.16pt x 433.62pt>
+<figures/kic_9892816_pdc.pdf, id=183, 578.16pt x 433.62pt>
 File: figures/kic_9892816_pdc.pdf Graphic file (type pdf)
 
 <use figures/kic_9892816_pdc.pdf>
-Package pdftex.def Info: figures/kic_9892816_pdc.pdf used on input line 624.
+Package pdftex.def Info: figures/kic_9892816_pdc.pdf used on input line 652.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_8866102.png, id=154, 578.16pt x 433.62pt>
+<figures/kic_8866102.png, id=184, 578.16pt x 433.62pt>
 File: figures/kic_8866102.png Graphic file (type png)
 
 <use figures/kic_8866102.png>
-Package pdftex.def Info: figures/kic_8866102.png used on input line 628.
+Package pdftex.def Info: figures/kic_8866102.png used on input line 656.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_5695396.png, id=155, 578.16pt x 433.62pt>
+<figures/kic_5695396.png, id=185, 578.16pt x 433.62pt>
 File: figures/kic_5695396.png Graphic file (type png)
 
 <use figures/kic_5695396.png>
-Package pdftex.def Info: figures/kic_5695396.png used on input line 632.
+Package pdftex.def Info: figures/kic_5695396.png used on input line 660.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_9950612.png, id=156, 578.16pt x 433.62pt>
+<figures/kic_9950612.png, id=186, 578.16pt x 433.62pt>
 File: figures/kic_9950612.png Graphic file (type png)
 
 <use figures/kic_9950612.png>
-Package pdftex.def Info: figures/kic_9950612.png used on input line 636.
+Package pdftex.def Info: figures/kic_9950612.png used on input line 664.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_8292840.png, id=157, 578.16pt x 433.62pt>
+<figures/kic_8292840.png, id=187, 578.16pt x 433.62pt>
 File: figures/kic_8292840.png Graphic file (type png)
 
 <use figures/kic_8292840.png>
-Package pdftex.def Info: figures/kic_8292840.png used on input line 639.
+Package pdftex.def Info: figures/kic_8292840.png used on input line 667.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_9451706.png, id=158, 578.16pt x 433.62pt>
+<figures/kic_9451706.png, id=188, 578.16pt x 433.62pt>
 File: figures/kic_9451706.png Graphic file (type png)
 
 <use figures/kic_9451706.png>
-Package pdftex.def Info: figures/kic_9451706.png used on input line 643.
+Package pdftex.def Info: figures/kic_9451706.png used on input line 671.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/kic_6677841.png, id=159, 578.16pt x 433.62pt>
+<figures/kic_6677841.png, id=189, 578.16pt x 433.62pt>
 File: figures/kic_6677841.png Graphic file (type png)
 
 <use figures/kic_6677841.png>
-Package pdftex.def Info: figures/kic_6677841.png used on input line 647.
+Package pdftex.def Info: figures/kic_6677841.png used on input line 675.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
 
-LaTeX Warning: Float too large for page by 46.44395pt on input line 659.
+LaTeX Warning: Float too large for page by 46.44395pt on input line 687.
 
-<figures/pdc_cdpp12_r.pdf, id=160, 578.16pt x 433.62pt>
+<figures/pdc_cdpp12_r.pdf, id=190, 578.16pt x 433.62pt>
 File: figures/pdc_cdpp12_r.pdf Graphic file (type pdf)
 
 <use figures/pdc_cdpp12_r.pdf>
-Package pdftex.def Info: figures/pdc_cdpp12_r.pdf used on input line 665.
+Package pdftex.def Info: figures/pdc_cdpp12_r.pdf used on input line 693.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/boxplot_r.pdf, id=161, 578.16pt x 433.62pt>
+<figures/boxplot_r.pdf, id=191, 578.16pt x 433.62pt>
 File: figures/boxplot_r.pdf Graphic file (type pdf)
 
 <use figures/boxplot_r.pdf>
-Package pdftex.def Info: figures/boxplot_r.pdf used on input line 670.
+Package pdftex.def Info: figures/boxplot_r.pdf used on input line 698.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
 
-<figures/pdc_cdpp12_hist_r100.png, id=162, 578.16pt x 433.62pt>
+<figures/pdc_cdpp12_hist_r100.png, id=192, 578.16pt x 433.62pt>
 File: figures/pdc_cdpp12_hist_r100.png Graphic file (type png)
 
 <use figures/pdc_cdpp12_hist_r100.png>
-Package pdftex.def Info: figures/pdc_cdpp12_hist_r100.png used on input line 67
-5.
+Package pdftex.def Info: figures/pdc_cdpp12_hist_r100.png used on input line 70
+3.
 (pdftex.def)             Requested size: 155.02pt x 116.26514pt.
- [15
+ [17
 
-] [16 <./figures/kic_11295426_pdc.pdf> <./figures/kic_11401755_pdc.png> <./figu
+] [18 <./figures/kic_11295426_pdc.pdf> <./figures/kic_11401755_pdc.png> <./figu
 res/kic_5966154_pdc.png> <./figures/kic_3544595_pdc.png> <./figures/kic_4914423
 _pdc.pdf
 
@@ -535,54 +551,64 @@ pdfTeX warning: pdflatex (file ./figures/kic_9892816_pdc.pdf): PDF inclusion: m
 ultiple pdfs with page group included in a single page
 > <./figures/kic_8866102.png> <./figures/kic_5695396.png> <./figures/kic_995061
 2.png> <./figures/kic_8292840.png> <./figures/kic_9451706.png> <./figures/kic_6
-677841.png>] [17 <./figures/pdc_cdpp12_r.pdf> <./figures/boxplot_r.pdf
+677841.png>] [19 <./figures/pdc_cdpp12_r.pdf> <./figures/boxplot_r.pdf
 
 pdfTeX warning: pdflatex (file ./figures/boxplot_r.pdf): PDF inclusion: multipl
 e pdfs with page group included in a single page
-> <./figures/pdc_cdpp12_hist_r100.png>] [18
+> <./figures/pdc_cdpp12_hist_r100.png>] [20
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 748.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 748.
- (./cpm.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 748.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 748.
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 776.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 776.
+(./cpm.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 776.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 776.
 Package rerunfilecheck Info: File `cpm.out' has not changed.
 (rerunfilecheck)             Checksum: 14B695AF3A71B9C44A2803AF70DF19F9;484.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 748.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 776.
  ) 
 Here is how much of TeX's memory you used:
- 7515 strings out of 493315
- 112273 string characters out of 6137904
+ 7533 strings out of 493315
+ 112422 string characters out of 6137904
  201666 words of memory out of 5000000
- 10842 multiletter control sequences out of 15000+600000
- 13007 words of font info for 54 fonts, out of 8000000 for 9000
+ 10846 multiletter control sequences out of 15000+600000
+ 13360 words of font info for 55 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  36i,11n,38p,1126b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
-/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></
-usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></us
-r/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loca
-l/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/t
-exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/texli
-ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
-2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/20
-13/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/201
-3/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on cpm.pdf (18 pages, 3367308 bytes).
+/usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></u
+sr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr
+/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
+ocal/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loc
+al/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local
+/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
+/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/
+2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/texlive/2
+013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
+13/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2013
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2013/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2013/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on cpm.pdf (20 pages, 3404055 bytes).
 PDF statistics:
- 477 PDF objects out of 1000 (max. 8388607)
- 209 compressed objects within 3 object streams
- 39 named destinations out of 1000 (max. 500000)
+ 521 PDF objects out of 1000 (max. 8388607)
+ 247 compressed objects within 3 object streams
+ 52 named destinations out of 1000 (max. 500000)
  165 words of extra memory for PDF output out of 10000 (max. 10000000)
 

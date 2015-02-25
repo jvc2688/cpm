@@ -260,8 +260,8 @@ For another example, if we think the spacecraft is being affected by
 For another example, if an investigator doesn't care about preserving stellar variability,
   and just wants to detect exoplanet transits (say),
   pixels from the target star can be used to predict pixels from the target star,
-  provided they are at large-enough time lags that they don't overlap (in time)
-  the signals of interest.
+  provided they are at large-enough time lags that they don't contain information about
+  the signals of interest (i.e., the transits).
 That is, if the model is designed to fit not just spacecraft variability
   but also intrinsic stellar variability,
   the predictive model will be permitted to use as input pixels that \emph{do} overlap the 
@@ -341,7 +341,7 @@ Those assumptions are good for our purposes but not necessarily ideal for all us
 Short-period exoplanets and certain kinds of stellar variability
   could be wiped out by a model with these settings of the training-data regime.
 
-The fourth general idea involved in this kind of data-driven modeling is that the models aren't \emph{interpretable}.
+The fourth general idea involved in this kind of data-driven modeling is that the models often aren't \emph{interpretable}, or at least hard to interpret.
 This means, in particular, that although the model might do a good job of \emph{predicting} the target pixels,
   using a linear (or more complex) combination of the input pixel data,
   it won't deliver anything that can be unambiguously interpreted as the \emph{flux} of the star in question,
@@ -368,6 +368,8 @@ What we will show in what follows is that the \name\ photometry does not distort
   and promising properties of the \name\ outputs.
 In the end, the value of the \name\ will be demonstrated by the scientific projects it enables.
 
+\Bernhard{Hogg: maybe you want to add sth about the device being 'self-calibratable'?}
+
 \section{\name\ specification and hyper-parameters}
 \subsection{\name\ model}
 Each individual \Kepler\ target star is, for each quarter (each 90-ish-day period)
@@ -380,16 +382,15 @@ That is, each telemetered pixel in each CCD is associated with a particular \Kep
 
 Let's consider a particular pixel $m$ in the focal plane in one particular month
 (here we always use data per month rather than quarter,  
-since there is discontinuity between every 30-ish-day period).
+since there is discontinuity between every 30-ish-day period).\Bernhard{as an aside: I wonder whether \name reduces these discontinuities at all? (if we were to apply it across the discontinuities)}
 In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{mn}$
   of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the month.
-(For intensity measurements $I_{mn}$ here we are using pixels from the Target Pixel Files.)
+(For intensity measurements $I_{mn}$ here we are using pixels from the Target Pixel Files.\Bernhard{include reference})
 We want to build a prediction for the intensity $I_{mn}$ in pixel $m$ at each time $t_n$
   using the intensities $I_{m'n}$ of other pixels $m'$.
 The question is:  What other pixels to choose?
 There are many possible qualitatively and quantitatively different choices here.
-Somewhat arbitrarily,
-  we choose all the pixels $m'$ associated with the $Q$ stars on the same CCD in the same quarter
+Assuming that they are affected by similar systematic errors as the target star pixels, we choose all the pixels $m'$ associated with the $Q$ stars on the same CCD in the same quarter
   that are closest in magnitude
   (\Kepler\ magnitude as reported in the \Kepler\ Input Catalog)
   to the target star associated with pixel $m$.
@@ -428,23 +429,24 @@ In addition to pixel set $m'\in\set{M}_m$ from other stars,
   we also include past and future of the target star --- autoregressive (AR) component as input 
   to remove more of the stellar variability and thus increase the sensitivity for transits. 
 To do this, we select an exclusion window of half-width $\Delta t$ including R data points, 
-  where $\Delta t\sim 10$ (as big as the window in train-and-test framework) 
+  where $\Delta t\sim 10$\, h (as big as the window in the train-and-test framework) 
   around the point of time $t_{n}$ being corrected, 
-  to ensure that we do not remove the transit itself and then use S closest future and past time points. 
-That is, for every pixel m in the target star , we construct S virtual time series, 
-  in which every component v is defined to be     
+  to ensure that we do not remove the transit itself and then use $S$ closest future and past time points. 
+That is, for every pixel $m$ in the target star , we construct $S$ virtual time series, 
+  in which every component $v$ is defined to be     
 \begin{eqnarray}
 I_{vn} = I_{mn-R-k}\ or\ I_{vn} = I_{mn+R+k},
 \quad,
 \end{eqnarray}
-where k = 0, 1, ..., S, so if there are totally M pixels in the target stars, 
-  we will finally add $2\cdot M\cdot S$ autoregressive components into the predictors, 
+\Bernhard{I find the notation $I_{mn-R-k}$ confusing --- better write $I_{m,n-R-k}$, and then for consistency also $I_{v,n}$ etc.}
+where $k = 0, 1,\dots, S,$ so if there are totally $M$ pixels in the target stars, 
+  we will finally add $2\cdot M\cdot S$\Bernhard{not quite: if I am right, then there are overall $(2R-1)$ in the exclusion zone, and $2S+2$ are used, for each pixel} autoregressive components into the predictors, 
   which constructs the autoregressive set $\set{V}_m$
 
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
   and an objective function that can be used to find best values for those parameters.
-We prefer to work in a probabilistic mode in which the objective function can be justified
+It is often preferable to work in a probabilistic mode in which the objective function can be justified
   in terms of a likelihood (probability for the data given the model)
   or a posterior probability density function (likelihood times a prior pdf).
 The \name\ treats each \Kepler\ data point $I_{mn}$ as being
@@ -465,7 +467,7 @@ The parameters $a_{mnm'}$ and $b_{mnk}$ have indices $m$ because
   that is, there will be a separate best-fit value for the parameters for every $I_{mn}$.
 If we presume that the residuals away from the prediction are normally distributed with zero mean
   and known variance,
-  likelihood optimization reduces to chi-squared minimization.
+  likelihood optimization reduces to chi-squared \Bernhard{maybe better $\chi^2$?} minimization.
 We add to the standard chi-squared definition a regularization term
   (equivalent to multiplying the likelihood by a Gaussian prior pdf)
   that penalizes large absolute values for the the coefficients $a_{mnm'}$:
@@ -476,8 +478,9 @@ We add to the standard chi-squared definition a regularization term
 I^{\ast}_{mnn'} &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m'n'} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{vn'}
 \quad,
 \end{eqnarray}
-where the $\sigma^2_{mn'}$ are the (presumed known) individual-pixel noise variances,
-  and $\lambda_{a}$, $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{mnm'}, b_{mnv}$.
+\Bernhard{(1) why does $I$ have three indices now, and what does that mean? In Eq. (3) there are only two indices. (2) do we need the sigmas at all, or could we absord this into the lambdas?}
+where the $\sigma^2_{mn'}$ are the (presumed known)\Bernhard{known, or estimated from data? If not estimated, how do we know them?} individual-pixel noise variances,
+  and $\lambda_{a}$, $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{mnm'}, b_{mnv}$. In general, $\lambda_a$ and $\lambda_b$ could depend on $m,n$, however, we do not make use of this freedom.
 
 The train-and-test idea comes into the objective function $\chi^2_{mn}$:
 When we are computing the objective function $\chi^2_{mn}$,
