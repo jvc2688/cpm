@@ -6,9 +6,6 @@ A data-driven model to calibrate out instrument-induced systematics in
 The model exploits causal structure to remove telescope and stellar
 variability without distorting exoplanet signals.
 
-------
-forked from https://github.com/dfm/cpm
-
 authors
 -------
 - Dan Foreman-Mackey (NYU)
@@ -19,3 +16,6 @@ authors
 license
 -------
 Copyright 2013, 2014 the authors.  **Not ready for redistribution.**
+
+------
+forked from https://github.com/dfm/cpm
