@@ -20,3 +20,4 @@ all: ${NAME}.${SUFF}
 
 clean:
 	${RM_TMP}
+
