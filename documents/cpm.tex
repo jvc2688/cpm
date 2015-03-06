@@ -217,7 +217,8 @@ We will return to this latter point at the end;
   it must be possible to do a better job with the photometric measurements.
 That's beyond the scope of this project but a place for a valuable intervention on the \Kepler\ data.
 
-The scope of this project is an intervention---\name---that makes the \Kepler\ photometry more precise.\Bernhard{doesn't this contradict our statement that we only care about transits and we remove the lightcurve variability? Suggestion: The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.}
+The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.\Bernhard{doesn't this contradict our statement that we only care about transits and we remove the lightcurve variability? Suggestion: The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.}
+\Dun{Yes, I think so and made this change.}
 We describe the method and deliver all the relevant code in a public, open-source repository.
 We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry''
   for every \Kepler\ target.
@@ -401,6 +402,8 @@ That is, each telemetered pixel in each CCD is associated with a particular \Kep
 Let's consider a particular pixel $m$ in the focal plane in one particular month
 (here we always use data per month rather than quarter,  
 since there is discontinuity between every 30-ish-day period).\Bernhard{as an aside: I wonder whether \name reduces these discontinuities at all? (if we were to apply it across the discontinuities)}
+\Dun{I don't think \name\ will be applied across the discontinuities, especially when auto-regression are applied,  but in the end,  the \name somehow reduces the discontinuities, since it put light curve of every month into the same base line.}
+
 In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{m,n}$
   of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the month.
 (For intensity measurements $I_{m,n}$ here we are using pixels from the Target Pixel Files.\Bernhard{include reference})
@@ -457,9 +460,9 @@ I_{v,n} = I_{m,n-R-k}\ or\ I_{v,n} = I_{m,n+R+k},
 \quad,
 \end{eqnarray}
 \Bernhard{I find the notation $I_{mn-R-k}$ confusing --- better write $I_{m,n-R-k}$, and then for consistency also $I_{v,n}$ etc.}
-where $k = 0, 1,\dots, S,$ so if there are totally $M$ pixels in the target stars, 
-  we will finally add $2\cdot M\cdot S$\Bernhard{not quite: if I am right, then there are overall $(2R-1)$ in the exclusion zone, and $2S+2$ are used, for each pixel} autoregressive components into the predictors, 
-  which constructs the autoregressive set $\set{V}_m$
+where $k = 1, 2\dots, S,$ so if there are totally $M$ pixels in the target stars, 
+  we will finally add $2\cdot M\cdot S$\Bernhard{not quite: if I am right, then there are overall $(2R-1)$ in the exclusion zone, and $2S+2$ are used, for each pixel} \Dun{I changed k to be $1,2\dots, S$ so, so for every pixel, $2S$ are used} 
+  autoregressive components into the predictors, which constructs the autoregressive set $\set{V}_m$
 
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
@@ -473,13 +476,13 @@ The \name\ treats each \Kepler\ data point $I_{m,n}$ as being
 \begin{eqnarray}
 I_{m,n}         &=& I^{\ast}_{m,n} + e_{m,n}
 \\
-I^{\ast}_{m,n}  &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m',n} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{v,n}
+I^{\ast}_{m,n}  &=& \sum_{m'\in\set{M}_m} a_{m,n,m'}\,I_{m',n} + \sum_{v\in\set{V}_m} b_{m,n,v}\,I_{v,n}
 \quad,
 \end{eqnarray}
 where $I^{\ast}_{m,n}$ is the prediction (by the model) for data point $I_{m,n}$,
   $e_{m,n}$ is a noise contribution or residual away from the prediction,
-  and the $a_{mnm'}$ and $b_{mnk}$ are the parameters (linear coefficients of the prediction).
-The parameters $a_{mnm'}$ and $b_{mnk}$ have indices $m$ because
+  and the $a_{m,n,m'}$ and $b_{m,n,k}$ are the parameters (linear coefficients of the prediction).
+The parameters $a_{m,n,m'}$ and $b_{m,n,k}$ have indices $m$ because
   they are different for every pixel $m$,
   and they will even be different for every time step $n$;
   that is, there will be a separate best-fit value for the parameters for every $I_{m,n}$.
@@ -488,24 +491,28 @@ If we presume that the residuals away from the prediction are normally distribut
   likelihood optimization reduces to $\chi^2$ \Bernhard{maybe better $\chi^2$?} minimization.
 We add to the standard chi-squared definition a regularization term
   (equivalent to multiplying the likelihood by a Gaussian prior pdf)
-  that penalizes large absolute values for the the coefficients $a_{mnm'}$:
+  that penalizes large absolute values for the the coefficients $a_{m,n,m'}$:
 \begin{eqnarray}
 \chi^2_{m,n}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{m,n'} - I^{\ast}_{m,n',n}]^2}{\sigma^2_{m,n'}}
-                 + \lambda_{a}\sum_{m'\in\set{M}_m}a_{mnm'}^2 + \lambda_{b}\sum_{v\in\set{V}_m}b_{mnv}^2
+                 + \lambda_{a}\sum_{m'\in\set{M}_m}a_{m,n,m'}^2 + \lambda_{b}\sum_{v\in\set{V}_m}b_{m,n,v}^2
 \\
-I^{\ast}_{m,n',n} &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m',n'} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{v,n'}
+I^{\ast}_{m,n',n} &=& \sum_{m'\in\set{M}_m} a_{m,n,m'}\,I_{m',n'} + \sum_{v\in\set{V}_m} b_{m,n,v}\,I_{v,n'}
 \quad,
 \end{eqnarray}
 \Bernhard{(1) why does $I$ have three indices now, and what does that mean? In Eq. (3) there are only two indices. (2) do we need the sigmas at all, or could we absord this into the lambdas?}
-\Dun{In CPM,  for every time points,  the $\chi^2$ minimization is independent, the third index of $I^{\ast}$ indicates which time point is being 
-optimized,  maybe I can find a better notation}
-where the $\sigma^2_{m,n'}$ are the (presumed known)\Bernhard{known, or estimated from data? If not estimated, how do we know them?} individual-pixel noise variances,
-  and $\lambda_{a}$, $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{mnm'}, b_{mnv}$. In general, $\lambda_a$ and $\lambda_b$ could depend on $m,n$, however, we do not make use of this freedom.
+\Dun{In CPM,  for every time points,  the $\chi^2$ minimization is independent, the third indice of $I^{\ast}$ indicates which time point is being optimized, I've added some words to explain it,  maybe we can find a better notation?}
+where the $\sigma^2_{m,n'}$ are the (presumed known)\Bernhard{known, or estimated from data? 
+  If not estimated, how do we know them?} individual-pixel noise variances, and $\lambda_{a}$, 
+  $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{m,n,m'}, b_{m,n,v}$. 
+  In general, $\lambda_a$ and $\lambda_b$ could depend on $m,n$, however, we do not make use of this freedom. 
+  Here the prediction $I^{\ast}_{m,n',n}$ has three indices, because in \name\ the $\chi^2$ minimization for every time
+  point is independent and the third indice--n indicates which time point the prediction $I^{\ast}_{m,n',n}$ is used for, 
+  the detail of the independent $\chi^2$ minimization will be discussed as follows.
 
 The train-and-test idea comes into the objective function $\chi^2_{m,n}$:
 When we are computing the objective function $\chi^2_{m,n}$,
   we are using only time points $n'\in\set{N}_n$ that don't overlap the target (or test) time point $n$.
-We train the model---that is, set the parameters $a_{mnm'}$ and $b_{mnv}$---%
+We train the model---that is, set the parameters $a_{m,n,m'}$ and $b_{m,n,v}$---%
   by choosing the full set of parameters that jointly minimize the objective function $\chi^2_{m,n}$.
 Fortunately, given the form of the model,
   this minimization is just a linear solve (linear operation on the data).
@@ -514,13 +521,13 @@ Importantly however, and perhaps surprisingly, the objective function $\chi^2_{m
   we have to do an \emph{independent optimization} (or really linear solve)
   of the parameters for every pixel value we want to predict.
 That is, every pixel datum $I_{m,n}$ we predict will have
-  \emph{different} settings of the parameters $a_{mnm'}$ and $b_{mnk}$.
+  \emph{different} settings of the parameters $a_{m,n,m'}$ and $b_{m,n,v}$.
 Since there are of order $10^{6}$ total pixel values in the \Kepler\ Target Pixel Files for \emph{each \Kepler\ target},
   and of order $10^7$ data sources used as basis functions in the linear fitting,
   this represents one fuck of a lot of linear solves,
   and a lot of parameters to obtain and record.
 
-Once we have obtained the parameters $a_{mnm'}$ and $b_{mnv}$ corresponding to a particular data point $I_{m,n}$,
+Once we have obtained the parameters $a_{m,n,m'}$ and $b_{m,n,v}$ corresponding to a particular data point $I_{m,n}$,
   we can make a \emph{prediction} $I^{\ast}_{m,n}$ for the intensity at that pixel.
 By construction of our objective function, this is truly a prediction,
   in the sense that the optimization (or solve) that produced the parameters
@@ -545,10 +552,11 @@ S_n = \sum_m w_m\,I^{\ast}_{m,n}
 where the sum is over the $M$ pixels that are associated with the target star and the weight $w_m$ is unity for pixels in the optimal
 aperture while zero outside the optimal aperture.
  \Bernhard{if the sum is only over the pixels of the target star, then all $w_m$ are equal to 1 and they can be dropped}.
+ \Dun{$w_m$ is 0 out of the optimal aperture,  we've added some words to explain it.}
 As we have noted above and below, these photometric estimators are not optimal for any purpose,
   but improving them is beyond the scope of this project.
 
-It is worth to mention that the \name\ prediction $S_{n}$ is constructed from pixels without any information about transits in the target star.\Bernhard{changed this --- I didn't understand it} Therefore, it can be regarded as a light curve without transit signal. 
+It is worth to mention that the \name\ prediction $S_{n}$ is constructed from predicted pixel value without any information about transits in the target star due to the train-and-test framework.\Bernhard{changed this --- I didn't understand it} \Dun{Does it look better now?} Therefore, it can be regarded as a light curve without transit signal. 
 Based on this idea, 
   we can construct the ``\name\ flux'' (where the inverted commas indicate that it is not a flux in the sense that stellar variability is not preserved) to be the relative residual between \name\ prediction and SAP Flux $F_{n}$
 \begin{eqnarray}
