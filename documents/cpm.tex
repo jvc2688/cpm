@@ -27,6 +27,8 @@
 \newcommand{\todo}[1]{\textbf{#1}}
 
 \newcommand{\Bernhard}[1]{$\bullet$\footnote{{\bf Bernhard:} #1}}
+\newcommand{\Dun}[1]{$\bullet$\footnote{{\bf Dun:} #1}}
+
 
 \begin{document}
 
@@ -399,11 +401,11 @@ That is, each telemetered pixel in each CCD is associated with a particular \Kep
 Let's consider a particular pixel $m$ in the focal plane in one particular month
 (here we always use data per month rather than quarter,  
 since there is discontinuity between every 30-ish-day period).\Bernhard{as an aside: I wonder whether \name reduces these discontinuities at all? (if we were to apply it across the discontinuities)}
-In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{mn}$
+In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{m,n}$
   of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the month.
-(For intensity measurements $I_{mn}$ here we are using pixels from the Target Pixel Files.\Bernhard{include reference})
-We want to build a prediction for the intensity $I_{mn}$ in pixel $m$ at each time $t_n$
-  using the intensities $I_{m'n}$ of other pixels $m'$.
+(For intensity measurements $I_{m,n}$ here we are using pixels from the Target Pixel Files.\Bernhard{include reference})
+We want to build a prediction for the intensity $I_{m,n}$ in pixel $m$ at each time $t_n$
+  using the intensities $I_{m',n}$ of other pixels $m'$.
 The question is:  What other pixels to choose?
 There are many possible qualitatively and quantitatively different choices here.
 Assuming that they are affected by similar systematic errors as the target star pixels, we choose all the pixels $m'$ associated with the $Q$ stars on the same CCD in the same quarter
@@ -423,7 +425,7 @@ Note that because the set $\set{M}_m$ is of pixels associated with \emph{differe
 That is, there will be no (or almost no) overlap in stellar illumination of pixel $m$
   and the pixels $m'\in\set{M}_m$.
 
-When we are predicting the measurement $I_{mn}$ from pixel $m$ at a particular time $t_n$,
+When we are predicting the measurement $I_{m,n}$ from pixel $m$ at a particular time $t_n$,
   we are going to use a train-and-test framework in which not only do we not use
   data at time $t_n$ in optimizing the parameters of the regression or fit,
   but we don't even use any times $t$ such that $|t-t_n| < \Delta t$,
@@ -451,7 +453,7 @@ To do this, we select an exclusion window of half-width $\Delta t$ including R d
 That is, for every pixel $m$ in the target star , we construct $S$ virtual time series, 
   in which every component $v$ is defined to be     
 \begin{eqnarray}
-I_{vn} = I_{mn-R-k}\ or\ I_{vn} = I_{mn+R+k},
+I_{v,n} = I_{m,n-R-k}\ or\ I_{v,n} = I_{m,n+R+k},
 \quad,
 \end{eqnarray}
 \Bernhard{I find the notation $I_{mn-R-k}$ confusing --- better write $I_{m,n-R-k}$, and then for consistency also $I_{v,n}$ etc.}
@@ -465,80 +467,84 @@ As mentioned above, in the context of this project,
 It is often preferable to work in a probabilistic mode in which the objective function can be justified
   in terms of a likelihood (probability for the data given the model)
   or a posterior probability density function (likelihood times a prior pdf).
-The \name\ treats each \Kepler\ data point $I_{mn}$ as being
-  predictable from a linear combination of data points $I_{m'n}$,
+The \name\ treats each \Kepler\ data point $I_{m,n}$ as being
+  predictable from a linear combination of data points $I_{m',n}$,
   where $m'$ is from the set of non-overlapping pixels $m'\in\set{M}_m$.
 \begin{eqnarray}
-I_{mn}         &=& I^{\ast}_{mn} + e_{mn}
+I_{m,n}         &=& I^{\ast}_{m,n} + e_{m,n}
 \\
-I^{\ast}_{mn}  &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m'n} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{vn}
+I^{\ast}_{m,n}  &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m',n} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{v,n}
 \quad,
 \end{eqnarray}
-where $I^{\ast}_{mn}$ is the prediction (by the model) for data point $I_{mn}$,
-  $e_{mn}$ is a noise contribution or residual away from the prediction,
+where $I^{\ast}_{m,n}$ is the prediction (by the model) for data point $I_{m,n}$,
+  $e_{m,n}$ is a noise contribution or residual away from the prediction,
   and the $a_{mnm'}$ and $b_{mnk}$ are the parameters (linear coefficients of the prediction).
 The parameters $a_{mnm'}$ and $b_{mnk}$ have indices $m$ because
   they are different for every pixel $m$,
   and they will even be different for every time step $n$;
-  that is, there will be a separate best-fit value for the parameters for every $I_{mn}$.
+  that is, there will be a separate best-fit value for the parameters for every $I_{m,n}$.
 If we presume that the residuals away from the prediction are normally distributed with zero mean
   and known variance,
-  likelihood optimization reduces to chi-squared \Bernhard{maybe better $\chi^2$?} minimization.
+  likelihood optimization reduces to $\chi^2$ \Bernhard{maybe better $\chi^2$?} minimization.
 We add to the standard chi-squared definition a regularization term
   (equivalent to multiplying the likelihood by a Gaussian prior pdf)
   that penalizes large absolute values for the the coefficients $a_{mnm'}$:
 \begin{eqnarray}
-\chi^2_{mn}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{mn'} - I^{\ast}_{mnn'}]^2}{\sigma^2_{mn'}}
+\chi^2_{m,n}    &=& \sum_{n'\in\set{N}_n} \frac{[I_{m,n'} - I^{\ast}_{m,n',n}]^2}{\sigma^2_{m,n'}}
                  + \lambda_{a}\sum_{m'\in\set{M}_m}a_{mnm'}^2 + \lambda_{b}\sum_{v\in\set{V}_m}b_{mnv}^2
 \\
-I^{\ast}_{mnn'} &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m'n'} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{vn'}
+I^{\ast}_{m,n',n} &=& \sum_{m'\in\set{M}_m} a_{mnm'}\,I_{m',n'} + \sum_{v\in\set{V}_m} b_{mnv}\,I_{v,n'}
 \quad,
 \end{eqnarray}
 \Bernhard{(1) why does $I$ have three indices now, and what does that mean? In Eq. (3) there are only two indices. (2) do we need the sigmas at all, or could we absord this into the lambdas?}
-where the $\sigma^2_{mn'}$ are the (presumed known)\Bernhard{known, or estimated from data? If not estimated, how do we know them?} individual-pixel noise variances,
+\Dun{In CPM,  for every time points,  the $\chi^2$ minimization is independent, the third index of $I^{\ast}$ indicates which time point is being 
+optimized,  maybe I can find a better notation}
+where the $\sigma^2_{m,n'}$ are the (presumed known)\Bernhard{known, or estimated from data? If not estimated, how do we know them?} individual-pixel noise variances,
   and $\lambda_{a}$, $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{mnm'}, b_{mnv}$. In general, $\lambda_a$ and $\lambda_b$ could depend on $m,n$, however, we do not make use of this freedom.
 
-The train-and-test idea comes into the objective function $\chi^2_{mn}$:
-When we are computing the objective function $\chi^2_{mn}$,
+The train-and-test idea comes into the objective function $\chi^2_{m,n}$:
+When we are computing the objective function $\chi^2_{m,n}$,
   we are using only time points $n'\in\set{N}_n$ that don't overlap the target (or test) time point $n$.
 We train the model---that is, set the parameters $a_{mnm'}$ and $b_{mnv}$---%
-  by choosing the full set of parameters that jointly minimize the objective function $\chi^2_{mn}$.
+  by choosing the full set of parameters that jointly minimize the objective function $\chi^2_{m,n}$.
 Fortunately, given the form of the model,
   this minimization is just a linear solve (linear operation on the data).
-Importantly however, and perhaps surprisingly, the objective function $\chi^2_{mn}$ is \emph{different}
-  for every target data point (pixel value to be predicted) $I_{mn}$;
+Importantly however, and perhaps surprisingly, the objective function $\chi^2_{m,n}$ is \emph{different}
+  for every target data point (pixel value to be predicted) $I_{m,n}$;
   we have to do an \emph{independent optimization} (or really linear solve)
   of the parameters for every pixel value we want to predict.
-That is, every pixel datum $I_{mn}$ we predict will have
+That is, every pixel datum $I_{m,n}$ we predict will have
   \emph{different} settings of the parameters $a_{mnm'}$ and $b_{mnk}$.
 Since there are of order $10^{6}$ total pixel values in the \Kepler\ Target Pixel Files for \emph{each \Kepler\ target},
   and of order $10^7$ data sources used as basis functions in the linear fitting,
   this represents one fuck of a lot of linear solves,
   and a lot of parameters to obtain and record.
 
-Once we have obtained the parameters $a_{mnm'}$ and $b_{mnv}$ corresponding to a particular data point $I_{mn}$,
-  we can make a \emph{prediction} $I^{\ast}_{mn}$ for the intensity at that pixel.
+Once we have obtained the parameters $a_{mnm'}$ and $b_{mnv}$ corresponding to a particular data point $I_{m,n}$,
+  we can make a \emph{prediction} $I^{\ast}_{m,n}$ for the intensity at that pixel.
 By construction of our objective function, this is truly a prediction,
   in the sense that the optimization (or solve) that produced the parameters
   (and thus the prediction)
-  did not make use of $I_{mn}$ itself,
+  did not make use of $I_{m,n}$ itself,
   or even any of the pixel values that are nearby in angle or time
   (as described above).
-  With all the predicted pixel values $I^{\ast}_{mn}$ of the target star,  
+  With all the predicted pixel values $I^{\ast}_{m,n}$ of the target star,  
   our new stellar flux estimates,
   what we will call the ``\name\ prediction'',
   is constructed from the \name\ pixels
   in precisely the same way as the official \Kepler\ SAP photometry
   is constructed from the Target Pixel Files.
-That is, we perform a weighted sum of \name\ predicted pixels $I^{\ast}_{mn}$ with weights $w_m$,
+That is, we perform a weighted sum of \name\ predicted pixels $I^{\ast}_{m,n}$ with weights $w_m$,
   all of which are either zero or unity,
   and we adopt precisely the same weight assignments as are adopted in the SAP photometry;
   in equations, the flux estimate $S_n$ at time $t_n$ of the target star is given by
 \begin{eqnarray}
-S_n = \sum_m w_m\,I^{\ast}_{mn}
+S_n = \sum_m w_m\,I^{\ast}_{m,n}
 \quad ,
 \end{eqnarray}
-where the sum is over the $M$ pixels that are associated with the target star \Bernhard{if the sum is only over the pixels of the target star, then all $w_m$ are equal to 1 and they can be dropped}.
+where the sum is over the $M$ pixels that are associated with the target star and the weight $w_m$ is unity for pixels in the optimal
+aperture while zero outside the optimal aperture.
+ \Bernhard{if the sum is only over the pixels of the target star, then all $w_m$ are equal to 1 and they can be dropped}.
 As we have noted above and below, these photometric estimators are not optimal for any purpose,
   but improving them is beyond the scope of this project.
 
