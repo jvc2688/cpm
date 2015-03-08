@@ -40,9 +40,8 @@
   Dun~Wang\altaffilmark{\ref{CCPP}},
   Dan~Foreman-Mackey\altaffilmark{\ref{CCPP}},
   David~W.~Hogg\altaffilmark{\ref{CCPP},\ref{CDS},\ref{MPIA},\ref{email}},
-  Bernhard~Sch\"olkopf\altaffilmark{\ref{MPIIS}},
-  others%
-}
+  Bernhard~Sch\"olkopf\altaffilmark{\ref{MPIIS}}
+  }
 \newcounter{address}
 \setcounter{address}{1}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{CCPP}%
@@ -74,23 +73,22 @@
 
 
 \begin{abstract}
-In general, astronomical observations are affected by several kinds of noise, each with its own causal source; 
+Astronomical observations are affected by several kinds of noise, each with its own causal source; 
 there is photon noise, stochastic source variability, and residuals coming from imperfect calibration of the detector or telescope. 
-In particular, the precision of NASA Kepler photometry for exoplanet science—
-the most precise photometric measurements of stars ever made—
+The precision of NASA \Kepler\ photometry for exoplanet science ---
+the most precise photometric measurements of stars ever made ---
 appears to be limited by unknown or untracked variations in spacecraft pointing and temperature, 
-and unmodeled stellar variability. Here we present the Causal Pixel Model (CPM) for Kepler data, 
+and unmodeled stellar variability. Here we present the Causal Pixel Model (\name) for \Kepler\ data, 
 a data-driven model intended to capture variability but preserve transit signals. 
-The CPM works at the pixel level (not the photometric measurement level); 
-it can capture more fine-grained information about the variation of the spacecraft than is available in the pixel-summed aperture photometry. 
-The basic idea is that CPM predicts each target pixel value from a large number of pixels of other stars sharing the instrument variabilities 
-while not containing any information on possible transits at the target star. In addition, we use the target star’s future and past (auto-regression). 
-By appropriately separating the data into training and test sets, we ensure that information about any transit will be perfectly isolated from the fitting of the model. 
+The \name\ works at the pixel level; So that
+it can capture more fine-grained information about the variation of the spacecraft.
+The \name\ predicts each target pixel value from a large number of pixels of other stars sharing the instrument variabilities 
+while not containing any information on possible transits in the target star. In addition, we use the target star’s future and past (auto-regression). 
+By appropriately separating, for each data point, the data into training and test sets, we ensure that information about any transit will be perfectly isolated from the model. 
 The method has four hyper-parameters (the number of predictor stars, the auto-regressive window size, 
 and two L2-regularization amplitudes for model components), which we set by cross-validation. 
-We determine a generic set of hyper-parameters that works well on most of the stars and apply the method to a corresponding set of target stars. 
-For these stars, we calculate the Combined Differential Photometric Precision (CDPP), which indicates the noise level of a certain time scale. 
-We find that we can consistently outperform (for the purposes of exoplanet detection) the Kepler Pre-search Data Conditioning (PDC) method for exoplanet discovery.
+We determine a generic set of hyper-parameters that works well for most of the stars and apply the method to a corresponding set of target stars. 
+We find that we can consistently outperform (for the purposes of exoplanet detection) the \Kepler\ Pre-search Data Conditioning (PDC) method for exoplanet discovery.
 
 \end{abstract}
 
@@ -113,7 +111,7 @@ There is also variability of overlapping fainter stars;
   that is, confusion noise combined with variability of the confusing sources.
 There are small changes in spacecraft pointing,
   which leads to slightly different illumination of the focal-plane pixels,
-  and thus different sensitivity to errors (problems) in the device flat-field \Bernhard{I recall Dan saying that they don't do flat-fielding at Kepler?} or sensitivity map.
+  and thus different sensitivity to variations in the device
 There are also \emph{intra-pixel} sensitivity variations that can contribute (\todo{cite white paper; Spitzer results}).
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
@@ -175,16 +173,18 @@ The method proposed here, \name, shares the motivation of PDC.
 The main differences are that
 \begin{enumerate}
 \item
-\name\ works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information,
+\name\ works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information
 \item
-\name has far more freedom (far more parameters) than the PDC
+\name\ has far more freedom (far more parameters) than the PDC
   but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales
-  through strong regularization and a train-and-test framework,
-\item \name directly optimizes for prediction accuracy, while PDC uses PCA projections
+  through strong regularization and a train-and-test framework.
+\item 
+\name\ directly optimizes for prediction accuracy, while PDC uses PCA projections.
 \item
 the purpose of \name\ is to search for exoplanets, so in \name, intrinsic stellar
   variability is also removed as well as the systematics.
-\item \name uses as inputs only instantaneous values of other stars, plus near future and past of the star itself in an autoregressive fashion. PDC works with time series (lightcurves) of the other stars
+\item 
+\name\ uses as inputs only instantaneous values of other stars, plus near future and past of the star itself in an autoregressive fashion, while PDC works with time series (lightcurves) of the other stars.
 \end{enumerate}
 
 
@@ -217,8 +217,8 @@ We will return to this latter point at the end;
   it must be possible to do a better job with the photometric measurements.
 That's beyond the scope of this project but a place for a valuable intervention on the \Kepler\ data.
 
-The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.\Bernhard{doesn't this contradict our statement that we only care about transits and we remove the lightcurve variability? Suggestion: The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.}
-\Dun{Yes, I think so and made this change.}
+The scope of this project is an intervention---\name---that makes the \Kepler\ transit photometry more precise.
+
 We describe the method and deliver all the relevant code in a public, open-source repository.
 We also provide an interface to the \Kepler\ data that delivers improved ``\name\ photometry''
   for every \Kepler\ target.
@@ -251,7 +251,7 @@ These regularizations do for optimizations what priors do for posterior probabil
   or along directions in parameter space in which the data are not constraining.
 General regularizations or priors will break the convexity of linear model fitting;
   if convexity is to be maintained, these regularizations also have to be quadratic,
-  or else one of a class of other known forms (one of which is L1-regularization).\Bernhard{deleted ``small number'' -- I think it is convex for Lp with $p\ge1$.}
+  or else one of a class of other known forms (one of which is L1-regularization).
 Given these considerations, it makes sense to try to build our pixel-level model
   using a linear model with a quadratic objective function and a quadratic regularization;
   this is what \name\ will be.
@@ -596,8 +596,8 @@ However, the performance of default hyper-parameters is acceptable
 \caption{\label{hyperparameter} Comparison between default and optimized hyper-parameters. 
 In the top panel, SAP flux is plotted in black, \name\ prediction of default hyper parameters is in red line, 
 \name\ prediction of optimized hyper-parameters is in green line. 
-The middle panel shows the CPM flux of the optimized hyper-parameters, 
-while CPM flux of the default hyper-parameters is in the bottom panel, 
+The middle panel shows the \name\ flux of the optimized hyper-parameters, 
+while \name\ flux of the default hyper-parameters is in the bottom panel, 
 the two vertical blue lines indicate the location of the transit signal, and signal to noise ratio is calculated in both situation. 
 The optimized hyper-parameter performs better than the default one, but the results from both situation are close.}
 \end{figure}
@@ -631,7 +631,7 @@ In the top panel, the black points shows the SAP flux of the pixel with the inje
 the green line is the fitting of the SAP flux, and the red line is the \name\ prediction. 
 In the bottom panel, red and green points represent the \name\ flux and fit flux, 
 while the signal value is indicated by the horizontal line. 
-CPM largely preserves the signal while the fitting flux overfit the signal.}
+\name\ largely preserves the signal while the fitting flux overfit the signal.}
 \end{figure}
 
 \clearpage
@@ -709,9 +709,9 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC, showing that our
 \caption{\label{fluxes} Corrected fluxes using \name, for 12 example stars, spanning the main magnitude (brightness) range encountered. 
 In first column plots,   we consider bright stars with magnitude from 9 to 10.5, second cloumn are stars with magnitude from 11 to 12.5,  
 and the third column are faint stars with magnitude above 13. In the first two rows, we present some quiet stars. 
-In all three panels, the top panel shows the SAP flux (black) and the CPM regression (red), i.e., our prediction of the star from other stars. 
-The middle panel shows the CPM flux corrected using the regression, and the bottom shows the PDC flux. 
-One can see that the CPM flux curve preserves the exoplanet transits (little downward spikes), 
+In all three panels, the top panel shows the SAP flux (black) and the \name\ regression (red), i.e., our prediction of the star from other stars. 
+The middle panel shows the \name\ flux corrected using the regression, and the bottom shows the PDC flux. 
+One can see that the \name\ flux curve preserves the exoplanet transits (little downward spikes), 
 while removing a substantial part of the variability present in the PDC flux. 
 Both the bottom two rows present some variable stars with slow and fast variability. 
 For the variable stars, we did not present the PDC comparison, since the PDC flux try to preserve intrinsic steller variability.}
@@ -734,12 +734,12 @@ For the variable stars, we did not present the PDC comparison, since the PDC flu
 \includegraphics[width=\columnwidth]{pdc_cdpp12_hist_r100}
 \caption{}
 \end{subfigure}
-\caption{\label{cdpp} Comparison of the proposed method (CPM) to the \Kepler\ Pre-search Data Conditioning (PDC) method 
+\caption{\label{cdpp} Comparison of the proposed method (\name) to the \Kepler\ Pre-search Data Conditioning (PDC) method 
 in terms of Combined Differential Photometric Precision (CDPP) (see text). 
 Plot (a) shows our performance (red) vs.\ the PDC performance in a scatter plot, as a function of star magnitude 
 (note that larger magnitude means fainter stars, and smaller values of CDPP indicate a higher quality as measured by CDPP.  
 Plot (b) bins the same dataset and shows box plots within each bin, indicating median, top quartile and bottom quartile. 
-The red box corresponds to CPM, while the black box refers to PDC. Plot (c), finally, shows a histogram of CDPP values. 
+The red box corresponds to \name, while the black box refers to PDC. Plot (c), finally, shows a histogram of CDPP values. 
 Note that the red histogram has more mass towards the left, i.e., smaller values of CDPP, indicating that our method overall outperforms PDC, the Kepler ``gold standard.'' 
 }
 \end{figure*}
