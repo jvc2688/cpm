@@ -13,10 +13,12 @@ CHECK_RERUN = grep Rerun $*.log
 
 all: ${NAME}.${SUFF}
 
-%.pdf: %.tex
-	${LATEX} $<
-	( ${CHECK_RERUN} && ${LATEX} $< ) || echo "Done."
-	( ${CHECK_RERUN} && ${LATEX} $< ) || echo "Done."
+%.pdf: %.tex *.bib
+	${LATEX} ${NAME}
+	bibtex ${NAME}
+	${LATEX} ${NAME}
+	( ${CHECK_RERUN} && ${LATEX} ${NAME} ) || echo "Done."
+	( ${CHECK_RERUN} && ${LATEX} ${NAME} ) || echo "Done."
 
 clean:
 	${RM_TMP}

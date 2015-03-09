@@ -29,6 +29,8 @@
 \newcommand{\Bernhard}[1]{$\bullet$\footnote{{\bf Bernhard:} #1}}
 \newcommand{\Dun}[1]{$\bullet$\footnote{{\bf Dun:} #1}}
 
+\bibliographystyle{apj}
+
 
 \begin{document}
 
@@ -112,7 +114,7 @@ There is also variability of overlapping fainter stars;
 There are small changes in spacecraft pointing,
   which leads to slightly different illumination of the focal-plane pixels,
   and thus different sensitivity to variations in the device
-There are also \emph{intra-pixel} sensitivity variations that can contribute (\todo{cite white paper; Spitzer results}).
+There are also \emph{intra-pixel} sensitivity variations that can contribute \citep{whitepaper} (\todo{cite white paper; Spitzer results}).
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
 These also lead to changes in pixel and intra-pixel illumination.
@@ -126,7 +128,7 @@ There are also probably changes to the detector sensitivity with temperature and
 The remarkable thing about \Kepler\ is that it is trying to measure stars at a level of precision
   much higher than ever previously attempted;
   new effects really \emph{must} appear at some point.
-In \figurename~\ref{fig:pixelpatch}, we show the pixel-level variability in the \Kepler\ data
+In \figurename~\ref{ccd}, we show the pixel-level variability in the \Kepler\ data
   near one bright star that shows minimal intrinsic variability;
   this figure highlights the spacecraft-induced effects.
 
@@ -147,7 +149,7 @@ The \Kepler\ community is familiar with these kinds of models;
 
 One such method---one that is designed to describe or model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability---%
-  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method (\todo{citation}).
+  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method \citep{pdc1}, (\todo{citation}).
 The PDC builds on the idea that systematic errors have a temporal structure that can be extracted from ancillary quantities. 
 %This seems the original paper on PDC:
 %[PDC1] https://kepler.nasa.gov/science/ForScientists/papersAndDocumentation/SOCpapers/7740-67-pdc-jtwicken-copyright.pdf
@@ -156,11 +158,11 @@ The PDC builds on the idea that systematic errors have a temporal structure that
 %[PDC2] http://arxiv.org/pdf/1203.1382v1.pdf
 %[PDC3] http://arxiv.org/pdf/1203.1383v1.pdf
 
-In the first PDC \cite{PDC1}, removal of systematic errors was performed based on correlations with a set of ancillary engineering data. These data include the temperatures at the local detector electronics below the CCD array, and polynomials describing the centroid motion of the targets from PA.
+In the first PDC \cite{pdc1}, removal of systematic errors was performed based on correlations with a set of ancillary engineering data. These data include the temperatures at the local detector electronics below the CCD array, and polynomials describing the centroid motion of the targets from PA.
 
-In \cite{PDC2,PDC3}, filtered light curves of other stars are used instead. The light curve of a target star is projected on the leading eight principal components of these light curves. This projection is then removed from the star's light curve. The principal components are computed from a set of relatively quiet stars close in position and magnitude. This was done since it was observed that otherwise, too much of the stellar variability was being removed. 
+In \cite{pdc2,pdc3}, filtered light curves of other stars are used instead. The light curve of a target star is projected on the leading eight principal components of these light curves. This projection is then removed from the star's light curve. The principal components are computed from a set of relatively quiet stars close in position and magnitude. This was done since it was observed that otherwise, too much of the stellar variability was being removed. 
 
-From the point of view of the present paper, one can only guarantee that {\em no} stellar variability is removed if the stars do not depend on time at all. If both the target star signal as well as some of the other stars do depend on time, then time acts as a confounder influencing both, and thus the true signals are not statistically independent, and thus the target signal may be compromised. We suspect that this effect is limited in \cite{PDC2,PDC3} since only eight principal components are used, which limits the capacity of the model.
+From the point of view of the present paper, one can only guarantee that {\em no} stellar variability is removed if the stars do not depend on time at all. If both the target star signal as well as some of the other stars do depend on time, then time acts as a confounder influencing both, and thus the true signals are not statistically independent, and thus the target signal may be compromised. We suspect that this effect is limited in \cite{pdc2,pdc3} since only eight principal components are used, which limits the capacity of the model.
 
 PDC ``de-trends'' the \Kepler\ lightcurves by removing those parts that are explained by the basis lightcurves
   generated from a principal components analysis (PCA) of filtered lightcurves.
@@ -303,7 +305,7 @@ which is optimal for exoplanet transit searching.
 \end{subfigure}
 \caption{\label{ccd} Stars on the same CCD share systematic errors. 
 The two panels show pixel fluxes (brightnesses) for two stars: (a) KIC 5088536, (b) KIC 5949551; 
-here, KIC stands for Kepler Input Catalog. Both stars lie on the same CCD (see Fig.~\ref{fig1}), 
+here, KIC stands for Kepler Input Catalog. Both stars lie on the same CCD, 
 but far enough apart such that there is no stray light from one affecting the other. 
 Each panel shows the pixels contributing to the respective star. 
 Note that there exist similar trends in these two stars, caused by systematic errors. 
@@ -803,5 +805,6 @@ This research made use of the NASA Astrophysics Data System.
 
 \clearpage
 
+\bibliography{cpm}
 
 \end{document}
