@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{caption} 
 \usepackage{subcaption} 
-
+\usepackage{color}
 \usepackage{hyperref}
 \usepackage{url}
 
@@ -30,7 +30,9 @@
 \newcommand{\Dun}[1]{$\bullet$\footnote{{\bf Dun:} #1}}
 
 \bibliographystyle{apj}
-
+\definecolor{linkcolor}{rgb}{0,0,0.5}
+\hypersetup{colorlinks=true,linkcolor=linkcolor,citecolor=linkcolor,
+            filecolor=linkcolor,urlcolor=linkcolor}
 
 \begin{document}
 
@@ -100,8 +102,9 @@ The photometric measurements of stars made by the \Kepler\ Satellite are precise
   to permit discovery of exoplanet transits with depths smaller than $10^{-4}$.
 This precision results from great spacecraft stability,
   supplemented by various methods for removing small residual spacecraft-induced and stellar-variability trends in the brightnesses,
-  either filtering the data (with things like median filters; \todo{citations})
-  or fitting the data with flexible models (like polynomials or splines or Gaussian Processes; \todo{citations}).
+  either filtering the data (with things like median filters; \cite{trendfilter})
+  or fitting the data with flexible models (like polynomials or splines or Gaussian Processes; 
+  \cite{gaussian}).
 When employed in the service of exoplanet search and characterization,
   these methods are usually agnostic about whether photometric variations originate in the spacecraft or in the star itself;
   that is, they obliterate intrinsic stellar variability along with spacecraft issues.
@@ -113,8 +116,8 @@ There is also variability of overlapping fainter stars;
   that is, confusion noise combined with variability of the confusing sources.
 There are small changes in spacecraft pointing,
   which leads to slightly different illumination of the focal-plane pixels,
-  and thus different sensitivity to variations in the device
-There are also \emph{intra-pixel} sensitivity variations that can contribute \citep{whitepaper} (\todo{cite white paper; Spitzer results}).
+  and thus different sensitivity to variations in the device.
+There are also \emph{intra-pixel} sensitivity variations that can contribute \citep{whitepaper}.
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential (across the focal plane) pointing changes.
 These also lead to changes in pixel and intra-pixel illumination.
@@ -149,7 +152,7 @@ The \Kepler\ community is familiar with these kinds of models;
 
 One such method---one that is designed to describe or model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability---%
-  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC) method \citep{pdc1}, (\todo{citation}).
+  is the \Kepler\ Presearch (\sic) Data Conditioning (PDC, \cite{pdc1}).
 The PDC builds on the idea that systematic errors have a temporal structure that can be extracted from ancillary quantities. 
 %This seems the original paper on PDC:
 %[PDC1] https://kepler.nasa.gov/science/ForScientists/papersAndDocumentation/SOCpapers/7740-67-pdc-jtwicken-copyright.pdf
@@ -158,7 +161,7 @@ The PDC builds on the idea that systematic errors have a temporal structure that
 %[PDC2] http://arxiv.org/pdf/1203.1382v1.pdf
 %[PDC3] http://arxiv.org/pdf/1203.1383v1.pdf
 
-In the first PDC \cite{pdc1}, removal of systematic errors was performed based on correlations with a set of ancillary engineering data. These data include the temperatures at the local detector electronics below the CCD array, and polynomials describing the centroid motion of the targets from PA.
+In the first PDC \citep{pdc1}, removal of systematic errors was performed based on correlations with a set of ancillary engineering data. These data include the temperatures at the local detector electronics below the CCD array, and polynomials describing the centroid motion of the targets from PA.
 
 In \cite{pdc2,pdc3}, filtered light curves of other stars are used instead. The light curve of a target star is projected on the leading eight principal components of these light curves. This projection is then removed from the star's light curve. The principal components are computed from a set of relatively quiet stars close in position and magnitude. This was done since it was observed that otherwise, too much of the stellar variability was being removed. 
 
@@ -408,7 +411,10 @@ since there is discontinuity between every 30-ish-day period).\Bernhard{as an as
 
 In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{m,n}$
   of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the month.
-(For intensity measurements $I_{m,n}$ here we are using pixels from the Target Pixel Files.\Bernhard{include reference})
+(For intensity measurements $I_{m,n}$ here we are using pixels from the Target Pixel Files on MAST
+  \footnote{\url{http://archive.stsci.edu/kepler/}}, for details of the TPF, 
+  see the \project{Kepler Archive Manual} 
+  \footnote{\url{http://archive.stsci.edu/kepler/manuals/archive_manual.pdf}}).
 We want to build a prediction for the intensity $I_{m,n}$ in pixel $m$ at each time $t_n$
   using the intensities $I_{m',n}$ of other pixels $m'$.
 The question is:  What other pixels to choose?
@@ -650,13 +656,16 @@ The results illustrate that for these quiet stars our approach removes
 a major part of the variability present in the PDC light curves, while preserving the transit signals. 
 To provide a quantitative comparison, we ran \name\ on 1000 stars from the whole Kepler input catalog 
 (500 chosen randomly from the whole list, and 500 random G-type sun-like stars), 
-and estimate the Combined Differential Photometric Precision (CDPP) (\todo{citation}) for \name\ and PDC. 
+and estimate the Combined Differential Photometric Precision (CDPP,  \cite{cdpp1} )for \name\ and PDC. 
 CDPP is an estimate of the relative precision in a time window, 
 indicating the noise level seen by a transit signal with a given duration. 
 The duration is typically chosen to be 3, 6, or 12 hours. 
 We use the 12-hours CDPP metric, since the transit duration of an earth-like planet is roughly 10 hours. 
-Before CDPP is estimated, the 100 most variable stars in the list are removed, 
-since PDC is not designed to remove stellar variability, and we want to compare \name\ and PDC on the same footing.
+Before CDPP is estimated, the variability of the stars are evaluated by median differential variability 
+  (MDV, see \cite{basri2013} for details). 
+Based on the variability, the 100 most variable stars in the list are removed, 
+  since PDC is not designed to remove stellar variability, 
+  and we want to compare \name\ and PDC on the same footing.
 Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC, showing that our method (\name) outperforms PDC. 
 
 \begin{figure}[htb]
@@ -768,14 +777,17 @@ true stellar variability. Thus for the time being, we just focus on producing we
 calibrated light curves for searching exoplanets, but in long term, we are looking
 forward to find a method to preserve the stellar variability.
 
-However, forget all the unsolved problems, we expect that our method will enable
-astronomical discoveries at higher sensitivity on the existing \Kepler\ data as well as on
-future missions.  As we know, \Kepler\ K2 data are suffering from the broken-down of
-reaction wheels, which makes the satellite hard to control and introduce significant
-systematics. Moreover, in 2017, NASA is planning the launch of another space 
-telescope---TESS (Transiting Exoplanet Survey Satellite), which will perform an all-sky 
-survey for small (earth-like) planets of nearby M stars. We think our method can be simply
-extended for these project to help achieving higher precession and more scientific results. 
+However, forget all the unsolved problems, 
+  we expect that data-driven model like our method will enable astronomical discoveries 
+  at higher sensitivity on the existing \Kepler\ data as well as on future missions.  
+As we know, \Kepler\ \project{K2} \citep{k2} data are suffering from the broken-down of reaction wheels, 
+  which makes the satellite hard to control and introduce significant systematics. 
+Flexible data-driven model \citep{dfm} has already shown the power on the \project{K2} data 
+  and find new planets.
+Moreover, in 2017, NASA is planning the launch of another space telescope---
+  \project{TESS} (Transiting Exoplanet Survey Satellite, \cite{tess}), 
+  which will perform an all-sky survey for small (earth-like) planets of nearby M stars. 
+  We think our method can be simply extended for these project to help achieving higher precession and more scientific results. 
 
 
 \acknowledgements
