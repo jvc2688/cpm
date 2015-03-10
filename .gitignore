@@ -5,4 +5,7 @@
 *.log
 *.c
 *.pkl
+*.out
+*.bbl
+*.blg
 cpm.pdf
