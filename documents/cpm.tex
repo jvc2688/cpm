@@ -291,7 +291,7 @@ That is, if the model is designed to fit not just spacecraft variability
   the predictive model will be permitted to use as input pixels that \emph{do} overlap the 
   target star.
 In what follows, we are going to use input data both from pixels of other stars and the  
-target star pixels' past and furture.
+target star pixels' past and future.
 These models ought to remove both spacecraft variability and intrinsic stellar variability, 
 which is optimal for exoplanet transit searching.
 
@@ -329,7 +329,7 @@ The model is restricted in the number of parameters
   or by limiting the dimensionality
   (as in principal components analysis)
   or by applying strong priors
-  (as with smoothness priors, that effectively reduce freedom without explicitly reducing the number of parameters).
+  (as with smoothness priors or regularization, that effectively reduce freedom without explicitly reducing the number of parameters).
 In each case, the restriction on model freedom is controlled by some \emph{hyper-parameter}
   (such as the number of inputs, or number of principal components, or the strength of the smoothness prior).
 The hyper-parameters can be set or tested with tools like cross-validation,
@@ -342,14 +342,14 @@ In this framework, the data used to \emph{train} the model%
   ---meaning set the values of the parameters of the model---%
   are disjoint from the \emph{test} data
   ---meaning the data that are being predicted (the target data).
-Because we are extremely concerned with detecting Earth-analog exoplanet transits,
-  which take about ten hours,
+Because we are concerned with detecting exoplanet transits,
+  which take few hours,
   we adopt an extreme version of the train-and-test framework,
-  in which the training data are always separated from the test data by at least ten hours.
+  in which the training data are always separated from the test data by couple of hours.
 That is, when we are using the model to predict a particular pixel in the target data taken at time $t$,
   we use parameters obtained by an optimization that makes use of only data
   that comes either at times prior to $t-\Delta t$ or after $t+\Delta t$,
-  where $\Delta t$ is a tunable parameter but which we will set to roughly $12$~h.
+  where $\Delta t$ is a tunable parameter but which we will set to $9$~h.
 This ensures that no information about any exoplanet transit itself
   can be entering into the prediction of the pixels contributing to the stellar photometry.
 In general, if there is a scientific goal of preserving intrinsic stellar variability,
@@ -365,7 +365,7 @@ Those assumptions are good for our purposes but not necessarily ideal for all us
 Short-period exoplanets and certain kinds of stellar variability
   could be wiped out by a model with these settings of the training-data regime.
 
-The fourth general idea involved in this kind of data-driven modeling is that the models often aren't \emph{interpretable}, or at least hard to interpret.
+The fourth general idea involved in this kind of data-driven modelling is that the models often aren't \emph{interpretable}, or at least are hard to interpret.
 This means, in particular, that although the model might do a good job of \emph{predicting} the target pixels,
   using a linear (or more complex) combination of the input pixel data,
   it won't deliver anything that can be unambiguously interpreted as the \emph{flux} of the star in question,
@@ -384,7 +384,7 @@ One might think that the ``best'' model is the one that predicts data with lowes
 Besides, a model that can predict not just the spacecraft-induced variability,
   but also variability caused by exoplanet transits of interest,
   will effectively over-fit and distort the most important information in the light-curves.
-That is, what is considered best for modeling the data depends on the objectives of the user.
+That is, what is considered best for modelling the data depends on the objectives of the user.
 For us, who are interested (in the long term) in finding and characterizing Earth analogs,
   the ``best'' data-driven model is the one that produces the most success in finding and characterizing Earth analogs!
 What we will show in what follows is that the \name\ photometry does not distort
