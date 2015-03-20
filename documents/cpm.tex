@@ -56,24 +56,9 @@
   Max-Planck-Institut f\"ur Astronomie, Heidelberg, Germany}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{email}%
   To whom correspondence should be addressed; \texttt{<david.hogg@nyu.edu>}.}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Ames}%
-%%   NASA Ames Research Center}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Courant}%
-%%   Courant Institute of Mathematical Sciences, New York University}
 \altaffiltext{\theaddress}{\stepcounter{address}\label{MPIIS}%
   Max-Planck-Institut f\"ur Intelligente Systeme, T\"ubingen}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Oxford}%
-%%   Department of Physics, Oxford University}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{CfA}%
-%%   Harvard--Smithsonian Center for Astrophysics}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{UCL}%
-%%   Department of Physics and Astronomy, University College London}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{CMU}%
-%%   McWilliams Center for Cosmology, Carnegie Mellon University}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Caltech}%
-%%   Department of Astronomy, California Institute of Technology}
-%% \altaffiltext{\theaddress}{\stepcounter{address}\label{Columbia}%
-%%   Department of Astronomy, Columbia University}
+
 
 
 \begin{abstract}
@@ -405,12 +390,9 @@ Associated with each target star is some set of pixels,
 That is, each telemetered pixel in each CCD is associated with a particular \Kepler\ target star.
 
 Let's consider a particular pixel $m$ in the focal plane in one particular month
-(here we always use data per month rather than quarter,  
-since there is discontinuity between every 30-ish-day period).\Bernhard{as an aside: I wonder whether \name reduces these discontinuities at all? (if we were to apply it across the discontinuities)}
-\Dun{I don't think \name\ will be applied across the discontinuities, especially when auto-regression are applied,  but in the end,  the \name somehow reduces the discontinuities, since it put light curve of every month into the same base line.}
-
+  (here we always use data per month rather than quarter,  since there are discontinuities between every 30-ish-day period).
 In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{m,n}$
-  of the intensity falling in that pixel at the $N$ times $t_n$ at which exposures were taken during the month.
+  of the intensity falling in pixel $m$ at the $N$ times $t_n$ at which exposures were taken during the month.
 (For intensity measurements $I_{m,n}$ here we are using pixels from the Target Pixel Files on MAST
   \footnote{\url{http://archive.stsci.edu/kepler/}}, for details of the TPF, 
   see the \project{Kepler Archive Manual} 
@@ -436,14 +418,14 @@ Note that because the set $\set{M}_m$ is of pixels associated with \emph{differe
 That is, there will be no (or almost no) overlap in stellar illumination of pixel $m$
   and the pixels $m'\in\set{M}_m$.
 
-When we are predicting the measurement $I_{m,n}$ from pixel $m$ at a particular time $t_n$,
-  we are going to use a train-and-test framework in which not only do we not use
-  data at time $t_n$ in optimizing the parameters of the regression or fit,
+When the measurement $I_{m,n}$ is being predicted from pixel $m$ at a particular time $t_n$,
+  train-and-test framework is used, in which not only
+  data at time $t_n$ are not used in optimizing the parameters of the regression or fit,
   but we don't even use any times $t$ such that $|t-t_n| < \Delta t$,
   where $\Delta t\sim 10$\,h as shown in Fig.~\ref{train-and-test}.
-That is, we train (optimize fit parameters) using the \emph{time set} $\set{N}_n$ of time
+That is, the model is trained (optimize fit parameters) by using the \emph{time set} $\set{N}_n$ of time
   indices $n'$ such that for all $n'\in\set{N}_n$,
-  $t_{n'}$ is in the same quarter as $t_n$,
+  $t_{n'}$ is in the same month as $t_n$,
   and $|t_{n'} - t_n|>\Delta t$.
 The time set of indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
   nor any of its neighbors in a time window of half-width $\Delta_t$. 
@@ -454,20 +436,20 @@ The time set of indices $\set{N}_n$ therefore does not overlap the time point $t
 \caption{\label{train-and-test} Train-and-test framework. Data near the target point $t_{n}$ within $\Delta t$ is excluded in the training set}
 \end{figure}
 
-In addition to pixel set $m'\in\set{M}_m$ from other stars,  
-  we also include past and future of the target star --- autoregressive (AR) component as input 
+In addition to the pixel set $m'\in\set{M}_m$ from other stars,  
+  we also include the past and future of the target star --- autoregressive (AR) component as input 
   to remove more of the stellar variability and thus increase the sensitivity for transits. 
 To do this, we select an exclusion window of half-width $\Delta t$ including R data points, 
   where $\Delta t\sim 10$\, h (as big as the window in the train-and-test framework) 
   around the point of time $t_{n}$ being corrected, 
-  to ensure that we do not remove the transit itself and then use $S$ closest future and past time points. 
+  to ensure that we do not remove the transit itself 
+  and then use $S$ closest future and past time points subject to that exclusion. 
 That is, for every pixel $m$ in the target star , we construct $S$ virtual time series, 
   in which every component $v$ is defined to be     
 \begin{eqnarray}
 I_{v,n} = I_{m,n-R-k}\ or\ I_{v,n} = I_{m,n+R+k},
 \quad,
 \end{eqnarray}
-\Bernhard{I find the notation $I_{mn-R-k}$ confusing --- better write $I_{m,n-R-k}$, and then for consistency also $I_{v,n}$ etc.}
 where $k = 1, 2\dots, S,$ so if there are totally $M$ pixels in the target stars, 
   we will finally add $2\cdot M\cdot S$\Bernhard{not quite: if I am right, then there are overall $(2R-1)$ in the exclusion zone, and $2S+2$ are used, for each pixel} \Dun{I changed k to be $1,2\dots, S$ so, so for every pixel, $2S$ are used} 
   autoregressive components into the predictors, which constructs the autoregressive set $\set{V}_m$
