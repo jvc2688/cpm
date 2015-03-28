@@ -8,5 +8,6 @@
 *.out
 *.bbl
 *.blg
+*.png
 cpm.pdf
 TSWLatexianTemp*
