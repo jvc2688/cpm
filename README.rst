@@ -17,5 +17,5 @@ license
 -------
 Copyright 2013, 2014 the authors.  **Not ready for redistribution.**
 
-------
+-------
 forked from https://github.com/dfm/cpm
