@@ -565,15 +565,12 @@ S_n = \sum_m w_m\,I^{\ast}_{m,n}
 \end{eqnarray}
 where the sum is over the $M$ pixels that are associated with the target star and the weight $w_m$ is unity for pixels in the optimal
 aperture while zero outside the optimal aperture.
- \Bernhard{if the sum is only over the pixels of the target star, then all $w_m$ are equal to 1 and they can be dropped}.
- \Dun{$w_m$ is 0 out of the optimal aperture,  we've added some words to explain it.}
 As we have noted above and below, these photometric estimators are not optimal for any purpose,
   but improving them is beyond the scope of this project.
 
-It is worth to mention that the \name\ prediction $S_{n}$ is constructed from predicted pixel value 
-  without any information about transits in the target star due to the train-and-test framework.
-  \Bernhard{changed this --- I didn't understand it} \Dun{Does it look better now?} 
-Therefore, it can be regarded as a light curve without transit signal. 
+Because of the train-and-test framework,  
+  we expect the \name\ prediction $S_{n}$ to be a prediction of%
+  what the star lightcurve would have under the influence of the spacecraft but with no exoplanet signal 
 Based on this idea, 
   we can construct the ``\name\ flux''% 
   (where the inverted commas indicate that it is not a flux in the sense that stellar variability is not preserved)% 
@@ -581,32 +578,34 @@ Based on this idea,
 \begin{eqnarray}
 \delta_{n}&\equiv&\frac{F_{n} - S_{n}}{S_{n}}
 \quad .
-\end{eqnarray}
-The \name\ flux is 
-In some sense, it is this relative residual that contains the exoplanet transit signals we seek. 
+\end{eqnarray} 
+In some sense, it is this relative residual--- the \name\ flux that contains the exoplanet transit signals we seek. 
 That is, a transit creates a negative residual away from the prediction, 
   and the amount of relative residual is just the fraction of the light eclipsed by the planet (the transit depth). 
 
 \subsection{Hyper-parameters}
-In the description of \name, 
-  we introduce 4 hyper-parameters---number of predictor stars Q (or number of predictor pixels P), 
-  number of autoregressive components S, and the two regularization strength $\lambda_{a}$ and $\lambda_{b}$.
+The \name\ has 4 hyper-parameters--- 
+  the number of predictor stars Q (or number of predictor pixels P), 
+  the number of autoregressive components S, 
+  and the two regularization strength $\lambda_{a}$ and $\lambda_{b}$.
 To set these 4 hyper-parameters, 
-  in principle we need to run cross-validation on every single star to optimize the performance of \name.
+  in principle we need to run something like a cross-validation on every single star to optimize performance.
 But optimizing in this 4-dimensional space is expensive, 
-  especially in \name\ we need to solve thousands of linear systems with thousands of parameters. 
+  especially since in the \name\ we need to solve thousands of linear systems, 
+  each of which has thousands of free parameters. 
 Therefore, in this paper, 
   we just set a general set of ``default'' hyper-parameters ($P=4000$, $Q=3$, $\lambda_a=1e5$, $\lambda_a=1e5$), 
-  which works well in most of the stars without highly variability. 
+  which works well in most of the stars without high variability. 
 To show how this general set of hyper-parameters performs, 
-  here we present a typical comparison between optimized and default hyper-parameters 
+  we present a few comparison between optimized and default hyper-parameters 
   in Fig~\ref{hyperparameter}.\Bernhard{maybe explain somewhere how SNR is calculated}  
 We can see that, in Fig~\ref{hyperparameter}, 
-  there is less variation in the \name\ flux from optimized hyper-parameters (green points in second panel) 
-  than from the default one (red points in the bottom panel). 
+  there is less variation in the \name\ flux% 
+  when we use optimized hyper-parameters (green points in second panel)% 
+  than when we use the default one (red points in the bottom panel). 
 In addition, the optimized flux has higher signal to noise ratio of the known transit than the default. 
 However, the performance of default hyper-parameters is acceptable 
-  and we will use this set of hyper-parameters throughout rest of the paper 
+  and we will use this set of hyper-parameters throughout the rest of the paper 
   to show the general performance of \name.
 
 \begin{figure}[htb]
@@ -750,7 +749,7 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
     while removing a substantial part of the variability present in the PDC flux. 
   Both the bottom two rows present some variable stars with slow and fast variability. 
   For the variable stars, we did not present the PDC comparison, 
-    since the PDC flux try to preserve intrinsic steller variability.}
+    since the PDC flux try to preserve intrinsic stellar variability.}
 \end{figure}
 
 
@@ -790,7 +789,7 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 
 \section{Discussion}
 We have presented a simple yet highly effective method that works in pixel-level 
-based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ light curves, 
+based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ lightcurves, 
 which is intended to search exoplanets. 
 However, based on our assumption of the causal structure of the \Kepler\ 
 data, if we turn off the auto-regressive components and keep the predictors from other
