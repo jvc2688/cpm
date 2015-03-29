@@ -788,24 +788,45 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 \clearpage
 
 \section{Discussion}
-We have presented a simple yet highly effective method that works in pixel-level 
-based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ lightcurves, 
-which is intended to search exoplanets. 
-However, based on our assumption of the causal structure of the \Kepler\ 
-data, if we turn off the auto-regressive components and keep the predictors from other
-stars working  in the \name, we should be able to still remove the systematics while
-preserve the intrinsic stellar  variability, since there is no reason that these independent
-stars can be used to predict the stellar variability of the target star. However, in fact, we
-can not preserve the stellar variability just by turning off the auto-regressive 
-components. One possible reason can be that, since our model is so flexible 
-(thousands of parameters), in principle it can fit any functions. In this sense, we should 
-run cross-validation with the auto-regressive components turned off and to find out how
-many pixels from other stars we need to just remove systematics while preserve stellar
-variability, but in fact we do not have a good criterion to check how well we preserve
-stellar variability in cross-validation because we do not have enough knowledge of the 
-true stellar variability. Thus for the time being, we just focus on producing well-
-calibrated light curves for searching exoplanets, but in long term, we are looking
-forward to find a method to preserve the stellar variability.
+We have presented a simple yet highly effective method---the \name\ that works in pixel-level 
+  based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ lightcurves, 
+  which is intended to search exoplanets.
+In \name, systematics and stellar variabilities are removed by% 
+  either fitting with other stars' lightcures or auto-regressive components,
+  while transit signals can still be perfectly preserved by train-and-test framework.
+Low variable clean lightcurves can be produced by \name\,  which is ideal for transit planet searching. 
+The CDPP noise level estimation is also presented in the paper to show the performance of \name. 
+
+\todo{Compare with PDC, median filter, pre-whitening}
+
+However, based on our assumption of the causal structure of the \Kepler\ data, 
+  if we turn off the auto-regressive components and keep the predictors from other stars working in the \name, 
+  we should be able to still remove the systematics while preserve the intrinsic stellar variability, 
+  since there is no reason that these independent stars can be used to predict the stellar variability of the target star.
+However, in fact, we can not preserve the stellar variability just by turning off the auto-regressive components. 
+One possible reason can be that, since our model is so flexible (thousands of parameters), 
+  in principle it can fit any functions. 
+In this sense, 
+  we should run cross-validation with the auto-regressive components turned off 
+  and to find out how many pixels from other stars we need to just remove systematics 
+  while preserve stellar variability, 
+  but in fact we do not have a good criterion to check how well we preserve stellar variability in cross-validation 
+  because we do not have enough knowledge of the true stellar variability. 
+Thus for the time being, we just focus on producing well-calibrated light curves for searching exoplanets, 
+  but in long term, we are looking forward to find a method to preserve the stellar variability.
+
+Another issue of the \name\ is that when there are strong transit signals in the lightcurve,  
+  one can find distortion around the these signals.
+We think this problem is caused by the train-and-test framework.
+Train-and-test framework is applied in the \name\ to preserve the transit signals, 
+  in which data points in a certain excluded window are separated from the model.
+However, for data points half-window size away from the transit signals, 
+  the prediction of these points in \name\ is largely influenced by the strong transit signal.
+That is,  these points are predicted to be a little bit smaller than they should be, 
+  since transit signal (negative points away from the continuum) makes the model think
+  there is a decreasing trend in this region.
+This window edge effect is a trade-off of the train-and-test framework that is crucial for \name,
+ and can not be solved in the scope of \name.
 
 However, forget all the unsolved problems, 
   we expect that data-driven model like our method will enable astronomical discoveries 
