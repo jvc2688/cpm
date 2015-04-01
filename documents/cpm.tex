@@ -262,7 +262,7 @@ Given these considerations, it makes sense to try to build our pixel-level model
   using a linear model with a quadratic objective function and a quadratic regularization;
   this is what \name\ will be.
 
-The second general idea about data-driven modeling is the investigator's beliefs
+The second general idea about data-driven modelling is the investigator's beliefs
   about the causal processes that generate the data
   are crucial in restricting the kinds of data that can be used as input to the model.
 That is, different assumptions about the physical properties of the data
@@ -397,7 +397,11 @@ What we will show in what follows is that the \name\ photometry does not distort
   and promising properties of the \name\ outputs.
 In the end, the value of the \name\ will be demonstrated by the scientific projects it enables.
 
-\Bernhard{Hogg: maybe you want to add sth about the device being 'self-calibratable'?}
+We also want to emphasis that all the calibration in this paper for \Kepler is 
+  based on the assumption that the device is 'self-calibratable', 
+  which means all the information we need to calibrate the device are contained in the device itself 
+  (either in science data or engineering data) and no external information, 
+  for example, measurements from other device, are needed
 
 \section{\name\ specification and hyper-parameters}
 \subsection{\name\ model}
@@ -513,8 +517,7 @@ I^{\ast}_{m,n',n} &=& \sum_{m'\in\set{M}_m} a_{m,n,m'}\,I_{m',n'} + \sum_{v\in\s
 \quad,
 \end{eqnarray}
 
-where the $\sigma^2_{m,n'}$ are the (presumed known)\Bernhard{known, or estimated from data? 
-  If not estimated, how do we know them?} individual-pixel noise variances, and $\lambda_{a}$, 
+where the $\sigma^2_{m,n'}$ are the (the column FLUX\_ERR in TPF is used, which is a image of 1-sigma error provided by the Kepler team) individual-pixel noise variances, and $\lambda_{a}$, 
   $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{m,n,m'}, b_{m,n,v}$. 
   In general, $\lambda_a$ and $\lambda_b$ could depend on $m,n$, however, we do not make use of this freedom. 
   Here the prediction $I^{\ast}_{m,n',n}$ has three indices, 
@@ -828,7 +831,18 @@ That is,  these points are predicted to be a little bit smaller than they should
 This window edge effect is a trade-off of the train-and-test framework that is crucial for \name,
  and can not be solved in the scope of \name.
 
-However, forget all the unsolved problems, 
+One possible way to solve this kind of edge effect 
+  but still preserve the transit signals to do the simultaneous fitting 
+  for both systematics and transit signal together, 
+  like what have been done in \cite{dfm}. 
+That is,  
+  instead of only modelling the systematics% 
+  and then subtracting it from the raw data to produce some de-trended lightcurves,
+  a comprehensive model for both all components in the data (systematics, stellar variabilities and transits)  can be made. In this kind of model, there is no need for train-and-test framework,
+  since all transit signals have already been modelled 
+  and no de-trended lightcurve will be produced. Planets will be found directly in the model itself. 
+
+However, despite all the problems mentioned in the \name,
   we expect that data-driven model like our method will enable astronomical discoveries 
   at higher sensitivity on the existing \Kepler\ data as well as on future missions.  
 As we know, \Kepler\ \project{K2} \citep{k2} data are suffering from the broken-down of reaction wheels, 
