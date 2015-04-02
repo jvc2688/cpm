@@ -78,7 +78,7 @@ By appropriately separating, for each data point, the data into training and tes
 The method has four hyper-parameters (the number of predictor stars, the auto-regressive window size, 
 and two L2-regularization amplitudes for model components), which we set by cross-validation. 
 We determine a generic set of hyper-parameters that works well for most of the stars and apply the method to a corresponding set of target stars. 
-We find that we can consistently outperform (for the purposes of exoplanet detection)% 
+We find that we can consistently outperform (for the purposes of exoplanet detection) 
   the \Kepler\ Pre-search Data Conditioning (PDC) method for exoplanet discovery.
 
 \end{abstract}
@@ -530,7 +530,7 @@ The train-and-test idea comes into the objective function $\chi^2_{m,n}$:
 When we are computing the objective function $\chi^2_{m,n}$,
   we are using only time points $n'\in\set{N}_n$ that don't overlap the target (or test) time point $n$.
 We train the model---that is, set the parameters $a_{m,n,m'}$ and $b_{m,n,v}$---%
-  by choosing the full set of parameters $a_{m,n,m'}$ and $b_{m,n,v}$% 
+  by choosing the full set of parameters $a_{m,n,m'}$ and $b_{m,n,v}$ 
   that jointly minimize the objective function $\chi^2_{m,n}$.
 Fortunately, given the form of the model,
   this minimization is just a linear solve (linear operation on the data).
@@ -572,11 +572,11 @@ As we have noted above and below, these photometric estimators are not optimal f
   but improving them is beyond the scope of this project.
 
 Because of the train-and-test framework,  
-  we expect the \name\ prediction $S_{n}$ to be a prediction of%
+  we expect the \name\ prediction $S_{n}$ to be a prediction of
   what the star lightcurve would have under the influence of the spacecraft but with no exoplanet signal 
 Based on this idea, 
-  we can construct the ``\name\ flux''% 
-  (where the inverted commas indicate that it is not a flux in the sense that stellar variability is not preserved)% 
+  we can construct the ``\name\ flux'' 
+  (where the inverted commas indicate that it is not a flux in the sense that stellar variability is not preserved) 
   to be the relative residual between \name\ prediction and SAP Flux $F_{n}$
 \begin{eqnarray}
 \delta_{n}&\equiv&\frac{F_{n} - S_{n}}{S_{n}}
@@ -603,8 +603,8 @@ To show how this general set of hyper-parameters performs,
   we present a few comparison between optimized and default hyper-parameters 
   in Fig~\ref{hyperparameter}.\Bernhard{maybe explain somewhere how SNR is calculated}  
 We can see that, in Fig~\ref{hyperparameter}, 
-  there is less variation in the \name\ flux% 
-  when we use optimized hyper-parameters (green points in second panel)% 
+  there is less variation in the \name\ flux 
+  when we use optimized hyper-parameters (green points in second panel) 
   than when we use the default one (red points in the bottom panel). 
 In addition, the optimized flux has higher signal to noise ratio of the known transit than the default. 
 However, the performance of default hyper-parameters is acceptable 
@@ -794,13 +794,14 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 We have presented a simple yet highly effective method---the \name\ that works in pixel-level 
   based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ lightcurves, 
   which is intended to search exoplanets.
-In \name, systematics and stellar variabilities are removed by% 
+In \name, systematics and stellar variabilities are removed by
   either fitting with other stars' lightcures or auto-regressive components,
   while transit signals can still be perfectly preserved by train-and-test framework.
 Low variable clean lightcurves can be produced by \name\,  which is ideal for transit planet searching. 
 The CDPP noise level estimation is also presented in the paper to show the performance of \name. 
 
 \todo{Compare with PDC, median filter, pre-whitening}
+
 
 However, based on our assumption of the causal structure of the \Kepler\ data, 
   if we turn off the auto-regressive components and keep the predictors from other stars working in the \name, 
@@ -832,13 +833,13 @@ This window edge effect is a trade-off of the train-and-test framework that is c
  and can not be solved in the scope of \name.
 
 One possible way to solve this kind of edge effect 
-  but still preserve the transit signals to do the simultaneous fitting 
+  but still preserve the transit signals is to do the simultaneous fitting 
   for both systematics and transit signal together, 
   like what have been done in \cite{dfm}. 
 That is,  
-  instead of only modelling the systematics% 
+  instead of only modelling the systematics 
   and then subtracting it from the raw data to produce some de-trended lightcurves,
-  a comprehensive model for both all components in the data (systematics, stellar variabilities and transits)  can be made. In this kind of model, there is no need for train-and-test framework,
+  a comprehensive model for all components in the data (systematics, stellar variabilities and transits)  can be made. In this kind of model, there is no need for train-and-test framework,
   since all transit signals have already been modelled 
   and no de-trended lightcurve will be produced. Planets will be found directly in the model itself. 
 
