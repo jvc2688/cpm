@@ -111,7 +111,7 @@ These also lead to changes in pixel and intra-pixel illumination.
 Stellar proper motion, geometric parallaxes, and differential stellar aberration as the spacecraft orbits all do more of the same.
 There is electronic cross-talk between detectors and charge-transfer inefficiency;
   these can effectively transfer variability from one source to another.
-There are additional electronics effects like ``rolling bands'' that put additional features into lightcurves.
+There are additional electronics effects like ``rolling bands'' that put additional features into light-curves.
 There are also probably changes to the detector sensitivity with temperature and time,
   possibly illimunation-history effects,
   and possibly sources of variability not yet considered.
@@ -153,9 +153,9 @@ In the first PDC \citep{pdc1},
 These data include the temperatures at the local detector electronics below the CCD array, 
   and polynomials describing the centroid motion of the targets from PA.
 
-In \cite{pdc2,pdc3}, filtered light curves of other stars are used instead. 
-The light curve of a target star is projected on the leading eight principal components of these light curves. 
-This projection is then removed from the star's light curve. 
+In \cite{pdc2,pdc3}, filtered light-curves of other stars are used instead. 
+The light-curve of a target star is projected on the leading eight principal components of these light-curves. 
+This projection is then removed from the star's light-curve. 
 The principal components are computed from a set of relatively quiet stars close in position and magnitude. 
 This was done since it was observed that otherwise, too much of the stellar variability was being removed. 
 
@@ -167,8 +167,8 @@ If both the target star signal as well as some of the other stars do depend on t
 We suspect that this effect is limited in \cite{pdc2,pdc3}, 
   since only eight principal components are used, which limits the capacity of the model.
 
-PDC ``de-trends'' the \Kepler\ lightcurves by removing those parts that are explained by the basis lightcurves
-  generated from a principal components analysis (PCA) of filtered lightcurves.
+PDC ``de-trends'' the \Kepler\ light-curves by removing those parts that are explained by the basis light-curves
+  generated from a principal components analysis (PCA) of filtered light-curves.
 That is, it exploits statistical dependences between different time series, regularizing the fit (and avoiding over-fitting) 
   by filtering and restricting the dimensionality (through PCA).
 
@@ -179,10 +179,10 @@ The method proposed here, \name, shares the motivation of PDC.
 The main differences are that
 \begin{enumerate}
 \item
-\name\ works in the pixel domain, not the lightcurve domain, so it has access to more fine-grained information
+\name\ works in the pixel domain, not the light-curve domain, so it has access to more fine-grained information
 \item
 \name\ has far more freedom (far more parameters) than the PDC
-  but it strictly avoids over-fitting the lightcurves on exoplanet-transit time-scales
+  but it strictly avoids over-fitting the light-curves on exoplanet-transit time-scales
   through strong regularization and a train-and-test framework.
 \item 
 \name\ directly optimizes for prediction accuracy, while PDC uses PCA projections.
@@ -190,14 +190,14 @@ The main differences are that
 the purpose of \name\ is to search for exoplanets, so in \name, intrinsic stellar
   variability is also removed as well as the systematics.
 \item 
-\name\ uses as inputs only instantaneous values of other stars, plus near future and past of the star itself in an autoregressive fashion, while PDC works with time series (lightcurves) of the other stars.
+\name\ uses as inputs only instantaneous values of other stars, plus near future and past of the star itself in an autoregressive fashion, while PDC works with time series (light-curves) of the other stars.
 \end{enumerate}
 
 
 
 The two methods (\name\ and PDC) are similar however,
-  in that they both make the (implicit or explicit) assumption that whatever spacecraft effects are imprinting variability on a stellar lightcurve
-  must also be imprinting similar or related variability on other lightcurves.
+  in that they both make the (implicit or explicit) assumption that whatever spacecraft effects are imprinting variability on a stellar light-curve
+  must also be imprinting similar or related variability on other light-curves.
 In their current versions, they also assume that the relationships can be captured with linear models (although we have also used nonlinear predictions methods for \name, which would be harder to do in PDC).
 By going to the pixel level (unlike the PDC, which works at the photometry level),
   \name\ makes it easier for the model to capture variability
@@ -270,7 +270,7 @@ That is, different assumptions about the physical properties of the data
   lead to different structures for the data-driven model.
 In the case of \Kepler\ data, 
   if we examine two arbitrary stars far away from each other 
-  on the same CCD as in Fig~\ref{ccd} (every grid in the plot is a pixel light curve time series), 
+  on the same CCD as in Fig~\ref{ccd} (every grid in the plot is a pixel light-curve time series), 
   we can obviously see that the two stars that are hundreds pixel away from each other do have similar trends. 
   If we believe that different stars in the \Kepler\ field vary independently 
   (that is, are not physically synchronized in any way) because of the distance between them, 
@@ -573,7 +573,7 @@ As we have noted above and below, these photometric estimators are not optimal f
 
 Because of the train-and-test framework,  
   we expect the \name\ prediction $S_{n}$ to be a prediction of
-  what the star lightcurve would have under the influence of the spacecraft but with no exoplanet signal 
+  what the star light-curve would have under the influence of the spacecraft but with no exoplanet signal 
 Based on this idea, 
   we can construct the ``\name\ flux'' 
   (where the inverted commas indicate that it is not a flux in the sense that stellar variability is not preserved) 
@@ -633,19 +633,19 @@ However, the performance of default hyper-parameters is acceptable
 One important feature of \name\ is that we use the train-and-test framework to preserve 
 the transit signal. To show how well train-and-test framework performs, we make the
 following experiments on \Kepler\ data as shown in Fig~\ref{distortion}
-In the light curve of single pixel (1, 2) of KIC 9822284, a 10-hrs fake signal 
-with amplitude 1.0005 is inserted. To insert the signal, we simply multiply the light curve 
-by the factor of 1.0005, which makes the little bump in the middle of the SAP light curve 
-(black points in the first panel). With the distorted light curve, we both applied the 
+In the light-curve of single pixel (1, 2) of KIC 9822284, a 10-hrs fake signal 
+with amplitude 1.0005 is inserted. To insert the signal, we simply multiply the light-curve 
+by the factor of 1.0005, which makes the little bump in the middle of the SAP light-curve 
+(black points in the first panel). With the distorted light-curve, we both applied the 
 \name\ and ordinary fitting to the data. In the result, we can see that both \name and 
-ordinary fit the light curve quite well outside the range of inserted signal. However, 
+ordinary fit the light-curve quite well outside the range of inserted signal. However, 
 when examine how these two models preserve the signal that we care, the ordinary
 fitting fit out about 30 percent of the signal, while \name\ almost preserve the whole 
 original amplitude. Therefore,  by this simple experiment, we are able to show that 
 the train-and-test framework used here is capable to keep the transit signal with 
 a particular time scale. And we want to emphasise that it is crucial for searching for
 exoplanets, especially the small ones such as earth-like planets, which only have  
-about tens of parts per million signal in the light curve.
+about tens of parts per million signal in the light-curve.
 
 \begin{figure}[htb]
 \centering
@@ -672,7 +672,7 @@ with low variation and preserving the transit signals.
 In addition, \name\ and PDC are compared based on 6 quiet stars 
 (non-variable stars, first two rows of Fig.~\ref{fluxes}). 
 The results illustrate that for these quiet stars our approach removes 
-a major part of the variability present in the PDC light curves, while preserving the transit signals. 
+a major part of the variability present in the PDC light-curves, while preserving the transit signals. 
 To provide a quantitative comparison, we ran \name\ on 1000 stars from the whole Kepler input catalog 
 (500 chosen randomly from the whole list, and 500 random G-type sun-like stars), 
 and estimate the Combined Differential Photometric Precision (CDPP,  \cite{cdpp1} )for \name\ and PDC. 
@@ -792,18 +792,56 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 
 \section{Discussion}
 We have presented a simple yet highly effective method---the \name\ that works in pixel-level 
-  based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ lightcurves, 
+  based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ light-curves, 
   which is intended to search exoplanets.
 In \name, systematics and stellar variabilities are removed by
-  either fitting with other stars' lightcures or auto-regressive components,
+  either fitting with other stars' light-curves or auto-regressive components,
   while transit signals can still be perfectly preserved by train-and-test framework.
-Low variable clean lightcurves can be produced by \name\,  which is ideal for transit planet searching. 
+Low variable clean light-curves can be produced by \name\,  
+  which is ideal for transit planet searching. 
 The CDPP noise level estimation is also presented in the paper to show the performance of \name. 
 
-\todo{Compare with PDC, median filter, pre-whitening}
-
-
-However, based on our assumption of the causal structure of the \Kepler\ data, 
+Apart from the \name, as mentioned in the beginning of the paper, 
+  there exist several other methods that are effective in de-trending the light-curve.
+Methods like median filter are quite successful in smoothing all the unwanted features 
+  either from spacecraft or intrinsic stellar variability, 
+  but the problem is that this kind of methods filter everything in the data including the transit signal. 
+This is not a big deal for searching giant planets, since the signal is quite strong. 
+However, 
+  when it comes to earth-like planets (only about 20 ppm transit signal around a sun-like star),
+  any reduction or distortion of the signal is unacceptable. 
+In comparison, in order to achieve higher precision for earth-like planet searching, 
+  \name\  not only exploits the causal structure of the \Kepler\ data,
+  but also apply effective approaches (strong regularization and train-and-test framework)
+  to avoid over-fitting the transit signal.
+There also exists more sophisticated method like PDC.
+As mentioned earlier in this paper, 
+  \name\ is very similar to PDC, 
+  in that they both make use of the correlation between light-curves,
+  which is assumed to be caused by the spacecraft effects (or systematics).
+However, in section 4, we show that \name\ performs better than PDC, 
+  in that it has a overall low noise level (CDPP).
+We think the outperformance mainly caused by two factor.
+One is that \name\ calibrates every single pixel separately, 
+  while PDC works in the photometry level.
+It is no doubt that pixel-level modelling enables \name\ capture more variability, such as 
+variations in the centroids and point-spread function from spacecraft pointing, roll, and temperature.
+The other reason is that,  
+  in PDC,  only leading eight principal components of some relative light-curves are used.
+Although restricting the number of components can prevent over-fitting, we think with this limited number of components, 
+  it is insufficient to capture all the variabilities in the light-curve.
+In \name\, hundreds of stars' light-curves (or thousands of pixels) are used 
+  to capture relatively complete information of the variabilities, 
+  while strong regularization and train-and-test framework are applied to prevent over-fitting.
+Although we present the comparison between \name\ and PDC, 
+  we still want to emphasis that PDC is a method intended to preserve stellar variabilities, 
+  while the \name\ is optimized for exoplanet searching. 
+The comparison is only based on our objective (search for earth-like planet), 
+  and should not be regard as standard of a best model for \Kepler\ data.
+  
+However, apart from the outstanding performance in calibrating the data,  
+  the \name\ still has several issues. 
+Based on our assumption of the causal structure of the \Kepler\ data, 
   if we turn off the auto-regressive components and keep the predictors from other stars working in the \name, 
   we should be able to still remove the systematics while preserve the intrinsic stellar variability, 
   since there is no reason that these independent stars can be used to predict the stellar variability of the target star.
@@ -816,10 +854,10 @@ In this sense,
   while preserve stellar variability, 
   but in fact we do not have a good criterion to check how well we preserve stellar variability in cross-validation 
   because we do not have enough knowledge of the true stellar variability. 
-Thus for the time being, we just focus on producing well-calibrated light curves for searching exoplanets, 
+Thus for the time being, we just focus on producing well-calibrated light-curves for searching exoplanets, 
   but in long term, we are looking forward to find a method to preserve the stellar variability.
 
-Another issue of the \name\ is that when there are strong transit signals in the lightcurve,  
+Another issue of the \name\ is that when there are strong transit signals in the light-curve,  
   one can find distortion around the these signals.
 We think this problem is caused by the train-and-test framework.
 Train-and-test framework is applied in the \name\ to preserve the transit signals, 
@@ -838,10 +876,10 @@ One possible way to solve this kind of edge effect
   like what have been done in \cite{dfm}. 
 That is,  
   instead of only modelling the systematics 
-  and then subtracting it from the raw data to produce some de-trended lightcurves,
+  and then subtracting it from the raw data to produce some de-trended light-curves,
   a comprehensive model for all components in the data (systematics, stellar variabilities and transits)  can be made. In this kind of model, there is no need for train-and-test framework,
   since all transit signals have already been modelled 
-  and no de-trended lightcurve will be produced. Planets will be found directly in the model itself. 
+  and no de-trended light-curve will be produced. Planets will be found directly in the model itself. 
 
 However, despite all the problems mentioned in the \name,
   we expect that data-driven model like our method will enable astronomical discoveries 
