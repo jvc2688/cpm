@@ -601,7 +601,7 @@ Therefore, in this paper,
   which works well in most of the stars without high variability. 
 To show how this general set of hyper-parameters performs, 
   we present a few comparison between optimized and default hyper-parameters 
-  in Fig~\ref{hyperparameter}.\Bernhard{maybe explain somewhere how SNR is calculated}  
+  in Fig~\ref{hyperparameter}.
 We can see that, in Fig~\ref{hyperparameter}, 
   there is less variation in the \name\ flux 
   when we use optimized hyper-parameters (green points in second panel) 
@@ -609,7 +609,7 @@ We can see that, in Fig~\ref{hyperparameter},
 In addition, the optimized flux has higher signal to noise ratio of the known transit than the default. 
 However, the performance of default hyper-parameters is acceptable 
   and we will use this set of hyper-parameters throughout the rest of the paper 
-  to show the general performance of \name.
+  to show the general performance of \name. 
 
 \begin{figure}[htb]
 \centering
@@ -625,7 +625,10 @@ However, the performance of default hyper-parameters is acceptable
     the two vertical blue lines indicate the location of the transit signal, 
     and signal to noise ratio is calculated in both situation. 
   The optimized hyper-parameter performs better than the default one, 
-    but the results from both situation are close.}
+    but the results from both situation are close.
+  Here the signal strength is determined by mean depth of the transit signal,
+    while the noise level is valued by 
+    using the root-mean-square deviation of every points in a 6-day running window.}
 \end{figure}
 
 \clearpage
