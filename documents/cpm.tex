@@ -64,13 +64,13 @@
 \begin{abstract}
 Astronomical observations are affected by several kinds of noise, each with its own causal source; 
 there is photon noise, stochastic source variability, and residuals coming from imperfect calibration of the detector or telescope. 
-The precision of NASA \Kepler\ photometry for exoplanet science ---
-the most precise photometric measurements of stars ever made ---
+The precision of NASA \Kepler\ photometry for exoplanet science---% no spaces around ---
+the most precise photometric measurements of stars ever made---%
 appears to be limited by unknown or untracked variations in spacecraft pointing and temperature, 
 and unmodeled stellar variability. Here we present the Causal Pixel Model (\name) for \Kepler\ data, 
 a data-driven model intended to capture variability but preserve transit signals. 
-The \name\ works at the pixel level; So that
-it can capture more fine-grained information about the variation of the spacecraft.
+The \name\ works at the pixel level so that
+it can capture very fine-grained information about the variation of the spacecraft.
 The \name\ predicts each target pixel value from a large number of pixels of other stars sharing the instrument variabilities 
 while not containing any information on possible transits in the target star. In addition, we use the target star’s future and past (auto-regression). 
 By appropriately separating, for each data point, the data into training and test sets, 
