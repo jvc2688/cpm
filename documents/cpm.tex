@@ -72,7 +72,7 @@ a data-driven model intended to capture variability but preserve transit signals
 The \name\ works at the pixel level so that
 it can capture very fine-grained information about the variation of the spacecraft.
 The \name\ predicts each target pixel value from a large number of pixels of other stars sharing the instrument variabilities 
-while not containing any information on possible transits in the target star. In addition, we use the target star’s future and past (auto-regression). 
+while not containing any information on possible transits in the target star. In addition, we use the target star's future and past (auto-regression). 
 By appropriately separating, for each data point, the data into training and test sets, 
   we ensure that information about any transit will be perfectly isolated from the model. 
 The method has four hyper-parameters (the number of predictor stars, the auto-regressive window size, 
