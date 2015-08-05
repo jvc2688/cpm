@@ -15,7 +15,7 @@
 
 \usepackage{natbib}
 
-\graphicspath{{figures/}}
+\graphicspath{{figures/png/}}
 
 \newcommand{\notenglish}[1]{\textit{#1}}
 \newcommand{\sic}{\notenglish{sic}}
@@ -311,7 +311,7 @@ which is optimal for exoplanet transit searching.
 \caption{
   \label{ccd} 
   Stars on the same CCD share systematic errors. 
-  The two panels show pixel fluxes (brightnesses) for two stars: (a) KIC 5088536, (b) KIC 5949551; 
+  The two panels show pixel fluxes (brightnesses) for two stars in quarter 5: (a) KIC 5088536, (b) KIC 5949551; 
   here, KIC stands for Kepler Input Catalog. Both stars lie on the same CCD, 
   but far enough apart such that there is no stray light from one affecting the other. 
   Each panel shows the pixels contributing to the respective star.
@@ -401,7 +401,8 @@ We also want to emphasis that all the calibration in this paper for \Kepler is
   based on the assumption that the device is 'self-calibratable', 
   which means all the information we need to calibrate the device are contained in the device itself 
   (either in science data or engineering data) and no external information, 
-  for example, measurements from other device, are needed
+  for example, measurements from other device, are needed.
+  And a description of the method in the machine learning context can be found in \cite{icml}
 
 \section{\name\ specification and hyper-parameters}
 \subsection{\name\ model}
