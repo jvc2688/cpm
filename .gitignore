@@ -11,3 +11,5 @@
 *.png
 cpm.pdf
 TSWLatexianTemp*
+*.ps
+ms.pdf
