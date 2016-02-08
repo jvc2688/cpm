@@ -17,8 +17,10 @@
 \usepackage{url}
 
 \usepackage{natbib}
-
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 %\graphicspath{{figures/png/}}
+\definecolor{darkgreen}{RGB}{0, 64, 0}
+
 
 \newcommand{\notenglish}[1]{\textit{#1}}
 \newcommand{\sic}{\notenglish{sic}}
@@ -28,7 +30,7 @@
 \newcommand{\set}[1]{\mathcal{#1}}
 \newcommand{\given}{\,|\,}
 \newcommand{\todo}[1]{\textbf{#1}}
-\newcommand{\revise}[1]{\textcolor{green}{#1}}
+\newcommand{\revise}[1]{\textcolor{darkgreen}{#1}}
 \newcommand{\remove}[1]{\sout{#1}}
 
 \newcommand{\Bernhard}[1]{$\bullet$\footnote{{\bf Bernhard:} #1}}
@@ -82,33 +84,33 @@ The \name\ works at the pixel level so that
 it can capture very fine-grained information about the variation of the spacecraft.
 \remove{The \name\ predicts each target pixel value from a large number of pixels of other stars sharing the instrument variabilities 
 while not containing any information on possible transits in the target star.} \revise{The CPM models the systematic effects in the time series of a pixel using the pixels
-around many other stars and the assumption that any shared signal in
+of many other stars and the assumption that any shared signal in
 these causally disconnected light curves is caused by instrumental
 effects.} In addition, we use the target star's future and past (auto-regression). 
 By appropriately separating, for each data point, the data into training and test sets, 
   we ensure that information about any transit will be perfectly isolated from the model. 
 The method has four \remove{hyper-parameters (the number of predictor stars, the auto-regressive window size, 
 and two L2-regularization amplitudes for model components),}
-\revise{tuning parameters---the number of predictor stars, the auto-regressive window size, 
+\revise{tuning parameters---the number of predictor stars or pixels, the auto-regressive window size, 
 and two L2-regularization amplitudes for model components,}
  which we set by cross-validation. 
-We determine a generic set of \remove{hyper-parameters}\revise{tuning parameters} that works well for most of the stars and apply the method to a corresponding set of target stars.
+We determine  \remove{a generic set ofhyper-parameters}\revise{values for tuning parameters} that works well for most of the stars and apply the method to a corresponding set of target stars.
 \remove{We find that we can consistently outperform (for the purposes of exoplanet detection) 
   the \Kepler\ Pre-search Data Conditioning (PDC) method for exoplanet discovery.} 
-\revise{We find that \name\ can consistently produce relatively low-noise (CDPP) light-curves. In this paper, we demonstrate that pixel-level de-trending is possible while retaining transit signals (with a train-and-test framework) and we think that methods like \name\ is generally applicable and might be useful for  K2, TESS, etc, where the data aren't these clean postage stamps like \Kepler.}
+\revise{We find that \name\ can consistently produce low-noise light-curves. In this paper, we demonstrate that pixel-level de-trending is possible while retaining transit signals and we think that methods like \name\ are generally applicable and might be useful for  K2, TESS, etc, where the data aren't clean postage stamps like \Kepler.}
 
 
 \end{abstract}
 
 \section{Introduction}
 
-The photometric measurements of stars made by the \Kepler\ \remove{satellite}\revise{space craft} are precise enough
+The photometric measurements of stars made by the \Kepler\ \remove{satellite}\revise{spacecraft} are precise enough
   to permit discovery of exoplanet transits with depths smaller than $10^{-4}$.
 This precision results from great spacecraft stability,
   supplemented by various methods for removing small residual spacecraft-induced and stellar-variability trends in the brightnesses,
   either filtering the data (with things like median filters)
   or fitting the data with flexible models (like polynomials or splines or Gaussian Processes; 
-  \cite{gaussian}).
+  \citealt{gaussian}).
 When employed in the service of exoplanet search and characterization,
   these methods are usually agnostic about whether photometric variations originate in the spacecraft or in the star itself;
   that is, they obliterate intrinsic stellar variability along with spacecraft issues.
@@ -121,7 +123,7 @@ There is also variability of overlapping fainter stars;
 There are small changes in spacecraft pointing,
   which leads to slightly different illumination of the focal-plane pixels,
   and thus different sensitivity to variations in the device.
-There are also \emph{intra-pixel} sensitivity variations that can contribute, which was first measured by \revise{\cite{subpixel}}.
+There are also \emph{intra-pixel} sensitivity variations that can contribute\revise{(\citealt{subpixel})}.
 There are small changes in spacecraft temperature,
   which lead to point-spread function (PSF) and differential \remove{(across the focal plane)} pointing changes.
 These also lead to changes in pixel and intra-pixel illumination.
@@ -131,7 +133,7 @@ There is electronic cross-talk between detectors and charge-transfer inefficienc
 There are additional electronics effects like ``rolling bands'' that put additional features into light-curves \revise{\citep{handbook}}.
 There are also \remove{probably} changes to the detector sensitivity with temperature and time,
   possibly illimunation-history effects,
-  and possibly sources of variability not yet considered.
+  and possibly other sources of variability not yet considered.
 The remarkable thing about \Kepler\ is that it is trying to measure stars at a level of precision
   much higher than ever previously attempted;
   new effects really \emph{must} appear at some point.
@@ -156,29 +158,22 @@ The \Kepler\ community is familiar with these kinds of models;
 
 One such method---one that is designed to describe or model spacecraft-induced problems
   but \emph{not} interfere with measurements of stellar variability---%
-  is the \Kepler\ Presearch \remove{(\sic)} Data Conditioning (PDC, \cite{pdc1}).
+  is the \Kepler\ Presearch \remove{(\sic)} Data Conditioning (PDC, \citealt{pdc1}).
 The PDC builds on the idea that systematic errors have a temporal structure that can be extracted from ancillary quantities. 
-%This seems the original paper on PDC:
-%[PDC1] https://kepler.nasa.gov/science/ForScientists/papersAndDocumentation/SOCpapers/7740-67-pdc-jtwicken-copyright.pdf
-%
-%This describes the later version of PDC:
-%[PDC2] http://arxiv.org/pdf/1203.1382v1.pdf
-%[PDC3] http://arxiv.org/pdf/1203.1383v1.pdf
 
 In the first PDC \citep{pdc1}, 
   removal of systematic errors was performed based on correlations with a set of ancillary engineering data. 
 These data include the temperatures at the local detector electronics below the CCD array, 
   and polynomials describing the centroid motion of the targets from PA\revise{(Photometric Analysis)}.
 
-In \cite{pdc2,pdc3}\remove{, filtered light-curves of other stars are used instead. 
+\remove{In \cite{pdc2,pdc3}, filtered light-curves of other stars are used instead. 
 The light-curve of a target star is projected on the leading eight principal components of these light-curves. 
 This projection is then removed from the star's light-curve. 
 The principal components are computed from a set of relatively quiet stars close in position and magnitude. 
 This was done since it was observed that otherwise, too much of the stellar variability was being removed.}
 
-\revise{In the most recent version of PDC (PDC-MAP, \cite{pdc2,pdc3}), filtered light-curves of other stars are used
-instead. Using a set of relatively quiet stars on each detector, the
-top 8 principle components are computed for every quarter of Kepler
+\revise{In the most recent version of PDC (PDC-MAP, \citealt{pdc2,pdc3}), filtered light-curves of other stars are used. Using a set of relatively quiet stars on each detector, the
+top 8 principal components are computed for every quarter of Kepler
 data. The maximum a posteriori linear combination of these basis light
 curves---computed using an empirical prior on the trend
 magnitudes---are used to model and remove the systematics in all the
@@ -194,12 +189,12 @@ If both the target star signal as well as some of the other stars do depend on t
 We suspect that this effect is limited in} \cite{pdc2,pdc3}, 
   \remove{since only eight principal components are used, which limits the capacity of the model.}
 
-PDC \remove{``de-trends''}\revise{"co-trends" or calibrates} the \Kepler\ light-curves by removing those parts that are explained by the basis light-curves
+PDC \remove{``de-trends''}\revise{``co-trends'' or calibrates} the \Kepler\ light-curves by removing those parts that are explained by the basis light-curves
   generated from a principal components analysis (PCA) of filtered light-curves.
 That is, it exploits statistical dependences between different time series, regularizing the fit (and avoiding over-fitting) 
   by filtering and restricting the dimensionality (through PCA).
 
-The method proposed here, \name, shares the motivation of PDC.
+The method proposed here, The Causal Pixel Model(\name), shares the motivation of PDC.
 The main differences are that
 \begin{enumerate}
 \item
@@ -228,21 +223,21 @@ The two methods (\name\ and PDC) are similar however,
   in that they both make the \remove{(implicit or explicit)} assumption that whatever spacecraft effects are imprinting variability on a stellar light-curve
   must also be imprinting similar or related variability on other light-curves.
 \remove{In their current versions, they also assume that the relationships can be captured with linear models (although we have also used nonlinear predictions methods for \name, which would be harder to do in PDC).}
-By going to the pixel level (unlike the PDC, which works at the photometry level),
+By going to the pixel level (unlike the PDC, which works at the stellar-photometry level),
   \name\ makes it easier for the model to capture variability
   that is coming through variations in the centroids and point-spread function
   from spacecraft pointing, roll, and temperature.
 
 Before we start, a few reminders about the \Kepler\ data are in order:
-The \remove{satellite}\revise{space craft} \remove{always observes}\revise{observed} precisely the same field, at fixed pointing (as closely as possible).
-\revise{About 6\% of the 96,465,600 pixels}\remove{Only a few percent of the 80 million pixels} in the focal plane are telemetered down
+The \remove{satellite}\revise{spacecraft} \remove{always observes}\revise{observed} precisely the same field, at fixed pointing (as closely as possible).
+\revise{About 6 percent of the 96,465,600 pixels}\remove{Only a few percent of the 80 million pixels} in the focal plane are telemetered down
   to Earth from each 30-min exposure;
-  the telemetered pixels are associated with \Kepler\ target stars chosen for study by the \Kepler\ Team \revise{(along with a non-trivial set collateral pixels used for calibration)}.
-The \remove{satellite}\revise{space craft} is rolled by 90~deg every \remove{90-ish}\revise{93} days (to satisfy Solar-Angle constraints).
+  the telemetered pixels are associated with \Kepler\ target stars chosen for study by the \Kepler\ Team \revise{(along with a non-trivial set of collateral pixels used for calibration)}.
+The \remove{satellite}\revise{spacecraft} is rolled by 90~deg every \remove{90-ish}\revise{93} days (to satisfy Solar-Angle constraints).
 The focal plane contains many CCDs;
   this plus the 90-deg rotations means that each star is at a particular location
   on a particular CCD for \remove{90-ish-day}\revise{quarter} contiguous periods of time.
-The PSF varies strongly across the field and is badly sampled.
+The PSF varies strongly across the field and is poorly sampled.
 The stars span a huge range in brightness;
   some of \Kepler's most important targets even saturate the device and bleed charge.
 The stellar photometry returned by the \Kepler\ SAP and PDC pipelines is based on
@@ -285,7 +280,7 @@ Such fits require \emph{regularization} to break degeneracies
 These regularizations do for optimizations what priors do for posterior probability inferences;
   they express the desired behavior of the fit in the absence of data
   or along directions in parameter space in which the data are not constraining.
-General regularizations or priors will break the convexity of linear model fitting;
+\remove{General} Regularizations or priors \remove{will}\revise{can} break the convexity of linear model fitting;
   if convexity is to be maintained, these regularizations also have to be quadratic,
   or else one of a class of other known forms (one of which is L1-regularization).
 Given these considerations, it makes sense to try to build our pixel-level model
@@ -327,7 +322,7 @@ These models ought to remove both spacecraft variability and intrinsic stellar v
 \caption{
   \label{ccd} 
   Stars on the same CCD share systematic errors. 
-  The two panels show pixel fluxes (brightnesses) for two stars in quarter 5. \emph{Left:} KIC 5088536, \emph{Right:} KIC 5949551; 
+  The two panels show pixel fluxes (brightnesses) for two stars in quarter 5. \emph{Left:} KIC 11351420, \emph{Right:} KIC 11401755; 
   here, KIC stands for Kepler Input Catalog. Both stars lie on the same CCD, 
   but far enough apart such that there is no stray light from one affecting the other. 
   Each panel shows the pixels contributing to the respective star.
@@ -362,14 +357,14 @@ In this framework, the data used to \emph{train} the model%
   are disjoint from the \emph{test} data
   ---meaning the data that are being predicted (the target data).
 Because we are concerned with detecting exoplanet transits,
-  which take few hours,
+  which take a few hours,
   we adopt an extreme version of the train-and-test framework,
-  in which the training data are always separated from the test data by couple of hours.
+  in which the training data are always separated from the test data by \remove{several}\revise{many} hours.
 That is, when we are using the model to predict a particular pixel in the target data taken at time $t$,
   we use parameters obtained by an optimization that makes use of only data
   that comes either at times prior to $t-\Delta t$ or after $t+\Delta t$,
-  where $\Delta t$ is a tunable parameter but which we will set to $9$~h.
-This ensures that no information about any exoplanet transit itself
+  where $\Delta t$ is a tunable parameter \remove{but} which we will set to $9$~h.
+This ensures that no information about any \revise{sufficiently short} exoplanet transit itself
   can be entering into the prediction of the pixels contributing to the stellar photometry.
 In general, if there is a scientific goal of preserving intrinsic stellar variability,
   or transit signals,
@@ -383,7 +378,7 @@ The train-and-test framework, which includes data out to time $t_{\max}$ but exc
   but don't recur on time-scales shorter than $t_{\max}$.
 Those assumptions are good for our purposes but not necessarily ideal for all users:
 Short-period exoplanets and certain kinds of stellar variability
-  could be wiped out by a model with these settings of the training-data regime.
+  could be wiped out by a model with these settings of the training-data \remove{regime}\revise{bounaries}.
 
 The fourth general idea involved in this kind of data-driven modelling is that the models often aren't \emph{interpretable}, 
   or at least are hard to interpret.
@@ -395,7 +390,7 @@ The data-driven model \emph{effectively} describes the pointing, point-spread fu
   of the telescope and camera,
   plus the variability of every star and every exoplanet transit,
   but it does so without ever \emph{explicitly} creating any of those objects.
-We have to make some kind of heuristic or interpretive move to extract from the data-driven model the quanitites of interest.
+We have to make some kind of heuristic or interpretive move to extract from the data-driven model the quantities of interest.
 
 Finally, the fifth general idea is that there is no objective \emph{ground truth} against which we can tell
   that any particular data-driven model is better or worse than any other.
@@ -410,31 +405,31 @@ For us, who are interested (in the long term) in finding and characterizing Eart
   the ``best'' data-driven model is the one that produces the most success in finding and characterizing Earth analogs!
 What we will show in what follows is that the \name\ photometry does not distort
   artificial exoplanet transit signals injected into real \Kepler\ pixel-level data
-  and promising properties of the \name\ outputs \revise{on real Kepler light-curves}.
+  \remove{and promising properties of the \name\ outputs}.
 In the end, the value of the \name\ will be demonstrated by the scientific projects it enables.
 
-We also want to emphasis that all the calibration in this paper for \Kepler is 
-  based on the assumption that the device is \remove{'self-calibratable'}\revise{can be self-calibrated}, 
-  which means all the information we need to calibrate the device are contained in the device itself 
-  (either in science data or engineering data) and no external information, 
-  for example, measurements from other device, are needed.
-  And a description of the method in the machine learning context can be found in \cite{icml2015}
+We also want to emphasis that all the calibration in this paper for \Kepler\ is 
+  based on the assumption that the device \remove{is 'self-calibratable'}\revise{can be self-calibrated}, 
+  which means all the information we need to calibrate the device are contained in the \remove{device itself 
+  (either in} science data \remove{or engineering data)} and no external information, 
+  for example, measurements from \revise{any} other device, are needed.
+\remove{Description}\revise{Elaboration} of the method in \remove{the}\revise{a} machine learning context can be found in \cite{icml2015}
 
 \section{\name\ specification and \revise{tuning parameters}}
 \subsection{\name\ model}
-Each individual \Kepler\ target star is, for each quarter (each \remove{90-ish-day})
-  on a particular CCD on the \Kepler\ focal plane.
+Each individual \Kepler\ target star is, for each quarter \remove{(each 90-ish-day)},
+  \revise{in a particular location} on a particular CCD on the \Kepler\ focal plane.
 Associated with each target star is some set of pixels,
   located in a small contiguous patch \remove{more-or-less} centered on the target star,
   and telemetered down once for every 30-min exposure.
-Here we are ignoring all short-cadence data that is taken in a different mode with shorter exposures.
+Here we are ignoring all short-cadence data that \remove{is}\revise{are} taken in a different mode with shorter exposures.
 That is, each telemetered pixel in each CCD is associated with a particular \Kepler\ target star.
 
-Let's consider a particular pixel $m$ in the focal plane in one particular month
-  (here we always use data per month rather than quarter,  since there are discontinuities between every \remove{30-ish-day period}\revise{month}).
+\remove{Let's} Consider a particular pixel $m$ in the focal plane in one particular month
+  (here we always use data per month rather than quarter,  since there are discontinuities between every \remove{30-ish-day period}\revise{months}).
 In that month, the spacecraft delivers $N\sim 1300$ measurements $I_{m,n}$
   of the intensity falling in pixel $m$ at the $N$ times $t_n$ at which exposures were taken during the month.
-(For intensity measurements $I_{m,n}$ here we are using pixels from \revise{the FLUX column of Target Pixel File, which is flux of each pixel after processed by the pipeline module CAL, the removal of the interpolated background, and the removal of cosmic rays} on MAST
+(For intensity measurements $I_{m,n}$ \remove{here} we are using pixels from \revise{the FLUX column of Target Pixel File, which is flux of each pixel after processed by the pipeline module CAL, the removal of the interpolated background, and the removal of cosmic rays} on MAST
   \footnote{\url{http://archive.stsci.edu/kepler/}}, for details of the TPF, 
   see the \project{Kepler Archive Manual} 
   \footnote{\url{http://archive.stsci.edu/kepler/manuals/archive_manual.pdf}}).
@@ -450,7 +445,7 @@ This set of pixels%
   ---from the $Q$ stars on the same CCD---%
   is the \emph{pixel set} $\set{M}_m$ associated with pixel $m$.
   \remove{To rule out any direct optical cross-talk by starry light}
-  \revise{To minimize the effects of blending with and crosstalk from nearby stars}, we require that the predictor pixels are \remove{from stars
+  \revise{To minimize the effects of blending with, and crosstalk from, nearby stars}, we require that the predictor pixels are \remove{from stars
 sufficiently far away from the target star (at least 20 pixels distance on the CCD).}
 \revise{from stars at least 20 pixels away from the target star.}
 Note that because the set $\set{M}_m$ is of pixels associated with \emph{different} stars
@@ -461,17 +456,17 @@ That is, there will be no (or almost no) overlap in stellar illumination of pixe
   and the pixels $m'\in\set{M}_m$.
 
 When the measurement $I_{m,n}$ is being predicted from pixel $m$ at a particular time $t_n$,
-  train-and-test framework is used, in which not only
+  a train-and-test framework is used, in which not only
   data at time $t_n$ are not used in optimizing the parameters of the regression or fit,
   but we don't even use any times $t$ such that $|t-t_n| < \Delta t$,
-  where $\Delta t\sim 10$\,h as shown in Fig.~\ref{train-and-test}.
-That is, the model is trained (optimize fit parameters) by using the \emph{time set} $\set{N}_n$ of time
+  where $\Delta t=9$\,h as shown in Fig.~\ref{train-and-test}.
+That is, the model is trained (\remove{optimize}fit parameters\revise{are optimized}) by using the \emph{time set} $\set{N}_n$ of time
   indices $n'$ such that for all $n'\in\set{N}_n$,
   $t_{n'}$ is in the same month as $t_n$,
   and $|t_{n'} - t_n|>\Delta t$.
 The time set of indices $\set{N}_n$ therefore does not overlap the time point $t_n$,
-  nor any of its neighbors in a time window of half-width $\Delta_t$. 
-\revise{The width of the window $\Delta t$ is set to be the duration of the transits to preserve transits while still predicting the systematics and stellar variability well.}
+  nor any of its neighbors in a time window of half-width $\Delta t$. 
+\revise{The width of the window $\Delta t$ is set to be at least the duration of the transits to preserve transits while still predicting the systematics and stellar variability well.}
   
 \begin{figure}[p]
 \begin{center}
@@ -484,14 +479,14 @@ The time set of indices $\set{N}_n$ therefore does not overlap the time point $t
 \end{figure}
   
 In addition to the pixel set $m'\in\set{M}_m$ from other stars,  
-  we also include the past and future of the target star --- autoregressive (AR) component as input 
+  we also include the past and future of the target star, i.e., an autoregressive (AR) component, as input 
   to remove more of the stellar variability and thus increase the sensitivity for transits. 
 To do this, we select an exclusion window of half-width $\Delta t$ including R data points, 
-  where $\Delta t\sim 10$\, h (as big as the window in the train-and-test framework) 
+  where $\Delta t=9$\, h (as big as the window in the train-and-test framework) 
   around the point of time $t_{n}$ being corrected, 
   to ensure that we do not remove the transit itself 
   and then use $S$ closest future and past time points subject to that exclusion. 
-That is, for every pixel $m$ in the target star , we construct $S$ virtual time series, 
+That is, for every pixel $m$ in the target star we construct $S$ virtual time series, 
   in which every component $v$ is defined to be     
 \begin{eqnarray}
 I_{v,n} = I_{m,n-R-k}\ or\ I_{v,n} = I_{m,n+R+k}
@@ -499,14 +494,14 @@ I_{v,n} = I_{m,n-R-k}\ or\ I_{v,n} = I_{m,n+R+k}
 \end{eqnarray}
 where $k = 1, 2\dots, S,$ so if there are totally $M$ pixels in the target stars, 
   we will finally add $2\cdot M\cdot S$
-  autoregressive components into the predictors, which constructs the autoregressive set $\set{V}_m$
+  autoregressive components into the predictors, which constructs the autoregressive set $\set{V}_m$.
 
 As mentioned above, in the context of this project,
   a model is something that can predict data given settings of some parameters,
   and an objective function that can be used to find best values for those parameters.
-It is often preferable to work in a probabilistic mode in which the objective function can be justified
+\remove{It is often preferable to work in a probabilistic mode in which the objective function can be justified
   in terms of a likelihood (probability for the data given the model)
-  or a posterior probability density function (likelihood times a prior pdf).
+  or a posterior probability density function (likelihood times a prior pdf).}
 The \name\ treats each \Kepler\ data point $I_{m,n}$ as being
   predictable from a linear combination of data points $I_{m',n}$,
   where $m'$ is from the set of non-overlapping pixels $m'\in\set{M}_m$.
@@ -524,7 +519,7 @@ The parameters $a_{m,n,m'}$ and $b_{m,n,k}$ have indices $m$ because
   and they will even be different for every time step $n$;
   that is, there will be a separate best-fit value for the parameters for every $I_{m,n}$.
 \revise{And the pixel $I_{m',n}$ from other stars at the same time point n is used as input to make prediction.}
-If we presume that the residuals away from the prediction are normally distributed with zero mean and known variance, likelihood optimization reduces to $\chi^2$ minimization.
+If we presume that the residuals away from the prediction are normally distributed with zero mean and known variance, \revise{then} likelihood optimization reduces to $\chi^2$ minimization.
 We add to the standard chi-squared definition a regularization term
   (equivalent to multiplying the likelihood by a Gaussian prior pdf)
   that penalizes large absolute values for the the coefficients $a_{m,n,m'}$:
@@ -539,11 +534,9 @@ We add to the standard chi-squared definition a regularization term
 where the $\sigma^2_{m,n'}$ are the (the column FLUX\_ERR in TPF is used, which is a image of 1-sigma error provided by the Kepler team) individual-pixel noise variances, and $\lambda_{a}$, 
   $\lambda_{b}$ set the strength of the regularization (or width of the prior pdf) for parameters $a_{m,n,m'}, b_{m,n,v}$. 
   In general, $\lambda_a$ and $\lambda_b$ could depend on $m,n$, however, we do not make use of this freedom. 
-  Here the pixel \revise{value $I^{\ast\ast}_{m,n',n}$ is different from the prediction $I^{\ast}_{m,n}$. It is not the prediction for time $n'$ using $a_{m,n',m'}, b_{m,n',v}$ as coefficient, but using the coefficient $a_{m,n,m'}, b_{m,n,v}$ that is trained for prediction in time n to set the value. It is purely a median product in the process of training the model.} It has three indices, 
-  because in \name\ the $\chi^2$ minimization for every time
-  point is independent and the third index--$n$ indicates 
-  which time point the model\remove{prediction $I^{\ast}_{m,n',n}$} is being trained for, 
-  the detail of the independent $\chi^2$ minimization will be discussed below.
+  Here the pixel \revise{value $I^{\ast\ast}_{m,n',n}$ is different from the prediction $I^{\ast}_{m,n}$. It is not the prediction for time $n'$ using $a_{m,n',m'}, b_{m,n',v}$ as coefficient, but using the coefficient $a_{m,n,m'}, b_{m,n,v}$ that is trained for prediction in time n to set the value. It is purely an intermediate product in the process of training the model.} It has three indices, 
+  because in the \name\ the $\chi^2$ minimization for every time
+  point is independent. Details of the independent $\chi^2$ minimization will be discussed below.
 
 The train-and-test idea comes into the objective function $\chi^2_{m,n}$:
 When we are computing the objective function $\chi^2_{m,n}$,
@@ -609,7 +602,7 @@ That is, a transit creates a negative residual away from the prediction,
 The \name\ has 4 \remove{hyper-parameters}\revise{tuning parameters}--- 
   the number of predictor stars Q (or number of predictor pixels P), 
   the number of autoregressive components S, 
-  and the two regularization strength $\lambda_{a}$ and $\lambda_{b}$.
+  and the two regularization strengths $\lambda_{a}$ and $\lambda_{b}$.
 To set these 4 \remove{hyper-parameters}\revise{tuning parameters}, 
   in principle we need to run something like a cross-validation on every single star to optimize performance.
 But optimizing in this 4-dimensional space is expensive, 
@@ -619,9 +612,9 @@ Therefore, in this paper,
   we just set a general set of ``default'' \remove{hyper-parameters}\revise{tuning parameters} ($P=4000$, \remove{$Q=3$}\revise{$S=3$}, $\lambda_a=1e5$, $\lambda_a=1e5$), 
   which works well in most of the stars without high variability. 
 To show how this general set of \remove{hyper-parameters}\revise{tuning parameters} performs, 
-  we present a few comparison between optimized and default \remove{hyper-parameters}\revise{tuning parameters} 
+  we present a few comparisons between optimized and default \remove{hyper-parameters}\revise{tuning parameters} 
   in Fig~\ref{hyperparameter}.
-We can see that, in Fig~\ref{hyperparameter}, 
+We can see that in Fig~\ref{hyperparameter}, 
   there is less variation in the \name\ flux 
   when we use optimized \remove{hyper-parameters}\revise{tuning parameters} (grey points in second panel, \revise{$Q=60$, $S=3$, $\lambda_a=1e7$, $\lambda_a=1e5$}) 
   than when we use the default one (red points in the bottom panel). 
@@ -722,13 +715,6 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 \begin{center}
 \includegraphics[width=0.32\textwidth]{f5a}
 \hfill
-\includegraphics[width=0.32\textwidth]{f5b}
-\hfill
-\includegraphics[width=0.32\textwidth]{f5c}
-
-
-\includegraphics[width=0.32\textwidth]{f5d}
-\hfill
 \includegraphics[width=0.32\textwidth]{f5e}
 \hfill
 \includegraphics[width=0.32\textwidth]{f5f}
@@ -750,12 +736,12 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 
 \caption{
   \label{fluxes} 
-  Corrected fluxes using \name, for 12 example stars, 
+  Corrected fluxes using \name, for 9 example stars, 
     spanning the main magnitude (brightness) range encountered. 
   In first column plots, we consider bright stars with magnitude from 9 to 10.5, 
     second cloumn are stars with magnitude from 11 to 12.5,  
     and the third column are faint stars with magnitude above 13. 
-  In the first two rows, we present some quiet stars. 
+  In the first row, we present some quiet stars. 
   In all three panels, the top panel shows the SAP flux (black) and the \name\ regression (red), 
     i.e., our prediction of the star from other stars. 
   The middle panel shows the \name\ flux corrected using the regression, and the bottom shows the PDC flux. 
