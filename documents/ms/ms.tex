@@ -673,13 +673,15 @@ Thus the \name\ will introduce some distortion around the transit signal, and \r
 \caption{
   \label{distortion} 
   \name\ preserves transit signals.
-  \remove{Fake signal with amplitude 1.0005 is inserted into the single pixel (1, 2) of star KIC 9822284.}\revise{Simply box models with depth from $100 ppm to 1\%$ is injected into the light-curve of star KIC 9822284. Plot (a) and (b) show the results from box model depth to be 500 ppm and 3000 ppm.}
-  In the top panel, the black points shows the SAP flux of the pixel with the injected signal, the bold grey line is the fitting of the SAP flux, and the thin red line is the \name\ prediction. 
+  \remove{Fake signal with amplitude 1.0005 is inserted into the single pixel (1, 2) of star KIC 9822284.
+  In the top panel, the black points shows the SAP flux of the pixel with the injected signal, the bold grey line is the fitting of the SAP flux, and the thin red line is the \name\ prediction.}
+  \revise{Simple box models with depth from 100 ppm to 1 percent were injected into the light curve of star KIC 9822284. \emph{Left:} An example of light curve with 500 ppm signal injected. In the top panel, SAP flux is plotted in black, 
+    \name\ prediction is in thin red line, 
+   ``ordinary fitting'' is in bold grey line.} 
   In the bottom panel, red points and grey cross represent the \name\ flux and the fit flux, while the signal value is indicated by the horizontal line. 
-  \name\ largely preserves the signal while the fitting flux overfit the signal.} 
-  \revise{But the \name\ flux is distorted a little around the box model. 
+  \name\ largely preserves the signal while the fitting flux overfit the signal.} \revise{But the \name\ flux is distorted a little around the box model. 
   And there is more distortion with a strong signal.
-  Plot (c) shows the signal depth measured in \name\ and fitting flux relative to the true depth with different box model depth. \name\ can consistently preserve more signal than the "ordinary fitting".}
+  \emph{Right:} shows the signal depth measured in \name\ and fitting flux relative to the true depth with different box model depth. \name\ can consistently preserve more signal than the "ordinary fitting".}
 \end{figure}
 
 
@@ -702,11 +704,13 @@ Before the CDPP is estimated, the variability of the stars \remove{are}\revise{i
   (MDV, see \citealt{basri2013} for details). 
 Based on the variability, the 100 most variable stars in the list are removed, 
   since PDC is not designed to remove stellar variability, 
-  and we want to compare \name\ and PDC on the close footing.
+  and we want to compare \name\ and PDC on the \remove{close}\revise{same} footing.
 Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC, 
-  \remove{showing that our method (\name) outperforms PDC.}\revise{4 quarters' (quarter 5, 6, 7, 8. Data of quarter 5 are from Kepler data release 21 and other data are from Kepler data release 24---the current version) data are used to show that \name\ has a consistent performance over a whole orbital period of the Kepler photometer (372 days). We also want to emphasis that both \name\ and PDC are presented here does not mean that it is a competition. Since PDC is designed to preserve stellar variability, it is not fair to put \name\ and PDC into competition. The CDPP comparison is made only to give a relative reference how \name\ can perform according to PDC, the Kepler "gold standard"}
+  \remove{showing that our method (\name) outperforms PDC.}\revise{4 quarters' (quarter 5, 6, 7, 8. Data of quarter 5 are from Kepler data release 21 and other data are from Kepler data release 24---the current version) data are used to show that \name\ has a consistent performance over a whole orbital period of the Kepler photometer (372 days). We also want to emphasize that both \name\ and PDC are presented here, but since PDC is designed to preserve stellar variability, it is not fair to put \name\ and PDC into competition. The CDPP comparison is made only to give a relative reference how \name\ can perform according to PDC, the Kepler ``gold standard"}
 
-\revise{In order to show the overall ability that \name\ have in exoplanet searching, a comparison between \name\ and median filter (a widely used de-trend method) is presented in Fig.~\ref{filter}. This is a more comprehensive comparison, since not only noise level (CDPP) is evaluated,  but how well both methods can retrieve signal from the light curve is also under consideration. In the example, a 200 ppm box model signal is injected into a quiet star KIC 8846139 in quarter 5. With the signal injected light curve,  both methods---median filter and \name\ are applied. As shown in Fig.~\ref{filter}, when  the window size is bigger than 24 hours, \name\ performs better both in terms of CDPP and signal strength. As expected, when the window size gets smaller, CDPP decreases,  while the signal strength retrieved from the light curve also falls off. Although median filter with window size smaller than 24 hours is able to generate cleaner light curves (lower CDPP level) than \name, it largely distorts the signal that we care about. Imagining in an extreme case, light curves generated by a half hour median filter will have zero CDPP, as well as zero signal strength. If we examined the ratio of the signal strength to the CDPP (signal to noise ratio) in this example, it results that \name\ can always have a signal to noise ratio around 8, while the median filter method can only achieve a ratio around 6 in the best circumstance, when window size is 24 hours. Therefore, the example intuitively exhibits that \name\ is able to generate light curves with low noise level as well as preserve the transit signal.}
+\revise{In order to show the overall performance of \name\ for exoplanet search, a comparison between the \name\ and a median filter (a widely used de-trending method) is presented in Fig.~\ref{filter}. This is a more comprehensive comparison, since not only the noise level (CDPP) is evaluated,  but how well both methods preserve signals in the light curve is also under consideration. In the example, a 200 ppm box model signal was injected into a quiet star KIC 8846139 in quarter 5. With the signal-injected light curve,  both methods---median filter and \name---are applied. As shown in Fig.~\ref{filter}, when  the window size is bigger than 24 hours, \name\ performs better both in terms of CDPP and signal strength. As expected, when the window size gets smaller, CDPP decreases,  while the signal strength retrieved from the light curve also falls off. Although the median filter with window size smaller than 24 hours is able to generate cleaner light curves (lower CDPP level) than \name, it largely distorts the signal that we care about.}
+
+\revise{Imagining an extreme case, light curves generated by a half-hour median filter will have zero CDPP, as well as zero signal strength. If we examined the ratio of the signal strength to the CDPP (signal to noise ratio) in this example, it results that \name\ can always have a signal to noise ratio around 8, while the median filter method can only achieve a ratio around 6 in the best circumstance, when window size is 24 hours. Therefore, the example intuitively exhibits that \name\ is able to generate light curves with low noise level as well as preserve the transit signal.}
 
 
 \begin{figure}[p]
@@ -796,12 +800,9 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 \end{figure}
 
 \section{Discussion}
-We have presented a simple yet highly effective method---the \name\ that works in pixel-level 
-  based on the causal structure of the \Kepler\ data to calibrate the \Kepler\ light-curves, 
-  which is intended to search exoplanets.
-In \name, systematics and stellar variabilities are removed by
-  either fitting with other stars' light-curves or auto-regressive components,
-  while transit signals can still be perfectly preserved by train-and-test framework.
+We have presented a simple yet highly effective method---the \name---that works at pixel-level \revise{to remove spacecraft and stellar variability on time-domain imaging. It is} based on the causal structure of the \Kepler\ data \remove{to}\revise{; It} calibrates the \Kepler\ light-curves \remove{, which is intended to search exoplanets.} \revise{for the purpose of exoplanet search.}
+In \revise{the} \name, systematics and stellar variabilities are removed by
+  either fitting with other stars' light-curves or auto-regressive components, while transit signals \remove{can still be perfectly preserved} \revise{are preserved with a} \remove{by} train-and-test framework.
 Low variable clean light-curves can be produced by \name\,  
   which is ideal for transit planet searching. 
 The CDPP noise level estimation is also presented in the paper to show the performance of \name. 
