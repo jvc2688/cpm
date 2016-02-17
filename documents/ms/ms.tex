@@ -141,7 +141,7 @@ In \figurename~\ref{ccd}, we show the pixel-level variability in the \Kepler\ da
   near one bright star that shows minimal intrinsic variability;
   this figure highlights the spacecraft-induced effects.
 
-\remove{We propose and advise dealing with}\revise{We propose to militate} these variations in \Kepler\ light-curves by \emph{modeling} them.
+\remove{We propose and advise dealing with}\revise{We propose to mitigate} these variations in \Kepler\ light-curves by \emph{modeling} them.
 In this context, a model is \remove{(at least)} a parameterized function that can predict data, given parameter settings,
   and an objective function that can be used to set or sample those parameters.
 In some cases, the objective function can be given a probabilistic justification or interpretation, e.g., if it is constructed using a likelihood and a prior pdf.
@@ -802,7 +802,7 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 \section{Discussion}
 We have presented a simple yet highly effective method---the \name---that works at pixel-level \revise{to remove spacecraft and stellar variability on time-domain imaging. It is} based on the causal structure of the \Kepler\ data \remove{to}\revise{; It} calibrates the \Kepler\ light-curves \remove{, which is intended to search exoplanets.} \revise{for the purpose of exoplanet search.}
 In \revise{the} \name, systematics and stellar variabilities are removed by
-  either fitting with other stars' light-curves or auto-regressive components, while transit signals \remove{can still be perfectly preserved} \revise{are preserved with a} \remove{by} train-and-test framework.
+  either fitting with other stars' light-curves or auto-regressive components, while transit signals \remove{can still be perfectly preserved} \revise{are preserved with a} \remove{by} train-and-test framework \revise{to control model freedom}.
 Low variable clean light-curves can be produced by \name\,  
   which is ideal for transit planet searching. 
 The CDPP noise level estimation is also presented in the paper to show the performance of \name. 
