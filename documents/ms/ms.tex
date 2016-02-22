@@ -413,7 +413,7 @@ We also want to emphasis that all the calibration in this paper for \Kepler\ is
   which means all the information we need to calibrate the device are contained in the \remove{device itself 
   (either in} science data \remove{or engineering data)} and no external information, 
   for example, measurements from \revise{any} other device, are needed.
-\remove{Description}\revise{Elaboration} of the method in \remove{the}\revise{a} machine learning context can be found in \cite{icml2015}
+\remove{Description}\revise{Elaboration} of the method in \remove{the}\revise{a} machine learning context can be found in \citealt{icml2015}
 
 \section{\name\ specification and \revise{tuning parameters}}
 \subsection{\name\ model}
@@ -697,7 +697,7 @@ To provide a quantitative comparison, we ran \name\ on 1000 stars from the whole
 and estimated the Combined Differential Photometric Precision (CDPP,  \citealt{cdpp1} )for the \name\ and PDC.  
 CDPP is an estimate of the relative precision in a time window, 
 indicating the noise level seen by a transit signal with a given duration. 
-\revise{In this paper, the CDPP is calculated by using the equations 6-8 in section 3.3 of \citep{cdpp1}. The CDPP of both PDC and \name\ is estimated with the same algorithm.} 
+\revise{In this paper, the CDPP is calculated by using the equations 6-8 in section 3.3 of \citealt{cdpp1}. The CDPP of both PDC and \name\ is estimated with the same algorithm.} 
 The duration is typically chosen to be 3, 6, or 12 hours. 
 We use the 12-hour CDPP metric, since the transit duration of an earth-like planet is roughly 10 hours. 
 Before the CDPP is estimated, the variability of the stars \remove{are}\revise{is} evaluated by median differential variability 
@@ -738,20 +738,16 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 
 \caption{
   \label{fluxes} 
-  Corrected fluxes using \name, for 9 example stars, 
-    spanning the main magnitude (brightness) range encountered. 
-  In first column plots, we consider bright stars with magnitude from 9 to 10.5, 
-    second cloumn are stars with magnitude from 11 to 12.5,  
-    and the third column are faint stars with magnitude above 13. 
+  Corrected fluxes using \name, for 9 example stars, spanning the \Kepler\ magnitude (brightness) range \remove{encountered}. 
+  In first column plots, we consider bright stars with magnitude from 9 to 10.5, second column are stars with magnitude from 11 to 12.5, and the third column are faint stars with magnitude above 13. 
   In the first row, we present some quiet stars. 
-  In all three panels, the top panel shows the SAP flux (black) and the \name\ regression (red), 
-    i.e., our prediction of the star from other stars. 
+  \remove{In all three panels,} The top panel shows the SAP flux (black) and the \name\ regression (red)\remove{, i.e., our prediction of the star from other stars}. 
   The middle panel shows the \name\ flux corrected using the regression, and the bottom shows the PDC flux. 
   One can see that the \name\ flux curve preserves the exoplanet transits (little downward spikes), 
     while removing a substantial part of the variability present in the PDC flux. 
-  Both the bottom two rows present some variable stars with slow and fast variability. 
+  \remove{Both the bottom two rows present some variable stars with slow and fast variability.} 
   For the variable stars, we did not present the PDC comparison, 
-    since the PDC flux try to preserve intrinsic stellar variability.}
+    since the PDC \remove{flux try to preserve}\revise{method preserves} intrinsic stellar variability.}
 \end{figure}
 
 \begin{figure}[p]
@@ -774,18 +770,15 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 \end{center}
 \caption{
   \label{cdpp} 
-  Comparison of the proposed method (\name) to the \Kepler\ Pre-search Data Conditioning (PDC) method 
+  Comparison of the \revise{\name\ } \remove{proposed method (\name) }to the \Kepler\ Pre-search Data Conditioning (PDC) method 
     in terms of Combined Differential Photometric Precision (CDPP).
   \revise{Row 1-4 shows the CDPP estimation throgh quarter 5 to quarter 8. In each row:} 
-  Plot (a) shows our performance (red) vs.\ the PDC performance in a scatter plot, as a function of star magnitude 
-    (note that larger magnitude means fainter stars, 
-    and smaller values of CDPP indicate a higher quality as measured by CDPP.)
-  Plot (b) bins the same dataset and shows box plots within each bin, 
-    indicating median, top quartile and bottom quartile. 
+  \emph{Left} \remove{Plot (a)} shows our performance (red) vs.\ the PDC performance (black) in a scatter plot, as a function of star magnitude (note that larger magnitude means fainter stars, and smaller values of CDPP indicate higher quality as measured by CDPP.)
+  \emph{Middle} bins the same dataset and shows box plots within each bin, indicating median, top quartile and bottom quartile. 
   The red box corresponds to \name, while the black box refers to PDC. 
-  Plot (c), finally, shows a histogram of CDPP values. 
+  \emph{Right} shows a histogram of CDPP values. 
   Note that the red histogram has more mass towards the left, i.e., smaller values of CDPP, 
-    indicating that our method \remove{overall outperforms PDC, the Kepler ``gold standard.'' } \revise{process the \Kepler\ light-curve to a lower noise level.}
+    indicating that our method \remove{overall outperforms PDC, the Kepler ``gold standard.'' } \revise{returns the light curves with a lower noise level.}
 }
 \end{figure}
 
@@ -795,63 +788,55 @@ Fig.~\ref{cdpp} presents our CDPP comparison of \name\ and PDC,
 \end{center}
 \caption{
   \label{filter} 
-\revise{Comparison of \name\ to the median filter method (based on PDC light curve) with different filter window size. 200 ppm box model signal is injected into the light curve of KIC 8846139 in quarter 5. Both \name\ and median filter method are applied to the light curve after injection. In the first panel, CDPP estimate of the median filtered light curve is plotted as a function of the filter window size (blue dots) and the red dash line indicates the CDPP level of CPM. In the second panel, the signal strength measured from the median filtered light curve is plotted as a function of the filter window size (blue dots), while the red dash line indicates the signal strength retrieved from the \name\ light curve. The grey dash line shows the injected signal strength. Smaller window size reduces the noise level (CDPP) of the median filtered light curve, while distort the signal more. \name\ outperforms median filter in terms of signal to noise ratio.}
+\revise{Comparison of the \name\ to the median filter method as described in text with different filter window size. A 200 ppm amplitude box-model signal was injected into the light curve of KIC 8846139 in quarter 5. Both the \name\ and median filter method are applied to the light curve after injection. In the first panel, CDPP estimate of the median filtered light curve is plotted as a function of the filter window size (blue dots) and the red dash line indicates the CDPP level of the \name. In the second panel, the signal strength measured from the median filtered light curve is plotted as a function of the filter window size (blue dots), while the red dash line indicates the signal strength retrieved from the \name\ light curve. The grey dash line shows the injected signal strength. Smaller window size reduces the noise level (CDPP) of the median filtered light curve, but distorts the signal more. \name\ outperforms the median filter in terms of signal to noise ratio.}
 }
 \end{figure}
 
 \section{Discussion}
 We have presented a simple yet highly effective method---the \name---that works at pixel-level \revise{to remove spacecraft and stellar variability on time-domain imaging. It is} based on the causal structure of the \Kepler\ data \remove{to}\revise{; It} calibrates the \Kepler\ light-curves \remove{, which is intended to search exoplanets.} \revise{for the purpose of exoplanet search.}
-In \revise{the} \name, systematics and stellar variabilities are removed by
-  either fitting with other stars' light-curves or auto-regressive components, while transit signals \remove{can still be perfectly preserved} \revise{are preserved with a} \remove{by} train-and-test framework \revise{to control model freedom}.
-Low variable clean light-curves can be produced by \name\,  
-  which is ideal for transit planet searching. 
-The CDPP noise level estimation is also presented in the paper to show the performance of \name. 
+In \revise{the} \name, systematics and stellar variabilities are removed by either fitting with other stars' light-curves or auto-regressive components, while transit signals \remove{can still be perfectly preserved} \revise{are preserved with a} \remove{by} train-and-test framework \revise{to control model freedom}.
+Low variable clean light-curves can be produced by \name,  
+  which is ideal for \remove{transit} planet search. 
+\remove{The CDPP noise level estimation is also presented in the paper to show the performance of \name.} 
 
-Apart from the \name, as mentioned in the beginning of the paper, 
-  there exist several other methods that are effective in de-trending the light-curve.
-Methods like median filter are quite successful in smoothing all the unwanted features 
+Apart from the \name, \remove{as mentioned in the beginning of the paper,}
+  there exist several other methods that are effective in de-trending \remove{the} light curves.
+Methods like \revise{the} median filter are quite successful in smoothing \remove{all the} unwanted features 
   either from spacecraft or intrinsic stellar variability, 
-  but the problem is that this kind of methods filter everything in the data including the transit signal. 
-This is not a big deal for searching giant planets, since the signal is quite strong. 
+  but \remove{the problem is that this kind of methods}\revise{they} filter everything in the data including the transit signal. 
+This is not a big deal for \remove{searching}\revise{searches for} giant planets, since the signal is quite strong. 
 However, 
-  when it comes to earth-like planets (only about \remove{20 ppm}\revise{$\backsim 100\ ppm$} transit signal around a sun-like star),
+  when it comes to Earth-like planets (only \remove{20 ppm}\revise{$\backsim 100$\ ppm} transit signal around a sun-like star),
   \remove{any reduction or distortion of the signal is unacceptable.}
-  \revise{preventing transit signal from reduction or distortion is important.} 
-In comparison, in order to achieve higher precision for earth-like planet searching, 
+  \revise{protecting transit signal from distortion is important.} 
+In comparison, in order to achieve higher precision for Earth-like planet searching, 
   \name\  not only exploits the causal structure of the \Kepler\ data,
-  but also apply effective approaches (strong regularization and train-and-test framework)
-  to avoid over-fitting the transit signal.
-There also exists more sophisticated method like PDC.
+  but also \remove{apply} effectively \remove{approaches} (through strong regularization and train-and-test framework)
+  \remove{to} avoids over-fitting the transit signal.
+There also exists more sophisticated methods like PDC.
+
 As mentioned earlier in this paper, 
   \name\ is very similar to PDC, 
   in that they both make use of the correlation between light-curves,
   which is assumed to be caused by the spacecraft effects (or systematics).
-\remove{However, in section 4, we show that \name\ performs better than PDC, 
-  in that it has a overall low noise level (CDPP).
+\remove{However, in section 4, we show that \name\ performs better than PDC, in that it has a overall low noise level (CDPP).
 We think the outperformance mainly caused by two factor.}
-\revise{However, the main difference between \name\ and PDC lays on two factor.}
+\revise{However, the main differences between \name\ and PDC are the following:}
 One is that \name\ calibrates every single pixel separately, 
-  while PDC works in the photometry level.
-It is no doubt that pixel-level modelling enables \name\ capture more variability, such as 
+  while PDC works \remove{in}\revise{at} the photometry level.
+\remove{It is no doubt that} Pixel-level modelling enables \revise{the} \name\ \revise{to} capture more variability, such as 
 variations in the centroids and point-spread function from spacecraft pointing, roll, and temperature.
-The other reason is that,  
-  in PDC,  only leading eight principal components of some relative light-curves are used.
-Although restricting the number of components can prevent over-fitting, we think with this limited number of components, 
-  it is insufficient to capture all the variabilities in the light-curve.
-In \name\, hundreds of stars' light-curves (or thousands of pixels) are used 
-  to capture relatively complete information of the variabilities, 
-  while strong regularization and train-and-test framework are applied to prevent over-fitting.
+The other reason is that, in \revise{the} PDC,  only \revise{the} leading eight principal components of some relative light-curves are used.
+Although restricting the number of components can prevent over-fitting, \remove{we think with this limited number of components,} it is insufficient to capture all the variabilities in the light curves.
+In \revise{the} \name\, hundreds of stars' light-curves (or thousands of pixels) are used to capture relatively complete information of the variability, while strong regularization and train-and-test framework are applied to prevent over-fitting.
 Although we present the comparison between \name\ and PDC, 
   we still want to emphasis that PDC is a method intended to preserve stellar variabilities, 
   while the \name\ is optimized for exoplanet searching. 
-The comparison is only based on our objective (search for earth-like planet), 
-  and should not be regard as standard of a best model for \Kepler\ data.
+The comparison is only based on our objective (searches for Earth-like planets), 
+  and should not be regarded as standard of a best model for \Kepler\ data.
   
-However, apart from the outstanding performance in calibrating the data, the \name\ still has several issues. 
-Based on our assumption of the causal structure of the \Kepler\ data, 
-  if we turn off the auto-regressive components and keep the predictors from other stars working in the \name, 
-  we should be able to still remove the systematics while preserve the intrinsic stellar variability, 
-  since there is no reason that these independent stars can be used to predict the stellar variability of the target star.
+However, apart from the \remove{outstanding}\revise{good} performance in calibrating the data, the \name\ still has several issues. 
+Based on our assumption of the causal structure of the \Kepler\ data, if we turn off the auto-regressive components and keep the predictors from other stars working in the \name, we should be able to still remove the systematics while preserving the intrinsic stellar variability, since there is no reason that these independent stars can be used to predict the stellar variability of the target star.
 However, in fact, we can not preserve the stellar variability just by turning off the auto-regressive components. 
 One possible reason can be that, since our model is so flexible (thousands of parameters), 
   in principle it can fit any functions. 
@@ -864,46 +849,27 @@ In this sense,
 Thus for the time being, we just focus on producing well-calibrated light-curves for searching exoplanets, 
   but in long term, we are looking forward to find a method to preserve the stellar variability.
 
-Another issue of the \name\ is that when there are strong transit signals in the light-curve,  
-  one can find distortion around these signals.
+Another issue \remove{of}\revise{with} the \name\ is that when there are strong transit signals in the light curve, one can find distortion around these signals.
 We think this problem is caused by the train-and-test framework.
-Train-and-test framework is applied in the \name\ to preserve the transit signals, 
-  in which data points in a certain excluded window are separated from the model.
-However, for data points half-window size away from the transit signals, 
-  the prediction of these points in \name\ is largely influenced by the strong transit signal.
-That is,  these points are predicted to be a little bit smaller than they should be, 
-  since transit signal (negative points away from the continuum) makes the model think
-  there is a decreasing trend in this region.
-This window edge effect is a trade-off of the train-and-test framework that is crucial for \name,
- and can not be solved in the scope of \name.
+The train-and-test framework is applied in the \name\ to preserve transit signals\remove{, in which data points in a certain excluded window are separated from the model}.
+However, for data points \revise{a} half-window size away from the transit signals, the prediction of these points in \name\ is \remove{largely} influenced by the strong transit signal.
+That is,  these points are predicted to be a little bit smaller than they should be, since \revise{the} transit signal (negative points away from the continuum) makes the model think there is a decreasing trend in this region.
+This window edge effect is a trade-off of the train-and-test framework that is crucial for \name, and can not be solved within the scope of \revise{the} \name.
 
-One possible way to solve this kind of edge effect 
-  but still preserve the transit signals is to do the simultaneous fitting 
-  for both systematics and transit signal together, 
-  like what have been done in \cite{dfm}. 
-That is,  
-  instead of only modelling the systematics 
-  and then subtracting it from the raw data to produce some de-trended light-curves,
-  a comprehensive model for all components in the data (systematics, stellar variabilities and transits)  can be made. In this kind of model, there is no need for train-and-test framework,
-  since all transit signals have already been modelled 
-  and no de-trended light-curve will be produced. Planets will be found directly in the model itself. 
+One possible way to solve this kind of edge effect but still preserve the transit signals is to \remove{do the}\revise{perform} simultaneous fitting for both systematics and transit signal together\remove{, like what have been done in}\citep{dfm}. 
+That is,  instead of only modelling the systematics and then subtracting \remove{it}\revise{them} from the raw data to produce \remove{some }de-trended light curves, a comprehensive model for all components in the data (systematics, stellar variabilities and transits)  can be made. In this kind of model, there is no need for \revise{the} train-and-test framework, since all transit signals have already been modelled and no de-trended light-curve will be produced. Planets will be found directly in the model itself. 
 
-\revise{Another issue or improvement that can be considered for \name\ is the predictor selection algorithm. 
-In \name\, a simple selection policy is applied, in which closest stars in magnitude on the same CCD channel are selected. This algorithm might be reasonable, since intuitively, the response function of CCD might be similar for stars with similar brightness. 
-However, Kepler is a complicated system. Systematics like rolling bands may affect only some of the stars. Chances are that "bad predictors" may be included into the set of predictor stars to distort the \name\ prediction or \name\ might miss some of the "good predictors", in which case, it can not capture some of the systematics signature. Although we also want to mention that in \name\, a huge set of predictors (4000 pixels from other stars) are used, which somehow ensures the model perform well in general, it still remains an unsolved issue for \name.
-In this paper, we did not purse the optimized selection algorithm, because we want to make the model as simple as possible. But in order to get an optimized performance for \name, how to select and rank the predictor stars is an important and unavoidable issue.}
+\revise{Another issue or improvement that can be considered for the \name\ is an improved selection algorithm for predictor pixels. 
+In the \name\, a simple selection policy is applied, in which stars closest in magnitude on the same CCD channel are selected. This algorithm might be reasonable, since intuitively the response function of CCD might be similar for stars with similar brightness. 
+However, Kepler is a complicated system. Systematics like rolling bands \citep{handbook} may affect only some of the stars. Chances are that ``bad predictors" may be included into the set of predictor stars to distort the \name\ prediction or \name\ might miss some of the ``good predictors", in which case, it can not capture some of the systematics signature. In the current implementation, the \name\ uses a huge set of predictors (4000 pixels from other stars), which ensures that the model will perform well in general, but pixel selection still remains an unsolved issue for the \name.
+In this paper, we did not purse optimized selection algorithms, because we want to make the model as simple as possible. But in order to get optimized performance for \name, how to select and rank the predictor stars is an important and unavoidable issue.}
 
-\revise{As we have mentioned before in this paper,  since \name\ needs to make prediction for every data points in the light curve, it is quite time-cosuming to process the complete Kepler data set with \name. Here we presents an \name\ runtime estimation based on our experience.  For a light curve of duration three months (one quarter), \name\ took about 7 hours on a single core (Ivy Bridge x86 64 3.0GHz).}
+\revise{As we have mentioned before in this paper,  since the \name\ needs to make predictions for every data point in the light curve, it is quite time-consuming to process the complete Kepler data set with \name. Here we present \name\ runtime estimation based on our experience: For a light curve of duration three months (one quarter), the \name\ takes about 7 hours on a single core (Ivy Bridge x86 64 3.0GHz).}
 
-However, despite all the problems mentioned in the \name,
-  we expect that data-driven model like our method will enable astronomical discoveries 
-  at higher sensitivity on the existing \Kepler\ data as well as on future missions.  
-As we know, \Kepler\ \project{K2} \citep{k2} data are suffering from the broken-down of reaction wheels, 
-  which makes the \remove{satellite}\revise{space craft} hard to control and introduce significant systematics. 
-Flexible data-driven model \citep{dfm} has already shown the power on the \project{K2} data 
-  and find new planets.
-Moreover, in 2017, NASA is planning the launch of another space telescope---
-  \project{TESS} (Transiting Exoplanet Survey \remove{satellite}\revise{space craft}, \cite{tess}), 
+However, despite all \remove{the problems mentioned in the \name}\revise{these issues}, we expect that a data-driven model like our method will enable astronomical discoveries at higher sensitivity on the existing \Kepler\ data as well as on future missions.  
+As we know, \Kepler\ \project{K2} \citep{k2} data are suffering from the \remove{broken-down}\revise{failure} of reaction wheels,  which makes the \remove{satellite}\revise{space craft} hard to control and introduces significant systematics. 
+Flexible data-driven model \citep{dfm} has already shown \remove{the}\revise{its} power on the \project{K2} data \remove{and}\revise{to} find new planets.
+Moreover, in 2017, NASA is planning the launch of another space telescope---\project{TESS} (Transiting Exoplanet Survey Satellite, \citealt{tess}), 
   which will perform an all-sky survey for small (earth-like) planets of nearby M stars. 
   We think our method can be simply extended for these project to help achieving higher precession and more scientific results. 
 
